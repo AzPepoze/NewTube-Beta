@@ -627,6 +627,19 @@ export const Main_Setting_UI = {
 
 		//-------------------------------------
 
+		let Hex_Input = await Settings_UI["Text_Input"]({
+			value: "#000000",
+			update_function: function (value) {
+				var color_obj = HEX_to_Color_OBJ(value);
+
+				Update_Value("HEX", color_obj.HEX);
+				Update_Value("Alpha", color_obj.Alpha);
+			},
+		});
+		Frame.append(Hex_Input.Frame);
+
+		//-------------------------------------
+
 		async function Update_UI() {
 			Frame.id = This_Setting.id || "";
 
@@ -639,7 +652,10 @@ export const Main_Setting_UI = {
 			if (Opacity) {
 				Opacity.Set_Value(Color_Usable_OBJ.Alpha);
 			}
+
+			Hex_Input.Update_UI(value);
 		}
+
 		Update_UI();
 
 		async function Update_Config() {
@@ -667,6 +683,8 @@ export const Main_Setting_UI = {
 					This_Setting.update_function(This_Setting.value);
 				}
 			}
+
+			Update_UI();
 		}
 
 		//-------------------------------------
@@ -720,10 +738,11 @@ export const Main_Setting_UI = {
 
 		//-------------------------------------
 
-		async function Update_UI() {
+		async function Update_UI(value = null) {
 			Frame.id = This_Setting.id || "";
 
-			let value = This_Setting.id ? await Load_Any(This_Setting.id) : This_Setting.value;
+			if (value == null) value = This_Setting.id ? await Load_Any(This_Setting.id) : This_Setting.value;
+
 			Text_Input.value = value;
 		}
 		Update_UI();
@@ -761,7 +780,7 @@ export const Main_Setting_UI = {
 			);
 		});
 
-		return { Frame, Config_UI_Function };
+		return { Frame, Config_UI_Function, Update_UI };
 	},
 
 	["Image_Input"]: async function (This_Setting: Partial<Extract<Setting, { type: "Image_Input" }>>) {
