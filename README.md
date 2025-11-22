@@ -1,53 +1,48 @@
-# StyleShift
+# NewTube-Beta
 
-**A tool to customize website appearances.**
+Test porting NewTube using StyleShift.
 
----
+This project requires [Node.js](https://nodejs.org/) to run.
 
-## What is StyleShift?
+## Getting Started
 
-`StyleShift` is a browser extension that lets you change how websites look and feel. With its powerful tools, you can personalize your browsing experience easily.
+### Clone the repository
 
----
+First, clone the repository to your local machine:
 
-## Features
+```bash
+git clone https://github.com/AzPepoze/NewTube-Beta.git
+cd NewTube-Beta
+```
 
--    Customize website styles and layouts using `css` and `js` with `UI`
--    Use or create custom themes and presets
--    Export and import your designs
+### Install Dependencies
 
----
+You can use either `npm` or `pnpm` to install the project dependencies.
 
-## Development for your own extension
+**Using pnpm:**
 
-Follow these steps to install and set up `StyleShift`:
+```bash
+pnpm install
+```
 
-1. **Clone the repository**:
-     ```bash
-     git clone https://github.com/AzPepoze/StyleShift
-     ```
-2. **Go to the project directory**:
-     ```bash
-     cd StyleShift
-     ```
-3. **Install the dependencies**:
+**Using npm:**
 
-     ```bash
-     npm install
-     ```
+```bash
+npm install
+```
 
-4. **Edit Default Items**:
+### Run the project
 
-     - Edit Default Items in `src > Main > Default_Items.ts`
+To start the development server, use one of the following commands:
 
-5. **Build the project**:
+**Using pnpm:**
 
-     ```bash
-     npm run build
-     ```
+```bash
+pnpm run dev
+```
 
-     - This will create both Chrome and Firefox versions in the `out > dist` folder.
+**Using npm:**
 
-6. **Load the extension into your browser**:
-     - For **Chrome**: Open `chrome://extensions/` and enable "Developer mode," then load the unpacked extension from the `out > dist > chrome` folder.
-     - For **Firefox**: Open `about:debugging`, click "This Firefox," and load the extension from the `out > dist > firefox` folder.
+```bash
+npm run dev
+```
