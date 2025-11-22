@@ -915,9 +915,9 @@ Are you want to continue?`)
 		let Frame = Settings_UI["Setting_Frame"](true, true);
 		Frame.id = This_Setting.id || Create_UniqueID(10);
 
-		if (typeof This_Setting.ui_function === 'function') {
+		if (typeof This_Setting.ui_function === "function") {
 			(This_Setting.ui_function as Function)(Frame);
-		} else if (typeof This_Setting.ui_function === 'string') {
+		} else if (typeof This_Setting.ui_function === "string") {
 			Run_Text_Script({
 				Text: This_Setting["ui_function"],
 				Code_Name: `${This_Setting.id} : ui_function`,

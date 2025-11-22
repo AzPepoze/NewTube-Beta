@@ -1,5 +1,5 @@
 import { Category } from "../../styleshift/types/store";
-import { enable_background, enable_background_css } from "../features/background";
+import { enable_bg, enable_background_css, update_bg_img } from "../features/background";
 
 export const BackgroundCategory: Category = {
 	Category: "🎴 Background",
@@ -9,7 +9,7 @@ export const BackgroundCategory: Category = {
 			id: "bg_enable",
 			name: "Enable Background",
 			value: true,
-			enable_function: enable_background,
+			enable_function: enable_bg,
 			enable_css: enable_background_css,
 		},
 		{
@@ -18,7 +18,7 @@ export const BackgroundCategory: Category = {
 			name: "Background / Tint Color",
 			description:
 				"Sets the color and opacity of the page background or the tint applied over an image/video.",
-			value: "#F66151FF",
+			value: "#f661515e",
 			var_css: "--page-bg-tint-color",
 		},
 		{
@@ -26,10 +26,7 @@ export const BackgroundCategory: Category = {
 			id: "BGIMG",
 			name: "Background Image URL",
 			description: "URL of the image to use as the page background.",
-			value: "",
-			update_function: function (value) {
-				document.documentElement.style.setProperty("--page-bg-image-url", `url(${value})`);
-			},
+			value: "https://cdn.wallpapersafari.com/74/55/4dgN3G.jpg",
 		},
 		{
 			type: "Number_Slide",
@@ -52,6 +49,7 @@ export const BackgroundCategory: Category = {
 			max: 300,
 			step: 5,
 			var_css: "--page-bg-size",
+			update_function: update_bg_img,
 		},
 		{
 			type: "Checkbox",

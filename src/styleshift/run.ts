@@ -8,7 +8,7 @@ import {
 } from "./build-in-functions/normal";
 import { Run_Text_Script, Update_StyleShift_Functions_List } from "./core/extension";
 import { Clear_Unused_Save, Load, Load_ThisWeb_Save, Save, Save_All, Update_Save_Default } from "./core/save";
-import { SetUp_Setting_Function } from "./settings/functions";
+import { Run_All_Setting_Init, SetUp_Setting_Function } from "./settings/functions";
 import { Create_StyleSheet_Holder } from "./settings/style-sheet";
 import { Get_ALL_StyleShift_Items, Get_ALL_StyleShift_Settings, Update_StyleShift_Items } from "./settings/items";
 import * as Global from "./communication/extension";
@@ -24,7 +24,7 @@ export let Ver = chrome.runtime.getManifest().version;
 export let StyleShift_Ready = false;
 
 export let isFirefox = navigator.userAgent.toLowerCase().includes("firefox");
-console.log("isFirefox", navigator.userAgent.toLowerCase(), isFirefox);
+// console.log("isFirefox", navigator.userAgent.toLowerCase(), isFirefox);
 
 let inIframe;
 try {
@@ -45,7 +45,7 @@ if (window.location.origin == Extension_Location) {
 } else {
 	In_Setting_Page = false;
 }
-console.log("In_Setting_Page", In_Setting_Page);
+// console.log("In_Setting_Page", In_Setting_Page);
 
 export let Save_Name;
 if (In_Setting_Page) {
@@ -59,12 +59,7 @@ if (In_Setting_Page) {
 	Save_Name = Get_Current_Domain();
 }
 
-/*
--------------------------------------------------------
- Console Logs (Development)
--------------------------------------------------------
-*/
-console.log(Global);
+Global; // This important don't delete
 
 /*
 -------------------------------------------------------
@@ -115,7 +110,7 @@ async function Main_Run() {
 	await Create_StyleSheet_Holder();
 	await Update_StyleShift_Items();
 	await Update_Save_Default();
-	console.log("Test", Get_ALL_StyleShift_Items());
+	// console.log("Test", Get_ALL_StyleShift_Items());
 
 	//------------------------------------------
 	// Apply Settings & Save
@@ -126,6 +121,7 @@ async function Main_Run() {
 		}
 		SetUp_Setting_Function(This_Setting);
 	}
+	Run_All_Setting_Init();
 	await Clear_Unused_Save();
 
 	// ReArrange Selectors

@@ -1,5 +1,5 @@
 import { GetDocumentHead, sleep } from "../build-in-functions/normal";
-import { Load } from "../core/save";
+import { Load_Setting } from "../core/save";
 
 let StyleSheet_Holder: HTMLElement;
 let StyleSheet_Holder_Constant: HTMLElement;
@@ -8,7 +8,7 @@ export async function Create_StyleSheet_Holder() {
 	StyleSheet_Holder = document.createElement("fieldset");
 	StyleSheet_Holder.id = "STYLESHIFT_StyleSheet_Holder";
 
-	if ((await Load("Enable_Extension")) == true) {
+	if ((await Load_Setting("Enable_Extension")) == true) {
 		Show_StyleSheet();
 	} else {
 		Hide_StyleSheet();

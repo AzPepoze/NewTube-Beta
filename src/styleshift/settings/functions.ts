@@ -6,7 +6,9 @@ import { Create_StyleSheet } from "./style-sheet";
 
 export let Settings_Current_State = {};
 let Settings_Update_Function: { [key: string]: Function } = {};
+
 let Settings_On_Update: { [key: string]: Function[] } = {};
+let Settings_On_Init: { [key: string]: Function[] } = {};
 
 let Settings_Funcion = {
 	["Checkbox"]: async function (This_Setting) {
@@ -256,11 +258,19 @@ export async function Update_Setting_Function(id) {
 	}
 }
 
-export async function On_Setting_Update(id: string, callback: (value) => void) {
+export async function On_Setting_Update(id: string, callback: (value) => void, callback_on_init = false) {
 	if (Settings_On_Update[id] == null) {
 		Settings_On_Update[id] = [];
 	}
+
 	Settings_On_Update[id].push(callback);
+
+	if (callback_on_init) {
+		if (Settings_On_Init[id] == null) {
+			Settings_On_Init[id] = [];
+		}
+		Settings_On_Init[id].push(callback);
+	}
 }
 
 export async function Remove_On_Setting_Update(id: string, callback: Function) {
@@ -270,5 +280,21 @@ export async function Remove_On_Setting_Update(id: string, callback: Function) {
 
 	if (Settings_On_Update[id].length == 0) {
 		delete Settings_On_Update[id];
+	}
+}
+
+export async function Run_Setting_Init(id) {
+	if (Settings_On_Init[id]) {
+		const Current_Value = await Load_Any(id);
+		for (const This_Function of Settings_On_Init[id]) {
+			This_Function(Current_Value);
+		}
+	}
+}
+
+export async function Run_All_Setting_Init() {
+	for (const id in Settings_On_Init) {
+		console.log("Running init", id);
+		Run_Setting_Init(id);
 	}
 }
