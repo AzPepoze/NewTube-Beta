@@ -180,8 +180,8 @@ async function build() {
 		const chromiumPath = path.join(__dirname, "../out/dist/chromium");
 		const firefoxPath = path.join(__dirname, "../out/dist/firefox");
 
-		fs.removeSync(chromiumPath);
-		fs.removeSync(firefoxPath);
+		// fs.removeSync(chromiumPath);
+		// fs.removeSync(firefoxPath);
 
 		fs.copySync(buildPath, chromiumPath);
 		fs.copySync(buildPath, firefoxPath);

@@ -43,6 +43,7 @@ let Default_StyleShift_Items: Category[] = [
 				value: true,
 				disable_function: "Disable_Extension_Function()",
 				enable_function: "Enable_Extension_Function()",
+				// enable_css: main_css,
 			},
 			{
 				id: "Realtime_Extension",

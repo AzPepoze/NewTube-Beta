@@ -1,25 +1,25 @@
 import { Category } from "../../styleshift/types/store";
+import { enable_background, enable_background_css } from "../features/background";
 
 export const BackgroundCategory: Category = {
 	Category: "🎴 Background",
 	Settings: [
+		{
+			type: "Checkbox",
+			id: "bg_enable",
+			name: "Enable Background",
+			value: true,
+			enable_function: enable_background,
+			enable_css: enable_background_css,
+		},
 		{
 			type: "Color",
 			id: "BG",
 			name: "Background / Tint Color",
 			description:
 				"Sets the color and opacity of the page background or the tint applied over an image/video.",
-			value: "#000000b3", // 70% opacity black
+			value: "#F66151FF",
 			var_css: "--page-bg-tint-color",
-			constant_css: `
-                body::before {
-                    content: '';
-                    position: fixed;
-                    top: 0; left: 0; right: 0; bottom: 0;
-                    z-index: -2;
-                    background-color: var(--page-bg-tint-color);
-                }
-            `,
 		},
 		{
 			type: "Text_Input",

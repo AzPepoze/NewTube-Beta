@@ -6,6 +6,10 @@ This project requires [Node.js](https://nodejs.org/) to run.
 
 ## Getting Started
 
+## Prerequire
+
+-    [Firefox](https://www.firefox.com) (for web-ext)
+
 ### Clone the repository
 
 First, clone the repository to your local machine:
