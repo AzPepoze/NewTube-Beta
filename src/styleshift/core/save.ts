@@ -127,7 +127,7 @@ export async function Update_Save_Default() {
 	let Can_Settings = await Get_Settings_List(true);
 	let Current_Settings = Saved_Data["Current_Settings"];
 
-	console.log(Can_Settings);
+	// console.log(Can_Settings);
 
 	if (Current_Settings == null) {
 		Current_Settings = {};
