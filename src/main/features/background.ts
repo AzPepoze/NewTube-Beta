@@ -2,6 +2,9 @@ import { GetDocumentBody } from "../../styleshift/build-in-functions/normal";
 import { Load_Setting } from "../../styleshift/core/save";
 import { On_Setting_Update } from "../../styleshift/settings/functions";
 
+const bg_tint_id = "newtube-bg-tint";
+const bg_image_id = "newtube-bg-image";
+
 let bg_tint_element: HTMLElement | null = null;
 let bg_image_element: HTMLElement | null = null;
 let bg_image = new Image();
@@ -11,8 +14,8 @@ ytd-app {
 	background : transparent;
 }
 
-#newtube-bg-tint,
-#newtube-bg-image {
+#${bg_tint_id},
+#${bg_image_id} {
 	width : 100%;
 	height : 100%;
 	
@@ -24,19 +27,28 @@ ytd-app {
 	background: var(--page-bg-tint-color);
 }
 
-#newtube-bg-image {
+#${bg_image_id} {
 	z-index: -10000;
     transition: opacity 1s;
 }
 `;
 
+function get_element() {
+	bg_tint_element = document.getElementById(bg_tint_id);
+	bg_image_element = document.getElementById(bg_image_id);
+}
+
 export async function enable_bg() {
+	get_element();
+
 	if (!bg_tint_element) {
 		bg_tint_element = document.createElement("div");
-		bg_tint_element.id = "newtube-bg-tint";
+		bg_tint_element.id = bg_tint_id;
+	}
 
+	if (!bg_image_element) {
 		bg_image_element = document.createElement("div");
-		bg_image_element.id = "newtube-bg-image";
+		bg_image_element.id = bg_image_id;
 	}
 
 	(await GetDocumentBody()).appendChild(bg_tint_element);
@@ -44,6 +56,8 @@ export async function enable_bg() {
 }
 
 export async function disable_bg() {
+	get_element();
+
 	if (bg_tint_element) {
 		bg_tint_element.remove();
 		bg_tint_element = null;
