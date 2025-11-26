@@ -2,10 +2,10 @@ import * as StyleShift_Functions from "../styleshift/build-in-functions/extensio
 import { sleep } from "../styleshift/build-in-functions/normal";
 import { Category } from "../styleshift/types/store";
 
-let Dev_Only_Items: Category[] = [
+const Dev_Only_Items: Category[] = [
 	{
-		Category: "↕️ Import / Export Theme",
-		Settings: [
+		category: "↕️ Import / Export Theme",
+		settings: [
 			{
 				type: "Setting_Sub_Title",
 				color: "#1a34ffff",
@@ -21,7 +21,7 @@ let Dev_Only_Items: Category[] = [
 				color: "#1a34ffff",
 				font_size: 15,
 				click_function: async function () {
-					let Notification = await StyleShift_Functions["Create_Notification"]({
+					const Notification = await StyleShift_Functions["Create_Notification"]({
 						Icon: "🔄️",
 						Title: "StyleShift - Exporting File",
 						Content: "Please wait...",
@@ -60,14 +60,14 @@ let Dev_Only_Items: Category[] = [
 				color: "#1a34ffff",
 				font_size: 15,
 				click_function: async function () {
-					let Notification = await StyleShift_Functions["Create_Notification"]({
+					const Notification = await StyleShift_Functions["Create_Notification"]({
 						Icon: "🔄️",
 						Title: "StyleShift - Choosing file",
 						Content: "Please choose file...",
 						Timeout: -1,
 					});
 					try {
-						let File = await StyleShift_Functions["Get_File"](".StyleShift.zip");
+						const File = await StyleShift_Functions["Get_File"](".StyleShift.zip");
 						console.log("File:", File);
 						await StyleShift_Functions["Import_StyleShift_Zip"](File);
 

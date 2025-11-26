@@ -1,6 +1,7 @@
 {
 	"scripts": {
 		"dev": "concurrently \"npm:dev:css\" \"npm:dev:js\" \"web-ext run --pref gfx.webrender.all=true --source-dir=./out/dist/firefox\"",
+		"lint:fix": "eslint --fix src",
 		"dev:js": "ts-node utils/builder-extension.ts",
 		"dev:css": "sass --watch src/styleshift/styles/setting.scss out/build/style.css --style=compressed --no-source-map",
 		"build_module": "ts-node utils/builder-modules.ts",
@@ -23,10 +24,14 @@
 		"chokidar": "^4.0.3",
 		"concurrently": "^9.2.1",
 		"esbuild": "^0.24.2",
+		"eslint": "^9.39.1",
 		"fs-extra": "^11.3.2",
+		"globals": "^16.5.0",
+		"jiti": "^2.6.1",
 		"sass": "^1.94.2",
 		"ts-node": "^10.9.2",
 		"typescript": "^5.9.3",
+		"typescript-eslint": "^8.48.0",
 		"web-ext": "^9.2.0"
 	}
 }

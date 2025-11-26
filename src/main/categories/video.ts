@@ -2,8 +2,8 @@ import { Category } from "../../styleshift/types/store";
 import { setup_AutoTheater, setup_RemoveAmbient } from "../features/video";
 
 export const VideoCategory: Category = {
-	Category: "📺 Video",
-	Settings: [
+	category: "📺 Video",
+	settings: [
 		{
 			type: "Number_Slide",
 			id: "PlayerEdge",

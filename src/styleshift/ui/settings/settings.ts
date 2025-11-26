@@ -1,9 +1,9 @@
 import { Dynamic_Append, Create_Error } from "../../build-in-functions/extension";
-import { Scroll_On_Click, sleep, insertAfter } from "../../build-in-functions/normal";
+import { Scroll_On_Click, sleep, insert_after } from "../../build-in-functions/normal";
 import { Loaded_Developer_Modules } from "../../core/extension";
 import { Load, Save_All } from "../../core/save";
 import { Get_StyleShift_Dev_Only_Items } from "../../../main/items-styleshift-dev";
-import { In_Setting_Page, Update_All } from "../../run";
+import { in_setting_page, Update_All } from "../../run";
 import {
 	Add_Category,
 	Remove_Setting,
@@ -49,7 +49,7 @@ export async function Create_Main_Settings_UI({
 			Window.style.minWidth = "600px";
 			Window.style.minHeight = "250px";
 
-			if (In_Setting_Page) {
+			if (in_setting_page) {
 				Window.style.width = "100%";
 				Window.style.height = "100%";
 				Window.style.resize = "none";
@@ -105,10 +105,10 @@ export async function Create_Main_Settings_UI({
 
 			//---------------------------------------------------
 
-			let Left_UI = [];
-			let Right_UI = [];
+			const Left_UI = [];
+			const Right_UI = [];
 
-			let Created_Dev_Only_Category = [];
+			const Created_Dev_Only_Category = [];
 
 			for (const This_Category of await Get_Category()) {
 				const { Category_Title, Category_Frame } = await Create_Category_UI(
@@ -116,7 +116,7 @@ export async function Create_Main_Settings_UI({
 					This_Category
 				);
 
-				let Left_Category_Title = await Settings_UI["Left-Title"](This_Category.Category, Skip_Animation);
+				const Left_Category_Title = await Settings_UI["Left-Title"](This_Category.category, Skip_Animation);
 
 				Scroll_On_Click(Left_Category_Title, Category_Title);
 
@@ -133,15 +133,15 @@ export async function Create_Main_Settings_UI({
 
 				if (Loaded_Developer_Modules) {
 					const Get_Dev_Only_Category = Get_StyleShift_Dev_Only_Items().find(
-						(x) => x.Category == This_Category.Category
+						(x) => x.category == This_Category.category
 					);
 
 					console.log("Test", Get_Dev_Only_Category);
 
 					if (Get_Dev_Only_Category) {
-						Created_Dev_Only_Category.push(Get_Dev_Only_Category.Category);
+						Created_Dev_Only_Category.push(Get_Dev_Only_Category.category);
 
-						for (const This_Setting_Only of Get_Dev_Only_Category.Settings) {
+						for (const This_Setting_Only of Get_Dev_Only_Category.settings) {
 							await Create_Setting_UI_Element_With_Able_Developer_Mode(
 								Category_Frame,
 								This_Setting_Only
@@ -152,10 +152,10 @@ export async function Create_Main_Settings_UI({
 
 				//------------------------------
 
-				if (This_Category.Editable && (await Load("Developer_Mode"))) {
+				if (This_Category.editable && (await Load("Developer_Mode"))) {
 					Dynamic_Append(
 						Category_Frame,
-						await Settings_UI["Add_Setting_Button"](This_Category.Settings)
+						await Settings_UI["Add_Setting_Button"](This_Category.settings)
 					);
 				}
 
@@ -166,14 +166,14 @@ export async function Create_Main_Settings_UI({
 
 			if (await Load("Developer_Mode")) {
 				for (const Category of Get_StyleShift_Dev_Only_Items()) {
-					if (!Created_Dev_Only_Category.includes(Category.Category)) {
+					if (!Created_Dev_Only_Category.includes(Category.category)) {
 						await Create_Category_UI(Settings_Container, Category);
 					}
 				}
 			}
 
 			if (Show_Category_List && (await Load("Developer_Mode"))) {
-				let Add_Button = (
+				const Add_Button = (
 					await Settings_UI["Button"]({
 						name: "+",
 						color: "#FFFFFF",
@@ -263,7 +263,7 @@ export async function Create_Main_Settings_UI({
 		},
 		Recreate_UI: async function () {
 			if (Settings_Window) {
-				let Last_Scroll = [0, 0];
+				const Last_Scroll = [0, 0];
 
 				if (Show_Category_List) {
 					Last_Scroll[0] = Scroll_Category.scrollTop;
@@ -271,7 +271,7 @@ export async function Create_Main_Settings_UI({
 				Last_Scroll[1] = Settings_Container.scrollTop;
 
 				Settings_Window.Window.style.animation = "";
-				let Last_Style = Settings_Window.Window.style.cssText;
+				const Last_Style = Settings_Window.Window.style.cssText;
 				console.log(Last_Style);
 				Return_OBJ.Remove_UI(true, true);
 
@@ -376,8 +376,8 @@ async function Add_Drag(Frame, Parent, This_Data) {
 	Move_Button.addEventListener("mousedown", async function (event) {
 		event.preventDefault();
 
-		let Frame_Bound = Frame.getBoundingClientRect();
-		let Offset = event.clientY - Frame_Bound.top;
+		const Frame_Bound = Frame.getBoundingClientRect();
+		const Offset = event.clientY - Frame_Bound.top;
 
 		Draging_Setting = {
 			Size: Frame_Bound.height,
@@ -401,7 +401,7 @@ async function Add_Drag(Frame, Parent, This_Data) {
 			Space.Hide();
 		});
 
-		let Scroller = Parent.parentElement;
+		const Scroller = Parent.parentElement;
 		let Current_Mouse_Event = event;
 
 		Scroller.setAttribute("Draging", "");
@@ -460,7 +460,7 @@ async function Add_Drop_Target(Frame, Parent, This_Data, Data_Type) {
 	});
 	Space.Element.className = "STYLESHIFT-Drag-Hint";
 
-	insertAfter(Space.Element, Frame, Parent);
+	insert_after(Space.Element, Frame, Parent);
 
 	let Current_Hover = 0;
 	function Space_Update_Hover(Hover) {
@@ -496,7 +496,8 @@ async function Add_Drop_Target(Frame, Parent, This_Data, Data_Type) {
 		if (Draging_Setting) {
 			Remove_Setting(Draging_Setting.Data);
 
-			let This_Category: Category | 0 = Data_Type == "Category" ? This_Data : Get_Setting_Category(This_Data);
+			const This_Category: Category | 0 =
+				Data_Type == "Category" ? This_Data : Get_Setting_Category(This_Data);
 			let This_Setting_Index = 0;
 
 			if (This_Category == 0) {
@@ -505,11 +506,11 @@ async function Add_Drop_Target(Frame, Parent, This_Data, Data_Type) {
 			}
 
 			if (Data_Type != "Category") {
-				This_Setting_Index = This_Category.Settings.findIndex((Setting) => Setting == This_Data) + 1;
+				This_Setting_Index = This_Category.settings.findIndex((Setting) => Setting == This_Data) + 1;
 			}
 
 			try {
-				This_Category.Settings.splice(This_Setting_Index, 0, Draging_Setting.Data);
+				This_Category.settings.splice(This_Setting_Index, 0, Draging_Setting.Data);
 			} catch (error) {
 				Create_Error(error);
 				return;
@@ -588,7 +589,7 @@ export async function Create_Setting_UI_Element_With_Able_Developer_Mode(Parent:
 	const Data_Type = Get_StyleShift_Data_Type(This_Data);
 	const UI_Type = Data_Type == "Category" ? "Title" : This_Data.type;
 
-	let Main_Element = await Create_Base_UI_Element(UI_Type, This_Data);
+	const Main_Element = await Create_Base_UI_Element(UI_Type, This_Data);
 	if (!Main_Element) return null; // Handle case where element creation failed
 
 	if ((await Load("Developer_Mode")) && This_Data.Editable) {
@@ -605,14 +606,14 @@ export async function Create_Category_UI(Parent, This_Category: Category) {
 	Category_Frame.className += " STYLESHIFT-Category-Frame";
 	Parent.append(Category_Frame);
 
-	let Category_Title = (await Create_Setting_UI_Element_With_Able_Developer_Mode(Category_Frame, This_Category))
+	const Category_Title = (await Create_Setting_UI_Element_With_Able_Developer_Mode(Category_Frame, This_Category))
 		.Frame;
 
-	for (const This_Setting of This_Category.Settings) {
+	for (const This_Setting of This_Category.settings) {
 		try {
 			await Create_Setting_UI_Element_With_Able_Developer_Mode(Category_Frame, This_Setting);
 		} catch (error) {
-			Create_Error(`At ${This_Category.Category} - ${JSON.stringify(This_Setting, null, 2)}\n${error}`).then(
+			Create_Error(`At ${This_Category.category} - ${JSON.stringify(This_Setting, null, 2)}\n${error}`).then(
 				(Notification) => {
 					Notification.Set_Title("StyleShift - Create UI error");
 				}

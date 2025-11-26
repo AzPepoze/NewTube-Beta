@@ -1,6 +1,6 @@
 import { Create_Error, Create_Notification } from "../build-in-functions/extension";
 import { sleep } from "../build-in-functions/normal";
-import { Update_All, In_Setting_Page, isFirefox } from "../run";
+import { Update_All, in_setting_page, is_firefox } from "../run";
 import { color_obj } from "../types/store";
 import { Save_All } from "./save";
 
@@ -37,7 +37,7 @@ function Run_StyleShift_Functions_List(){
 Run_StyleShift_Functions_List();`;
 
 export async function Update_StyleShift_Functions_List() {
-	if (In_Setting_Page) {
+	if (in_setting_page) {
 		while (window["StyleShift"] == null) {
 			await sleep(1);
 		}
@@ -208,7 +208,7 @@ export async function Run_Text_Script({
 
 			//--------------------------------
 
-			if (!In_Setting_Page) {
+			if (!in_setting_page) {
 				chrome.runtime.sendMessage({
 					Command: "RunScript",
 					Script: Text,
@@ -223,7 +223,7 @@ export function Run_Text_Script_From_Setting(This_Setting, Function_Name: string
 	Run_Text_Script({
 		Text: This_Setting[Function_Name],
 		Code_Name: `${This_Setting.id} : ${Function_Name}`,
-		args: JSON.stringify({ Setting_ID: This_Setting.id }),
+		args: JSON.stringify({ setting_id: This_Setting.id }),
 	});
 }
 
@@ -254,7 +254,7 @@ export async function Load_Developer_Modules() {
 
 		console.log("JSzip:", JSzip);
 
-		if (!isFirefox || In_Setting_Page) {
+		if (!is_firefox || in_setting_page) {
 			Loading_UI.Set_Content("Preparing : Monaco editor (Code editor)");
 
 			const MonacoModule = await import(chrome.runtime.getURL("modules/monaco.js"));
@@ -296,7 +296,7 @@ export async function Load_Developer_Modules() {
 
 //----------------------------------------------
 
-export function Color_OBJ_to_HEX({ HEX, Alpha }: color_obj): string {
+export function Color_OBJ_to_HEX({ hex: HEX, alpha: Alpha }: color_obj): string {
 	const alpha = Math.round((Alpha / 100) * 255)
 		.toString(16)
 		.padStart(2, "0");

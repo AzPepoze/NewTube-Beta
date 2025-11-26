@@ -7,9 +7,9 @@ import { Update_All } from "../run";
 import { Category, Setting } from "../types/store";
 import { SetUp_Setting_Function } from "./functions";
 
-let Highlight_Colors = [`255, 109, 109`, `167, 242, 255`, `255, 167, 248`, `188, 167, 255`, `255, 241, 167`];
+const Highlight_Colors = [`255, 109, 109`, `167, 242, 255`, `255, 167, 248`, `188, 167, 255`, `255, 241, 167`];
 
-let StyleShift_Items: { Default: Category[]; Custom: Category[] } = {
+const StyleShift_Items: { Default: Category[]; Custom: Category[] } = {
 	Default: [],
 	Custom: [],
 };
@@ -23,7 +23,7 @@ export function Get_Custom_Items() {
 }
 
 export function Get_Custom_Settings() {
-	return StyleShift_Items.Custom.map((item) => item.Settings).flat();
+	return StyleShift_Items.Custom.map((item) => item.settings).flat();
 }
 
 export function Get_ALL_StyleShift_Items() {
@@ -32,7 +32,7 @@ export function Get_ALL_StyleShift_Items() {
 
 export function Get_ALL_StyleShift_Settings() {
 	return Get_ALL_StyleShift_Items()
-		.map((item) => item.Settings)
+		.map((item) => item.settings)
 		.flat();
 }
 
@@ -47,7 +47,7 @@ export function Find_Exist_Settings(Setting: Setting) {
 
 export function Get_Setting_Category(Setting: Setting) {
 	for (const This_Category of Get_ALL_StyleShift_Items()) {
-		for (const This_Setting of This_Category.Settings) {
+		for (const This_Setting of This_Category.settings) {
 			if (This_Setting === Setting) {
 				return This_Category;
 			}
@@ -57,13 +57,13 @@ export function Get_Setting_Category(Setting: Setting) {
 }
 
 export function Find_Exist_Category(Category: Category) {
-	return Get_ALL_StyleShift_Items().some((This_Category) => This_Category.Category === Category.Category);
+	return Get_ALL_StyleShift_Items().some((This_Category) => This_Category.category === Category.category);
 }
 
 function Auto_Add_HightLight(Array) {
 	for (const Category_OBJ of Array) {
 		if (Category_OBJ.Highlight_Color == null) {
-			let GetColorID = Random(0, Highlight_Colors.length - 1, Category_OBJ.Category);
+			const GetColorID = Random(0, Highlight_Colors.length - 1, Category_OBJ.Category);
 			console.log("Random id", Category_OBJ.Category, GetColorID);
 			Category_OBJ.Highlight_Color = Highlight_Colors[GetColorID];
 		}
@@ -84,11 +84,11 @@ export async function Update_StyleShift_Items() {
 	// Default
 
 	for (const This_Category of StyleShift_Items.Default) {
-		This_Category.Editable = false;
+		This_Category.editable = false;
 	}
 
 	for (const This_Setting of StyleShift_Items.Default.flatMap(function (This_Setting) {
-		return This_Setting.Settings;
+		return This_Setting.settings;
 	})) {
 		This_Setting.Editable = false;
 	}
@@ -96,11 +96,11 @@ export async function Update_StyleShift_Items() {
 	// Custom
 
 	for (const This_Category of StyleShift_Items.Custom) {
-		This_Category.Editable = true;
+		This_Category.editable = true;
 	}
 
 	for (const This_Setting of StyleShift_Items.Custom.flatMap(function (This_Setting) {
-		return This_Setting.Settings;
+		return This_Setting.settings;
 	})) {
 		This_Setting.Editable = true;
 	}
@@ -118,7 +118,7 @@ export async function Get_Settings_List(rebuild = false): Promise<{ [id: string]
 	Settings_List = {};
 
 	for (const Category_OBJ of Get_ALL_StyleShift_Items()) {
-		for (const Setting of Category_OBJ.Settings) {
+		for (const Setting of Category_OBJ.settings) {
 			if ("id" in Setting && Setting.id != null) {
 				Settings_List[Setting.id] = Setting;
 			}
@@ -162,10 +162,10 @@ export async function Add_Setting(Category_Settings: Setting[], This_Setting) {
 
 export async function Remove_Setting(This_Setting) {
 	for (const This_Category of Get_Custom_Items()) {
-		const index = (This_Category.Settings || []).findIndex((Check_Setting) => Check_Setting === This_Setting);
+		const index = (This_Category.settings || []).findIndex((Check_Setting) => Check_Setting === This_Setting);
 
 		if (index > -1) {
-			This_Category.Settings.splice(index, 1);
+			This_Category.settings.splice(index, 1);
 		}
 	}
 
@@ -176,8 +176,8 @@ export async function Remove_Setting(This_Setting) {
 
 export async function Add_Category(Category_Name: string) {
 	let This_Category: Category = {
-		Category: Category_Name,
-		Settings: [],
+		category: Category_Name,
+		settings: [],
 	};
 
 	let Find_Similar = Find_Exist_Category(This_Category);
@@ -187,7 +187,7 @@ export async function Add_Category(Category_Name: string) {
 	while (Find_Similar) {
 		Times++;
 		New_Category = Object.assign({}, This_Category);
-		New_Category.Category += `_${Times}`;
+		New_Category.category += `_${Times}`;
 		Find_Similar = Find_Exist_Category(New_Category);
 		console.log(Find_Similar, Times, New_Category);
 	}

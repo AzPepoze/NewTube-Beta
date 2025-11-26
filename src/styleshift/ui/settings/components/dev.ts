@@ -16,7 +16,7 @@ export const Developer_Setting_UI = {
 		const Main_UI = Settings_UI["Setting_Frame"](true, true);
 		Main_UI.className += " STYLESHIFT-Config-Sub-Frame";
 
-		let Text_Editors = {};
+		const Text_Editors = {};
 
 		for (const [Title, Property] of Object.entries(this_property)) {
 			Main_UI.append(Settings_UI["Sub_Title"](Title));
@@ -86,32 +86,32 @@ export const Developer_Setting_UI = {
 				break;
 		}
 
-		let { r, g, b } = HEX_to_RBG(Color);
+		const { r, g, b } = HEX_to_RBG(Color);
 
-		let BG_HSV = RGB_to_HSV({ r, g, b });
+		const BG_HSV = RGB_to_HSV({ r, g, b });
 		BG_HSV.s /= 2;
 		BG_HSV.v /= 3;
-		let BG_Color = HSV_to_RGB(BG_HSV);
+		const BG_Color = HSV_to_RGB(BG_HSV);
 
-		let BGT_HSV = RGB_to_HSV({ r, g, b });
+		const BGT_HSV = RGB_to_HSV({ r, g, b });
 		BGT_HSV.s /= 1.5;
 		BGT_HSV.v /= 2;
-		let BGT_Color = HSV_to_RGB(BGT_HSV);
+		const BGT_Color = HSV_to_RGB(BGT_HSV);
 
-		let Background_TOP_Color = `${BGT_Color.r},${BGT_Color.g},${BGT_Color.b}`;
-		let Background_Color = `${BG_Color.r},${BG_Color.g},${BG_Color.b}`;
-		let Border_Color = `${r + 150},${g + 150},${b + 150}`;
+		const Background_TOP_Color = `${BGT_Color.r},${BGT_Color.g},${BGT_Color.b}`;
+		const Background_Color = `${BG_Color.r},${BG_Color.g},${BG_Color.b}`;
+		const Border_Color = `${r + 150},${g + 150},${b + 150}`;
 
 		//---------------------------
 
-		let This_Frame = Settings_UI["Setting_Frame"](true, true);
+		const This_Frame = Settings_UI["Setting_Frame"](true, true);
 		This_Frame.style.paddingBottom = "10px";
 		This_Frame.style.background = `radial-gradient(at center top, rgb(${Background_TOP_Color}), rgb(${Background_Color}, 0.5))`;
 		This_Frame.style.border = `rgb(${Border_Color}) 1px solid`;
 
 		//---------------------------
 
-		let Collapsed_Button = await Settings_UI["Collapsed_Button"](This_RunType_Name, Color, This_Frame);
+		const Collapsed_Button = await Settings_UI["Collapsed_Button"](This_RunType_Name, Color, This_Frame);
 		Collapsed_Button.Button.style.borderBottom = "solid 1px white";
 
 		//---------------------------
@@ -171,7 +171,7 @@ export const Developer_Setting_UI = {
 			//-----------------------------------
 
 			if (Array.isArray(Update)) {
-				let DropDown_Setting = {};
+				const DropDown_Setting = {};
 
 				for (const value of Update) {
 					DropDown_Setting[value] = {
@@ -198,7 +198,7 @@ export const Developer_Setting_UI = {
 			//-----------------------------------
 
 			if (Property == "Rainbow") {
-				let Checkbox_UI = (
+				const Checkbox_UI = (
 					await Settings_UI["Checkbox"](
 						{
 							name: Title,
@@ -221,7 +221,7 @@ export const Developer_Setting_UI = {
 			//-----------------------------------
 
 			if (Property == "color") {
-				let Color_UI = (
+				const Color_UI = (
 					await Settings_UI["Color"]({
 						name: Title,
 						value: This_Setting.color,
@@ -243,7 +243,7 @@ export const Developer_Setting_UI = {
 			//-----------------------------------
 
 			if (Property == "font_size") {
-				let Number_Slide_UI = (
+				const Number_Slide_UI = (
 					await Settings_UI["Number_Slide"]({
 						name: Title,
 						value: This_Setting.font_size,
@@ -318,7 +318,7 @@ export const Developer_Setting_UI = {
 	},
 
 	["Selector_Text_Editor"]: async function (Parent, This_Category) {
-		let Selector_Text_Editor = await Settings_UI["Text_Editor"](This_Category, "Selector");
+		const Selector_Text_Editor = await Settings_UI["Text_Editor"](This_Category, "Selector");
 		Selector_Text_Editor.Text_Editor.className += " STYLESHIFT-Selector-Text-Editor";
 		Selector_Text_Editor.ReArrange_Value(function (value: string) {
 			return ReArrange_Selector(value);
@@ -351,7 +351,7 @@ export const Developer_Setting_UI = {
 	["Add_Setting_Button"]: async function (Category_Settings: Setting[]) {
 		let Current_Dropdown;
 
-		let Add_Button = await Settings_UI["Button"]({
+		const Add_Button = await Settings_UI["Button"]({
 			name: "+",
 			color: "#FFFFFF",
 			text_align: "center",
@@ -365,7 +365,7 @@ export const Developer_Setting_UI = {
 				Current_Dropdown = Settings_UI["Show_Dropdown"](Object.keys(Main_Setting_UI), Add_Button.Button);
 				const Selected = await Current_Dropdown.Selection;
 				if (Selected) {
-					let Get_Preset: any = UI_Preset.filter((This_Preset) => This_Preset.type == Selected)[0];
+					const Get_Preset: any = UI_Preset.filter((This_Preset) => This_Preset.type == Selected)[0];
 
 					if (Get_Preset) {
 						await Add_Setting(Category_Settings, Get_Preset);

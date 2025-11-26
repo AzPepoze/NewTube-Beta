@@ -3,9 +3,9 @@ import { Category } from "../types/store";
 import { Start_Highlighter } from "./highlight";
 import { Create_Main_Settings_UI } from "./settings/settings";
 
-let Edtior_Width = 400;
+const Edtior_Width = 400;
 export let Editor_UI: Awaited<ReturnType<typeof Create_Main_Settings_UI>>;
-let Current_Edit_OBJ = {};
+const Current_Edit_OBJ = {};
 let animationFrameId: number | null = null;
 let resizeObserver: ResizeObserver | null = null;
 
@@ -16,7 +16,7 @@ let resizeObserver: ResizeObserver | null = null;
 			StyleShift_Window.Window.style.width = Edtior_Width + "px";
 			StyleShift_Window.Window.style.minWidth = Edtior_Width + "px";
 
-			let targetElement = Current_Edit_OBJ["Target"];
+			const targetElement = Current_Edit_OBJ["Target"];
 
 			function Update_Position() {
 				const targetElement_Center_Position = Get_Element_Center_Position(targetElement);

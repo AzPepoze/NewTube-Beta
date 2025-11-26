@@ -53,7 +53,7 @@ export const StyleShift_Property_List: { [key: string]: string[] } = {
 	Combine_Settings: ["type", "id", "name", "description", "sync_id", "update_function", "Editable"],
 };
 
-export const StyleShift_Category_List: Category = { Category: "Category", Selector: "", Rainbow: false, Settings: [] };
+export const StyleShift_Category_List: Category = { category: "Category", selector: "", rainbow: false, settings: [] };
 
 export const UI_Preset: Setting[] = [
 	{

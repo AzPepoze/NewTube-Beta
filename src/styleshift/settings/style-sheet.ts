@@ -22,7 +22,7 @@ export async function Create_StyleSheet_Holder() {
 }
 
 export function Create_StyleSheet(id: string, constant: boolean = false) {
-	let StyleSheet = document.createElement("style");
+	const StyleSheet = document.createElement("style");
 	StyleSheet.setAttribute("STYLESHIFT_StyleSheet_id", id);
 
 	if (constant) {

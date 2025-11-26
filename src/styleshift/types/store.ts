@@ -1,23 +1,23 @@
 export type Category = {
-	Category: string;
-	Rainbow?: boolean;
-	Selector?: string;
+	category: string;
+	rainbow?: boolean;
+	selector?: string;
 
-	Editable?: boolean;
-	Settings: Setting[];
-	Highlight_Color?: string;
+	editable?: boolean;
+	settings: Setting[];
+	highlight_color?: string;
 };
 
-export type option = {
-    enable_css?: string;
-    
-    enable_function?: string | Function;
+export type Option = {
+	enable_css?: string;
+
+	enable_function?: string | Function;
 	disable_function?: string | Function;
 };
 
 export type color_obj = {
-	HEX: string;
-	Alpha: number;
+	hex: string;
+	alpha: number;
 };
 
 export type Setting =
@@ -118,7 +118,7 @@ export type Setting =
 
 			setup_function?: string | Function;
 
-			options: { [key: string]: option };
+			options: { [key: string]: Option };
 
 			//--------------
 

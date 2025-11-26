@@ -7,7 +7,7 @@ const bg_image_id = "newtube-bg-image";
 
 let bg_tint_element: HTMLElement | null = null;
 let bg_image_element: HTMLElement | null = null;
-let bg_image = new Image();
+const bg_image = new Image();
 
 export const enable_background_css = `
 ytd-app {

@@ -1,15 +1,16 @@
 import { Category } from "../../styleshift/types/store";
 
 export const CssFixesCategory: Category = {
-    Category: "🔧 CSS Engine & Fixes",
-    Settings: [
-        {
-            type: "Checkbox",
-            id: "CoreCssFixes",
-            name: "Enable Core CSS Engine",
-            description: "Applies the main CSS rules required for theming to work correctly. It is highly recommended to keep this enabled.",
-            value: true,
-            enable_css: `
+	category: "🔧 CSS Engine & Fixes",
+	settings: [
+		{
+			type: "Checkbox",
+			id: "CoreCssFixes",
+			name: "Enable Core CSS Engine",
+			description:
+				"Applies the main CSS rules required for theming to work correctly. It is highly recommended to keep this enabled.",
+			value: true,
+			enable_css: `
                 /* General Layout & Background Fixes */
                 body {
                     overflow-x: hidden;
@@ -43,15 +44,15 @@ export const CssFixesCategory: Category = {
                 .ytp-ad-module, #play.ytd-player-legacy-desktop-watch-while-renderer {
                     display: none !important;
                 }
-            `
-        },
-        {
-            type: "Checkbox",
-            id: "ScrollbarFixes",
-            name: "Enable Scrollbar Styling",
-            description: "Applies custom styling to the browser scrollbar.",
-            value: true,
-            enable_css: `
+            `,
+		},
+		{
+			type: "Checkbox",
+			id: "ScrollbarFixes",
+			name: "Enable Scrollbar Styling",
+			description: "Applies custom styling to the browser scrollbar.",
+			value: true,
+			enable_css: `
                 @supports selector(::-webkit-scrollbar) {
                     *::-webkit-scrollbar {
                         width: var(--scrollbar-width, 11px) !important;
@@ -64,15 +65,16 @@ export const CssFixesCategory: Category = {
                         border-radius: 10px;
                     }
                 }
-            `
-        },
-        {
-            type: "Checkbox",
-            id: "ComponentStyleFixes",
-            name: "Enable UI Component Styling",
-            description: "Applies general theme colors and styles to various UI components like buttons, menus, and popups.",
-            value: true,
-            enable_css: `
+            `,
+		},
+		{
+			type: "Checkbox",
+			id: "ComponentStyleFixes",
+			name: "Enable UI Component Styling",
+			description:
+				"Applies general theme colors and styles to various UI components like buttons, menus, and popups.",
+			value: true,
+			enable_css: `
                 /* Links */
                 ytd-text-inline-expander yt-attributed-string a {
                     color: var(--link-color) !important;
@@ -95,7 +97,7 @@ export const CssFixesCategory: Category = {
                 .sbsb_d, #endpoint.yt-simple-endpoint.ytd-guide-entry-renderer:hover, .ytp-menuitem:not([aria-disabled=true]):hover {
                     background: var(--search-background-hover) !important;
                 }
-            `
-        }
-    ]
+            `,
+		},
+	],
 };

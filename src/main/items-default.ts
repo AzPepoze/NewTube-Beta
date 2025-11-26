@@ -10,7 +10,7 @@ import { SubscribeButtonCategory } from "./categories/subscribe-button";
 import { TopLeftIconCategory } from "./categories/top-left-icon";
 import { TabIconCategory } from "./categories/tab-icon";
 import { BordersShadowsCategory } from "./categories/borders-shadows";
-import { AnimationsCategory } from "./categories/animations";
+import { animation_category } from "./categories/animations";
 import { HoverClickColorCategory } from "./categories/hover-click-color";
 import { OtherSettingsCategory } from "./categories/other-settings";
 import { FontsCategory } from "./categories/fonts";
@@ -19,7 +19,7 @@ import { RemoveBlackBarsCategory } from "./categories/remove-black-bars";
 import { MoveToTopCategory } from "./categories/move-to-top";
 import { BetaFeaturesCategory } from "./categories/beta-features";
 
-let Default_StyleShift_Items: Category[] = [
+const Default_StyleShift_Items: Category[] = [
 	VideoCategory,
 	VideoControlPanelCategory,
 	SubtitlesCategory,
@@ -31,7 +31,7 @@ let Default_StyleShift_Items: Category[] = [
 	TopLeftIconCategory,
 	TabIconCategory,
 	BordersShadowsCategory,
-	AnimationsCategory,
+	animation_category,
 	HoverClickColorCategory,
 	OtherSettingsCategory,
 	FontsCategory,

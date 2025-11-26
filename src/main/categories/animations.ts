@@ -1,8 +1,8 @@
 import { Category } from "../../styleshift/types/store";
 
-export const AnimationsCategory: Category = {
-	Category: "🚶 Animations",
-	Settings: [
+export const animation_category: Category = {
+	category: "🚶 Animations",
+	settings: [
 		{
 			type: "Checkbox",
 			id: "Ptran",

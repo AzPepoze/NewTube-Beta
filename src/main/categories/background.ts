@@ -2,8 +2,8 @@ import { Category } from "../../styleshift/types/store";
 import { enable_bg, enable_background_css, update_bg_img } from "../features/background";
 
 export const BackgroundCategory: Category = {
-	Category: "🎴 Background",
-	Settings: [
+	category: "🎴 Background",
+	settings: [
 		{
 			type: "Checkbox",
 			id: "bg_enable",

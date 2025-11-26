@@ -3,8 +3,8 @@ import { Category } from "../../styleshift/types/store";
 import { setupTabIconChanger, disableTabIconChanger } from "../features/tab-icon";
 
 export const TabIconCategory: Category = {
-	Category: "🔶 Tab Icon",
-	Settings: [
+	category: "🔶 Tab Icon",
+	settings: [
 		{
 			type: "Checkbox",
 			id: "CustomIcon",
@@ -23,7 +23,7 @@ export const TabIconCategory: Category = {
 			update_function: async function (value) {
 				const useCustomIcon = await Load("CustomIcon");
 				if (useCustomIcon) {
-					let favicon = document.querySelector('link[rel*="icon"]') as HTMLLinkElement;
+					const favicon = document.querySelector('link[rel*="icon"]') as HTMLLinkElement;
 					if (favicon) {
 						favicon.href = value;
 					}

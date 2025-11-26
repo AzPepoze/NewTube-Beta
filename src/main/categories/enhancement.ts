@@ -2,8 +2,8 @@ import { Category } from "../../styleshift/types/store";
 import { setupFlyoutListener, setupChatReplay } from "../features/enhancement";
 
 export const EnhancementCategory: Category = {
-	Category: "🎇 Enhancement",
-	Settings: [
+	category: "🎇 Enhancement",
+	settings: [
 		{
 			type: "Number_Slide",
 			id: "Edge",

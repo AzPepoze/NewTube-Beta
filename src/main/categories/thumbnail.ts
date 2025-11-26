@@ -1,38 +1,38 @@
 import { Category } from "../../styleshift/types/store";
 
 export const ThumbnailCategory: Category = {
-    Category: "📰 Thumbnail/Clip cover",
-    Settings: [
-        {
-            type: "Number_Slide",
-            id: "TimeEdge",
-            name: "Timestamp Corner Radius",
-            description: "Adjusts the corner roundness of the video duration timestamp on thumbnails.",
-            value: 10,
-            min: 0,
-            max: 30,
-            step: 1,
-            var_css: "--thumb-time-radius",
-            constant_css: `ytd-thumbnail-overlay-time-status-renderer { border-radius: var(--thumb-time-radius, 10px) !important; }`
-        },
-        {
-            type: "Color",
-            id: "TimeBG",
-            name: "Timestamp Background Color",
-            description: "Sets the background color of the video duration timestamp.",
-            value: "#00000080",
-            var_css: "--thumb-time-bg",
-            constant_css: `ytd-thumbnail-overlay-time-status-renderer { background-color: var(--thumb-time-bg, #00000080) !important; }`
-        },
-        {
-            type: "Dropdown",
-            id: "ThumbHover",
-            name: "Hover Animation Style",
-            description: "The animation effect when hovering over a video thumbnail.",
-            value: "Slide",
-            options: {
-                "Slide": {
-                    enable_css: `
+	category: "📰 Thumbnail/Clip cover",
+	settings: [
+		{
+			type: "Number_Slide",
+			id: "TimeEdge",
+			name: "Timestamp Corner Radius",
+			description: "Adjusts the corner roundness of the video duration timestamp on thumbnails.",
+			value: 10,
+			min: 0,
+			max: 30,
+			step: 1,
+			var_css: "--thumb-time-radius",
+			constant_css: `ytd-thumbnail-overlay-time-status-renderer { border-radius: var(--thumb-time-radius, 10px) !important; }`,
+		},
+		{
+			type: "Color",
+			id: "TimeBG",
+			name: "Timestamp Background Color",
+			description: "Sets the background color of the video duration timestamp.",
+			value: "#00000080",
+			var_css: "--thumb-time-bg",
+			constant_css: `ytd-thumbnail-overlay-time-status-renderer { background-color: var(--thumb-time-bg, #00000080) !important; }`,
+		},
+		{
+			type: "Dropdown",
+			id: "ThumbHover",
+			name: "Hover Animation Style",
+			description: "The animation effect when hovering over a video thumbnail.",
+			value: "Slide",
+			options: {
+				Slide: {
+					enable_css: `
                         #dismissible.ytd-rich-grid-media:hover > ytd-thumbnail {
                             margin-block-start: -15px !important;
                             margin-block-end: 15px !important;
@@ -43,19 +43,19 @@ export const ThumbnailCategory: Category = {
                         ytd-compact-video-renderer:hover > div > div > div > a {
                             margin-inline-end: 15px !important;
                         }
-                    `
-                },
-                "Zoom": {
-                    enable_css: `
+                    `,
+				},
+				Zoom: {
+					enable_css: `
                         ytd-thumbnail:not(.ytd-playlist-panel-video-renderer):hover,
                         ytd-playlist-thumbnail:hover {
                             transform: scale(var(--thumb-zoom-scale, 1.075)) !important;
                             z-index: 400;
                         }
-                    `
-                },
-                "Slide&Zoom": {
-                    enable_css: `
+                    `,
+				},
+				"Slide&Zoom": {
+					enable_css: `
                         #dismissible.ytd-rich-grid-media:hover > ytd-thumbnail {
                             margin-block-start: -15px !important;
                             margin-block-end: 15px !important;
@@ -71,46 +71,46 @@ export const ThumbnailCategory: Category = {
                             transform: scale(var(--thumb-zoom-scale, 1.075)) !important;
                             z-index: 400;
                         }
-                    `
-                },
-                "None": {
-                    enable_css: ``
-                }
-            }
-        },
-        {
-            type: "Number_Slide",
-            id: "Zoom",
-            name: "Zoom Amount",
-            description: "Adjusts the zoom scale for the 'Zoom' hover animation.",
-            value: 1.075,
-            min: 1,
-            max: 1.5,
-            step: 0.005,
-            var_css: "--thumb-zoom-scale"
-        },
-        {
-            type: "Checkbox",
-            id: "TimeAni",
-            name: "Hide Timestamp on Hover",
-            description: "Hides the video duration timestamp when you hover over a thumbnail.",
-            value: true,
-            enable_css: `
+                    `,
+				},
+				None: {
+					enable_css: ``,
+				},
+			},
+		},
+		{
+			type: "Number_Slide",
+			id: "Zoom",
+			name: "Zoom Amount",
+			description: "Adjusts the zoom scale for the 'Zoom' hover animation.",
+			value: 1.075,
+			min: 1,
+			max: 1.5,
+			step: 0.005,
+			var_css: "--thumb-zoom-scale",
+		},
+		{
+			type: "Checkbox",
+			id: "TimeAni",
+			name: "Hide Timestamp on Hover",
+			description: "Hides the video duration timestamp when you hover over a thumbnail.",
+			value: true,
+			enable_css: `
                 ytd-thumbnail-overlay-time-status-renderer {
                     transition: all .2s;
                 }
                 #thumbnail:hover > #overlays > ytd-thumbnail-overlay-time-status-renderer {
                     opacity: 0 !important;
                 }
-            `
-        },
-        {
-            type: "Checkbox",
-            id: "ThumbAnim",
-            name: "Thumbnail Load Animation",
-            description: "Adds a fade-in and slide-up animation when thumbnails load.",
-            value: true,
-            enable_css: `
+            `,
+		},
+		{
+			type: "Checkbox",
+			id: "ThumbAnim",
+			name: "Thumbnail Load Animation",
+			description: "Adds a fade-in and slide-up animation when thumbnails load.",
+			value: true,
+			enable_css: `
                 #dismissible:has(.yt-core-image) {
                     transition: all 0.5s ease;
                     opacity: 0 !important;
@@ -122,7 +122,7 @@ export const ThumbnailCategory: Category = {
                     transform: translateY(0px) !important;
                     opacity: 1 !important;
                 }
-            `
-        }
-    ]
+            `,
+		},
+	],
 };

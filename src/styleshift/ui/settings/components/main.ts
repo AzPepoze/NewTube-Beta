@@ -3,7 +3,7 @@ import {
 	HEX_to_RBG,
 	RGB_to_HSV,
 	HSV_to_RGB,
-	numberWithCommas,
+	number_with_commas,
 	Once_Element_Remove,
 	Create_UniqueID,
 } from "../../../build-in-functions/normal";
@@ -22,11 +22,11 @@ import { Create_Config_UI_Function } from "../settings";
 
 export const Main_Setting_UI = {
 	["Text"]: async function (This_Setting: Partial<Extract<Setting, { type: "Text" }>>) {
-		let Frame = Settings_UI["Setting_Frame"](true, true);
+		const Frame = Settings_UI["Setting_Frame"](true, true);
 
 		//-------------------------------------
 
-		let Text = document.createElement("div");
+		const Text = document.createElement("div");
 		Text.className = "STYLESHIFT-Text-Main-Description";
 
 		Frame.append(Text);
@@ -62,7 +62,7 @@ export const Main_Setting_UI = {
 
 		//-------------------------------------
 
-		let Config_UI_Function = await Create_Config_UI_Function(This_Setting.Editable, async function (Parent) {
+		const Config_UI_Function = await Create_Config_UI_Function(This_Setting.Editable, async function (Parent) {
 			await Settings_UI["Config_Main_Section"](
 				Parent,
 				This_Setting,
@@ -79,12 +79,12 @@ export const Main_Setting_UI = {
 		return { Frame, Config_UI_Function };
 	},
 	["Setting_Sub_Title"]: async function (This_Setting: Partial<Extract<Setting, { type: "Setting_Sub_Title" }>>) {
-		let Frame = Settings_UI["Setting_Frame"](true, true);
+		const Frame = Settings_UI["Setting_Frame"](true, true);
 		Frame.className = "STYLESHIFT-Setting-Sub-Title";
 
 		//-------------------------------------
 
-		let Text = document.createElement("div");
+		const Text = document.createElement("div");
 		Text.className = "STYLESHIFT-Text-Main-Description";
 
 		Frame.append(Text);
@@ -118,7 +118,7 @@ export const Main_Setting_UI = {
 
 		//-------------------------------------
 
-		let Config_UI_Function = await Create_Config_UI_Function(This_Setting.Editable, async function (Parent) {
+		const Config_UI_Function = await Create_Config_UI_Function(This_Setting.Editable, async function (Parent) {
 			await Settings_UI["Config_Main_Section"](
 				Parent,
 				This_Setting,
@@ -147,7 +147,7 @@ export const Main_Setting_UI = {
 
 		//-------------------------------------
 
-		let Button = document.createElement("div");
+		const Button = document.createElement("div");
 		Button.className = "STYLESHIFT-Button";
 		Button.style.borderRadius = "20px";
 
@@ -186,21 +186,21 @@ export const Main_Setting_UI = {
 			Button.id = This_Setting.id || "";
 
 			//-----------------------------------
-			let { r, g, b } = HEX_to_RBG(This_Setting.color);
+			const { r, g, b } = HEX_to_RBG(This_Setting.color);
 
-			let BG_HSV = RGB_to_HSV({ r, g, b });
+			const BG_HSV = RGB_to_HSV({ r, g, b });
 			BG_HSV.s /= 2;
 			BG_HSV.v /= 3;
-			let BG_Color = HSV_to_RGB(BG_HSV);
+			const BG_Color = HSV_to_RGB(BG_HSV);
 
-			let BGT_HSV = RGB_to_HSV({ r, g, b });
+			const BGT_HSV = RGB_to_HSV({ r, g, b });
 			BGT_HSV.s /= 1.5;
 			BGT_HSV.v /= 2;
-			let BGT_Color = HSV_to_RGB(BGT_HSV);
+			const BGT_Color = HSV_to_RGB(BGT_HSV);
 
-			let Background_TOP_Color = `${BGT_Color.r},${BGT_Color.g},${BGT_Color.b}`;
-			let Background_Color = `${BG_Color.r},${BG_Color.g},${BG_Color.b}`;
-			let Border_Color = `${r + 150},${g + 150},${b + 150}`;
+			const Background_TOP_Color = `${BGT_Color.r},${BGT_Color.g},${BGT_Color.b}`;
+			const Background_Color = `${BG_Color.r},${BG_Color.g},${BG_Color.b}`;
+			const Border_Color = `${r + 150},${g + 150},${b + 150}`;
 
 			Button.style.background = `radial-gradient(at center top, rgb(${Background_TOP_Color}), rgb(${Background_Color}, 0.5))`;
 
@@ -244,7 +244,7 @@ export const Main_Setting_UI = {
 
 		//-------------------------------------
 
-		let Config_UI_Function = await Create_Config_UI_Function(This_Setting.Editable, async function (Parent) {
+		const Config_UI_Function = await Create_Config_UI_Function(This_Setting.Editable, async function (Parent) {
 			await Settings_UI["Config_Main_Section"](
 				Parent,
 				This_Setting,
@@ -275,22 +275,22 @@ export const Main_Setting_UI = {
 		This_Setting: Partial<Extract<Setting, { type: "Checkbox" }>>,
 		update_function?: Function
 	) {
-		let Frame = Settings_UI["Setting_Frame"](true, true);
+		const Frame = Settings_UI["Setting_Frame"](true, true);
 
 		//-------------------------------------
 
-		let Sub_Frame = Settings_UI["Setting_Frame"](false, false);
+		const Sub_Frame = Settings_UI["Setting_Frame"](false, false);
 		Sub_Frame.setAttribute("settingtype", "Checkbox");
 		Frame.append(Sub_Frame);
 
 		//-------------------------------------
 
-		let Checkbox = document.createElement("input");
+		const Checkbox = document.createElement("input");
 		Checkbox.type = "Checkbox";
 		Checkbox.className = "STYLESHIFT-Checkbox";
 		Sub_Frame.appendChild(Checkbox);
 
-		let Setting_Name = Settings_UI["Setting_Name"]("");
+		const Setting_Name = Settings_UI["Setting_Name"]("");
 		Sub_Frame.appendChild(Setting_Name);
 
 		//-------------------------------------
@@ -300,7 +300,7 @@ export const Main_Setting_UI = {
 
 			Setting_Name.textContent = This_Setting.name;
 
-			let value = This_Setting.id ? await Load_Any(This_Setting.id) : This_Setting.value;
+			const value = This_Setting.id ? await Load_Any(This_Setting.id) : This_Setting.value;
 			Checkbox.checked = value;
 		}
 		Update_UI();
@@ -319,13 +319,13 @@ export const Main_Setting_UI = {
 		//-------------------------------------
 
 		Checkbox.addEventListener("change", async function () {
-			let value = Checkbox.checked;
+			const value = Checkbox.checked;
 			Update_Value(value);
 		});
 
 		//-------------------------------------
 
-		let Config_UI_Function = await Create_Config_UI_Function(This_Setting.Editable, async function (Parent) {
+		const Config_UI_Function = await Create_Config_UI_Function(This_Setting.Editable, async function (Parent) {
 			await Settings_UI["Config_Main_Section"](
 				Parent,
 				This_Setting,
@@ -351,7 +351,7 @@ export const Main_Setting_UI = {
 	},
 
 	["Number_Slide"]: async function (This_Setting: Partial<Extract<Setting, { type: "Number_Slide" }>>) {
-		let Frame = Settings_UI["Setting_Frame"](true, true);
+		const Frame = Settings_UI["Setting_Frame"](true, true);
 
 		//-------------------------------------
 
@@ -364,13 +364,13 @@ export const Main_Setting_UI = {
 
 		//-------------------------------------
 
-		let Sub_Frame = Settings_UI["Setting_Frame"](false, false, { x: false, y: true });
+		const Sub_Frame = Settings_UI["Setting_Frame"](false, false, { x: false, y: true });
 		Sub_Frame.style.gap = "5px";
 		Frame.append(Sub_Frame);
 
-		let Number_Slide = Settings_UI["Number_Slide_UI"](Sub_Frame);
+		const Number_Slide = Settings_UI["Number_Slide_UI"](Sub_Frame);
 
-		let Number_Input = Settings_UI["Number_Input_UI"](Sub_Frame);
+		const Number_Input = Settings_UI["Number_Input_UI"](Sub_Frame);
 
 		//-------------------------------------
 
@@ -383,7 +383,7 @@ export const Main_Setting_UI = {
 				Setting_Name.textContent = This_Setting.name;
 			}
 
-			let value = This_Setting.id ? await Load_Any(This_Setting.id) : This_Setting.value;
+			const value = This_Setting.id ? await Load_Any(This_Setting.id) : This_Setting.value;
 			Number_Slide.Number_Slide_UI.value = String(value);
 			Number_Input.value = String(value);
 		}
@@ -410,14 +410,14 @@ export const Main_Setting_UI = {
 		//-------------------------------------
 
 		Number_Slide.Number_Slide_UI.addEventListener("change", async function () {
-			let value: any = Number(Number_Slide.Number_Slide_UI.value);
+			const value: any = Number(Number_Slide.Number_Slide_UI.value);
 			Number_Input.value = value;
 
 			Update_Value(value);
 		});
 
 		Number_Input.addEventListener("change", async function () {
-			let value: any = Number(Number_Input.value);
+			const value: any = Number(Number_Input.value);
 			Number_Input.value = value;
 			Number_Slide.Number_Slide_UI.value = value;
 
@@ -426,7 +426,7 @@ export const Main_Setting_UI = {
 
 		Number_Slide.Number_Slide_UI.addEventListener("input", async function () {
 			if (!(await Load("Realtime_Extension"))) return;
-			let value: any = Number(Number_Slide.Number_Slide_UI.value);
+			const value: any = Number(Number_Slide.Number_Slide_UI.value);
 			Number_Input.value = value;
 
 			Update_Value(value);
@@ -434,7 +434,7 @@ export const Main_Setting_UI = {
 
 		Number_Input.addEventListener("input", async function () {
 			if (!(await Load("Realtime_Extension"))) return;
-			let value: any = Number(Number_Input.value);
+			const value: any = Number(Number_Input.value);
 			Number_Slide.Number_Slide_UI.value = value;
 
 			Update_Value(value);
@@ -448,7 +448,7 @@ export const Main_Setting_UI = {
 
 		//-------------------------------------
 
-		let Config_UI_Function = await Create_Config_UI_Function(This_Setting.Editable, async function (Parent) {
+		const Config_UI_Function = await Create_Config_UI_Function(This_Setting.Editable, async function (Parent) {
 			await Settings_UI["Config_Main_Section"](
 				Parent,
 				This_Setting,
@@ -478,17 +478,17 @@ export const Main_Setting_UI = {
 	},
 
 	["Dropdown"]: async function (This_Setting: Partial<Extract<Setting, { type: "Dropdown" }>>) {
-		let Frame = Settings_UI["Setting_Frame"](true, true);
+		const Frame = Settings_UI["Setting_Frame"](true, true);
 
 		//------------------------------
 
-		let SubFrame = Settings_UI["Setting_Frame"](false, false);
+		const SubFrame = Settings_UI["Setting_Frame"](false, false);
 		SubFrame.className += " STYLESHIFT-Dropdown-Frame";
 		Frame.append(SubFrame);
 
 		//------------------------------
 
-		let Dropdown = await Settings_UI["Button"]({
+		const Dropdown = await Settings_UI["Button"]({
 			name: "",
 			color: "#FFFFFF",
 			text_align: "center",
@@ -496,7 +496,7 @@ export const Main_Setting_UI = {
 		Dropdown.Button.className += " STYLESHIFT-Dropdown";
 		SubFrame.appendChild(Dropdown.Button);
 
-		let Setting_Name = Settings_UI["Setting_Name"](This_Setting.name);
+		const Setting_Name = Settings_UI["Setting_Name"](This_Setting.name);
 		SubFrame.appendChild(Setting_Name);
 
 		//------------------------------
@@ -504,7 +504,7 @@ export const Main_Setting_UI = {
 		async function Update_UI() {
 			Frame.id = This_Setting.id || "";
 
-			let value = This_Setting.id ? await Load_Any(This_Setting.id) : This_Setting.value;
+			const value = This_Setting.id ? await Load_Any(This_Setting.id) : This_Setting.value;
 			Dropdown.Button.textContent = value;
 		}
 		Update_UI();
@@ -561,7 +561,7 @@ export const Main_Setting_UI = {
 
 		//-------------------------------------
 
-		let Config_UI_Function = await Create_Config_UI_Function(This_Setting.Editable, async function (Parent) {
+		const Config_UI_Function = await Create_Config_UI_Function(This_Setting.Editable, async function (Parent) {
 			await Settings_UI["Config_Main_Section"](
 				Parent,
 				This_Setting,
@@ -587,22 +587,22 @@ export const Main_Setting_UI = {
 	},
 
 	["Color"]: async function (This_Setting: Partial<Extract<Setting, { type: "Color" }>>) {
-		let Frame = Settings_UI["Setting_Frame"](true, true, { x: false, y: true });
+		const Frame = Settings_UI["Setting_Frame"](true, true, { x: false, y: true });
 
 		//-------------------------------------
 
-		let Setting_Name = Settings_UI["Setting_Name"](This_Setting.name, "center");
+		const Setting_Name = Settings_UI["Setting_Name"](This_Setting.name, "center");
 		Frame.appendChild(Setting_Name);
 
 		//-------------------------------------
 
-		let Sub_Frame = Settings_UI["Setting_Frame"](false, false, { x: false, y: true });
+		const Sub_Frame = Settings_UI["Setting_Frame"](false, false, { x: false, y: true });
 		Sub_Frame.setAttribute("settingtype", "Color");
 		Frame.append(Sub_Frame);
 
 		//-------------------------------------
 
-		let Color = document.createElement("input");
+		const Color = document.createElement("input");
 		Color.type = "color";
 		Color.className = "STYLESHIFT-Color";
 		Sub_Frame.appendChild(Color);
@@ -627,10 +627,10 @@ export const Main_Setting_UI = {
 
 		//-------------------------------------
 
-		let Hex_Input = await Settings_UI["Text_Input"]({
+		const Hex_Input = await Settings_UI["Text_Input"]({
 			value: "#000000",
 			update_function: function (value) {
-				var color_obj = HEX_to_Color_OBJ(value);
+				const color_obj = HEX_to_Color_OBJ(value);
 
 				Update_Value("HEX", color_obj.HEX);
 				Update_Value("Alpha", color_obj.Alpha);
@@ -645,8 +645,8 @@ export const Main_Setting_UI = {
 
 			Setting_Name.textContent = This_Setting.name;
 
-			let value = This_Setting.id ? await Load_Any(This_Setting.id) : This_Setting.value;
-			let Color_Usable_OBJ = HEX_to_Color_OBJ(value);
+			const value = This_Setting.id ? await Load_Any(This_Setting.id) : This_Setting.value;
+			const Color_Usable_OBJ = HEX_to_Color_OBJ(value);
 
 			Color.value = String(Color_Usable_OBJ.HEX);
 			if (Opacity) {
@@ -668,13 +668,13 @@ export const Main_Setting_UI = {
 
 		async function Update_Value(type: "HEX" | "Alpha", value: any) {
 			if (This_Setting.id) {
-				let Color_OBJ: any = HEX_to_Color_OBJ(await Load_Any(This_Setting.id));
+				const Color_OBJ: any = HEX_to_Color_OBJ(await Load_Any(This_Setting.id));
 				Color_OBJ[type] = value;
 
 				await Set_And_Save(This_Setting, Color_OBJ_to_HEX(Color_OBJ));
 				Update_Setting_Function(This_Setting.id);
 			} else {
-				let Color_OBJ: any = HEX_to_Color_OBJ(This_Setting.value);
+				const Color_OBJ: any = HEX_to_Color_OBJ(This_Setting.value);
 				Color_OBJ[type] = value;
 
 				This_Setting.value = Color_OBJ_to_HEX(Color_OBJ);
@@ -701,7 +701,7 @@ export const Main_Setting_UI = {
 
 		//-------------------------------------
 
-		let Config_UI_Function = await Create_Config_UI_Function(This_Setting.Editable, async function (Parent) {
+		const Config_UI_Function = await Create_Config_UI_Function(This_Setting.Editable, async function (Parent) {
 			await Settings_UI["Config_Main_Section"](
 				Parent,
 				This_Setting,
@@ -728,11 +728,11 @@ export const Main_Setting_UI = {
 	},
 
 	["Text_Input"]: async function (This_Setting: Partial<Extract<Setting, { type: "Text_Input" }>>) {
-		let Frame = Settings_UI["Setting_Frame"](true, true);
+		const Frame = Settings_UI["Setting_Frame"](true, true);
 
 		//-------------------------------------
 
-		let Text_Input = document.createElement("input");
+		const Text_Input = document.createElement("input");
 		Text_Input.className = "STYLESHIFT-Text_Input";
 		Frame.appendChild(Text_Input);
 
@@ -763,13 +763,13 @@ export const Main_Setting_UI = {
 		//-------------------------------------
 
 		Text_Input.addEventListener("change", async function () {
-			let value = Text_Input.value;
+			const value = Text_Input.value;
 			Update_Value(value);
 		});
 
 		//-------------------------------------
 
-		let Config_UI_Function = await Create_Config_UI_Function(This_Setting.Editable, async function (Parent) {
+		const Config_UI_Function = await Create_Config_UI_Function(This_Setting.Editable, async function (Parent) {
 			await Settings_UI["Config_Main_Section"](
 				Parent,
 				This_Setting,
@@ -784,7 +784,7 @@ export const Main_Setting_UI = {
 	},
 
 	["Image_Input"]: async function (This_Setting: Partial<Extract<Setting, { type: "Image_Input" }>>) {
-		let Frame = Settings_UI["Setting_Frame"](true, true);
+		const Frame = Settings_UI["Setting_Frame"](true, true);
 
 		const Text_Input = (
 			await Settings_UI["Text_Input"]({
@@ -795,7 +795,7 @@ export const Main_Setting_UI = {
 		Frame.append(Text_Input);
 
 		const File_Input = Settings_UI["File_Input"](async function (file: File) {
-			let Notification = await Create_Notification({
+			const Notification = await Create_Notification({
 				Icon: "🔃",
 				Title: "StyleShift - Loading image!",
 				Content: "(╹ڡ╹ )\nLoading image...",
@@ -819,8 +819,8 @@ export const Main_Setting_UI = {
 					file.size > This_Setting.MaxFileSize &&
 					!confirm(`⚠️NEWTUBE WARNING!⚠️
 
-Your file size : ${numberWithCommas(file.size)} bytes.
-Recommend file size : lower than ${numberWithCommas(This_Setting.MaxFileSize)} bytes.
+Your file size : ${number_with_commas(file.size)} bytes.
+Recommend file size : lower than ${number_with_commas(This_Setting.MaxFileSize)} bytes.
 
 Your file is quite large. (It may cause lag!)
 
@@ -873,7 +873,7 @@ Are you want to continue?`)
 
 		//-----------------------------------------------
 
-		let Config_UI_Function = await Create_Config_UI_Function(This_Setting.Editable, async function (Parent) {
+		const Config_UI_Function = await Create_Config_UI_Function(This_Setting.Editable, async function (Parent) {
 			await Settings_UI["Config_Main_Section"](Parent, This_Setting, {
 				["Soruce setting Id"]: "id",
 			});
@@ -883,7 +883,7 @@ Are you want to continue?`)
 	},
 
 	["Preview_Image"]: async function (This_Setting: Partial<Extract<Setting, { type: "Preview_Image" }>>) {
-		let Frame = Settings_UI["Setting_Frame"](true, true);
+		const Frame = Settings_UI["Setting_Frame"](true, true);
 
 		const Image_Frame = document.createElement("img");
 		Image_Frame.className = "STYLESHIFT-Preview_Image";
@@ -916,7 +916,7 @@ Are you want to continue?`)
 
 		//-----------------------------------------------
 
-		let Config_UI_Function = await Create_Config_UI_Function(This_Setting.Editable, async function (Parent) {
+		const Config_UI_Function = await Create_Config_UI_Function(This_Setting.Editable, async function (Parent) {
 			await Settings_UI["Config_Main_Section"](
 				Parent,
 				This_Setting,
@@ -931,7 +931,7 @@ Are you want to continue?`)
 	},
 
 	["Custom"]: async function (This_Setting: Partial<Extract<Setting, { type: "Custom" }>>) {
-		let Frame = Settings_UI["Setting_Frame"](true, true);
+		const Frame = Settings_UI["Setting_Frame"](true, true);
 		Frame.id = This_Setting.id || Create_UniqueID(10);
 
 		if (typeof This_Setting.ui_function === "function") {
@@ -940,11 +940,11 @@ Are you want to continue?`)
 			Run_Text_Script({
 				Text: This_Setting["ui_function"],
 				Code_Name: `${This_Setting.id} : ui_function`,
-				args: JSON.stringify({ Setting_ID: Frame.id }),
+				args: JSON.stringify({ setting_id: Frame.id }),
 			});
 		}
 
-		let Config_UI_Function = await Create_Config_UI_Function(This_Setting.Editable, async function (Parent) {
+		const Config_UI_Function = await Create_Config_UI_Function(This_Setting.Editable, async function (Parent) {
 			await Settings_UI["Config_Main_Section"](Parent, This_Setting, {
 				Id: "id",
 			});
@@ -962,10 +962,10 @@ Are you want to continue?`)
 	},
 
 	["Combine_Settings"]: async function (This_Setting: Partial<Extract<Setting, { type: "Combine_Settings" }>>) {
-		let Frame = Settings_UI["Setting_Frame"](true, true);
+		const Frame = Settings_UI["Setting_Frame"](true, true);
 		Frame.setAttribute("settingtype", "Combine_Settings");
 
-		let Config_UI_Function = await Create_Config_UI_Function(This_Setting.Editable, async function (Parent) {
+		const Config_UI_Function = await Create_Config_UI_Function(This_Setting.Editable, async function (Parent) {
 			await Settings_UI["Config_Main_Section"](
 				Parent,
 				This_Setting,

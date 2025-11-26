@@ -20,27 +20,27 @@ function debounce(callback: Function) {
 function Add_Highlight(targetElement: HTMLElement, Selector_Value) {
 	console.log(Highlight_Elements);
 
-	let Exist_UniqueID = targetElement.getAttribute("StyleShift-UniqueID");
+	const Exist_UniqueID = targetElement.getAttribute("StyleShift-UniqueID");
 	if (Exist_UniqueID) {
-		let OBJ = Highlight_Elements[Exist_UniqueID];
+		const OBJ = Highlight_Elements[Exist_UniqueID];
 		console.log(OBJ.targetElement, targetElement);
 		OBJ.Stop();
 	}
 
-	let UniqueID = Create_UniqueID(10);
+	const UniqueID = Create_UniqueID(10);
 
 	targetElement.setAttribute("StyleShift-UniqueID", UniqueID);
 
 	const Color = `rgba(${Selector_Value.Highlight_Color}`;
 
-	let highlighter = document.createElement("div");
+	const highlighter = document.createElement("div");
 	highlighter.className = "STYLESHIFT-Highlight";
 	highlighter.setAttribute("Selector", Selector_Value.Selector);
 
 	highlighter.style.background = `${Color},0.3)`;
 	highlighter.style.borderColor = `${Color},0.8)`;
 
-	let ComputedStyle = window.getComputedStyle(targetElement, null);
+	const ComputedStyle = window.getComputedStyle(targetElement, null);
 
 	highlighter.style.width = `calc(100% - 
 	${ComputedStyle.getPropertyValue("padding-left")} - 
@@ -58,7 +58,7 @@ function Add_Highlight(targetElement: HTMLElement, Selector_Value) {
 		Stop_Highlighter();
 	};
 
-	let old_style = targetElement.style.position;
+	const old_style = targetElement.style.position;
 	targetElement.style.position = "relative";
 
 	function Stop() {
@@ -74,7 +74,7 @@ function Add_Highlight(targetElement: HTMLElement, Selector_Value) {
 		Stop();
 	});
 
-	let return_OBJ = {
+	const return_OBJ = {
 		highlighter: highlighter,
 		targetElement: targetElement,
 		Stop: Stop,
@@ -91,7 +91,7 @@ export async function Start_Highlighter() {
 	await Wait_Document_Loaded();
 	const Editable_Items = await Get_StyleShift_Items();
 	console.log("Editable_Items", Editable_Items);
-	let Exept_Items = [];
+	const Exept_Items = [];
 
 	const containers = document.querySelectorAll(".dynamic-content, .user-content, main, #content");
 
@@ -103,11 +103,11 @@ export async function Start_Highlighter() {
 						if (node.nodeType === Node.ELEMENT_NODE) {
 							for (const Selector_Value of [...Editable_Items.Default, ...Editable_Items.Custom]) {
 								if (
-									Selector_Value.Selector != "" &&
-									node.matches(Selector_Value.Selector) &&
-									!Exept_Items.some((item) => item === Selector_Value.Selector)
+									Selector_Value.selector != "" &&
+									node.matches(Selector_Value.selector) &&
+									!Exept_Items.some((item) => item === Selector_Value.selector)
 								) {
-									console.log("Add New Node", Selector_Value.Selector);
+									console.log("Add New Node", Selector_Value.selector);
 									Add_Highlight(node, Selector_Value);
 									break;
 								}
@@ -136,21 +136,21 @@ export async function Start_Highlighter() {
 	}
 
 	for (const Selector_Value of [...Editable_Items.Default, ...Editable_Items.Custom]) {
-		if (Selector_Value.Selector == "") continue;
+		if (Selector_Value.selector == "") continue;
 
-		let Selector_Found = document.querySelectorAll(Selector_Value.Selector);
+		const Selector_Found = document.querySelectorAll(Selector_Value.selector);
 
 		if (
 			Selector_Found.length >= 1000 &&
 			!(await Show_Confirm(
-				`StyleShift : I found ${Selector_Found.length} elements on selector "${Selector_Value.Selector}"\n\nAre you wish to continue??`
+				`StyleShift : I found ${Selector_Found.length} elements on selector "${Selector_Value.selector}"\n\nAre you wish to continue??`
 			))
 		) {
-			Exept_Items.push(Selector_Value.Selector);
+			Exept_Items.push(Selector_Value.selector);
 			continue;
 		}
 
-		console.log("Selector_Found", Selector_Value.Selector, Selector_Found);
+		console.log("Selector_Found", Selector_Value.selector, Selector_Found);
 
 		// Process elements in chunks to avoid blocking the main thread
 		const CHUNK_SIZE = 50;

@@ -1,11 +1,11 @@
 import { Open_Setting_Page } from "../styleshift/build-in-functions/extension";
 import { Category } from "../styleshift/types/store";
 
-let Default_StyleShift_Items: Category[] = [
+const Default_StyleShift_Items: Category[] = [
 	{
-		Category: "☕ Buy me a coffee!",
-		Rainbow: true,
-		Settings: [
+		category: "☕ Buy me a coffee!",
+		rainbow: true,
+		settings: [
 			{
 				click_function: 'window.open("https://ko-fi.com/azpepoze");',
 				color: "#ff040bff",
@@ -16,12 +16,12 @@ let Default_StyleShift_Items: Category[] = [
 				type: "Button",
 			},
 		],
-		Selector: "",
+		selector: "",
 	},
 	{
-		Category: "🎉 Join my Discord!",
-		Rainbow: true,
-		Settings: [
+		category: "🎉 Join my Discord!",
+		rainbow: true,
+		settings: [
 			{
 				click_function: 'window.open("https://discord.gg/BgxvVqap4G");',
 				color: "#1932ffff",
@@ -34,8 +34,8 @@ let Default_StyleShift_Items: Category[] = [
 		],
 	},
 	{
-		Category: "⚙️ Extention's settings",
-		Settings: [
+		category: "⚙️ Extention's settings",
+		settings: [
 			{
 				id: "Enable_Extension",
 				name: "Enable",
@@ -117,8 +117,8 @@ let Default_StyleShift_Items: Category[] = [
 		],
 	},
 	{
-		Category: "↕️ Import / Export Theme",
-		Settings: [
+		category: "↕️ Import / Export Theme",
+		settings: [
 			{
 				click_function:
 					'await Copy_to_clipboard(await Export_StyleShift_JSON_Text());\n\nCreate_Notification({\nIcon : "✅",\nTitle : "StyleShift",\nContent : "Copied to clipboard!"\n})',

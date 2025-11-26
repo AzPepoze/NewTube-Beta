@@ -4,13 +4,13 @@ import { Load_Any } from "../core/save";
 import { Setting } from "../types/store";
 import { Create_StyleSheet } from "./style-sheet";
 
-export let Settings_Current_State = {};
-let Settings_Update_Function: { [key: string]: Function } = {};
+export const Settings_Current_State = {};
+const Settings_Update_Function: { [key: string]: Function } = {};
 
-let Settings_On_Update: { [key: string]: Function[] } = {};
-let Settings_On_Init: { [key: string]: Function[] } = {};
+const Settings_On_Update: { [key: string]: Function[] } = {};
+const Settings_On_Init: { [key: string]: Function[] } = {};
 
-let Settings_Funcion = {
+const Settings_Funcion = {
 	["Checkbox"]: async function (This_Setting) {
 		let StyleSheet: HTMLElement;
 		if (This_Setting.constant_css || This_Setting.enable_css || This_Setting.disable_css) {
@@ -22,7 +22,7 @@ let Settings_Funcion = {
 		}
 
 		async function Update_Function() {
-			let value = await Load_Any(This_Setting.id);
+			const value = await Load_Any(This_Setting.id);
 
 			if (StyleSheet) {
 				StyleSheet.textContent = This_Setting.constant_css || ``;
@@ -67,7 +67,7 @@ let Settings_Funcion = {
 		}
 
 		async function Update_Function() {
-			let value = await Load_Any(This_Setting.id);
+			const value = await Load_Any(This_Setting.id);
 
 			if (StyleSheet) {
 				StyleSheet.textContent = "";
@@ -100,7 +100,7 @@ let Settings_Funcion = {
 		}
 
 		async function Update_Function() {
-			let value = await Load_Any(This_Setting.id);
+			const value = await Load_Any(This_Setting.id);
 
 			if (Settings_Current_State[This_Setting.id] == value) return;
 
@@ -142,7 +142,7 @@ let Settings_Funcion = {
 		}
 
 		async function Update_Function() {
-			let value = await Load_Any(This_Setting.id);
+			const value = await Load_Any(This_Setting.id);
 
 			//----------------------
 
@@ -180,7 +180,7 @@ let Settings_Funcion = {
 		}
 
 		async function Update_Function() {
-			let value = await Load_Any(This_Setting.id);
+			const value = await Load_Any(This_Setting.id);
 
 			//----------------------
 
@@ -199,7 +199,7 @@ let Settings_Funcion = {
 		return Update_Function;
 	},
 	["Combine_Settings"]: async function (This_Setting: Partial<Extract<Setting, { type: "Combine_Settings" }>>) {
-		let StyleSheet = Create_StyleSheet(This_Setting.id);
+		const StyleSheet = Create_StyleSheet(This_Setting.id);
 
 		async function Update_Function() {
 			if (StyleSheet && This_Setting.update_function) {
@@ -218,13 +218,13 @@ export async function SetUp_Setting_Function(This_Setting) {
 	const Get_Update_Function = Settings_Funcion[This_Setting.type];
 	if (!Get_Update_Function) return;
 
-	let Update_Function = await Get_Update_Function(This_Setting);
+	const Update_Function = await Get_Update_Function(This_Setting);
 	Settings_Update_Function[This_Setting.id] = Update_Function;
 
 	return Update_Function;
 }
 
-let Updating_Setting_Function = {};
+const Updating_Setting_Function = {};
 
 export async function Update_Setting_Function(id) {
 	switch (Updating_Setting_Function[id]) {

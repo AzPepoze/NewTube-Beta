@@ -20,7 +20,7 @@ function changeFavicon(url: string) {
 
 function revertFavicon() {
 	if (originalFavicon) {
-		let favicon = document.querySelector('link[rel*="icon"]') as HTMLLinkElement;
+		const favicon = document.querySelector('link[rel*="icon"]') as HTMLLinkElement;
 		if (favicon) {
 			favicon.href = originalFavicon;
 		}

@@ -1,8 +1,8 @@
 import { Category } from "../../styleshift/types/store";
 
 export const VideoControlPanelCategory: Category = {
-	Category: "🎚️ Video control panel",
-	Settings: [
+	category: "🎚️ Video control panel",
+	settings: [
 		{
 			type: "Color",
 			id: "Time-LineBG",

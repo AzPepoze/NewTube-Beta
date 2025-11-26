@@ -91,7 +91,7 @@ export async function Create_Notification({ Icon = null, Title = "StyleShift", C
 	Content_UI.className += " STYLESHIFT-Notification-Content";
 	Notification_Content_Frame.append(Content_UI);
 
-	let Set_Content = (New_Content) => {
+	const Set_Content = (New_Content) => {
 		New_Content = String(New_Content);
 		Content_UI.innerHTML = New_Content.replaceAll("<script", "").replaceAll("/script>", "");
 	};
@@ -258,14 +258,14 @@ export async function Enter_Text_Prompt({ Title = "Enter text", Placeholder = ""
  */
 export async function Get_File(type) {
 	return new Promise((resolve, reject) => {
-		var input = document.createElement("input");
+		const input = document.createElement("input");
 		input.type = "file";
 		input.accept = type;
 
 		input.click();
 
 		input.addEventListener("change", function () {
-			var file = input.files[0];
+			const file = input.files[0];
 			if (file) {
 				resolve(file);
 			} else {
@@ -286,7 +286,7 @@ export async function Get_File(type) {
  * @example
  * await Import_StyleShift_Data(data);
  */
-export async function Import_StyleShift_Data(StyleShift_Data: Object) {
+export async function Import_StyleShift_Data(StyleShift_Data: object) {
 	const Notification = await Create_Notification({
 		Icon: "🔄️",
 		Title: "StyleShift - Importing data",
@@ -325,7 +325,7 @@ export async function Import_StyleShift_Data(StyleShift_Data: Object) {
  * const items = Export_StyleShift_Data();
  */
 export function Export_StyleShift_Data() {
-	let Export_StyleShift_Data = {};
+	const Export_StyleShift_Data = {};
 
 	for (const This_Key of StyleShift_Allowed_Keys) {
 		if (Saved_Data[This_Key]) {
@@ -401,12 +401,12 @@ export async function Import_StyleShift_Zip(zipFile) {
 		const Category_Array = Category_Path_Name.split(" - ");
 		const Category_Index = Number(Category_Array[0]);
 
-		let Category_Config = loaded_zip.file(`${Category_Path_Name}/Config.json`);
+		const Category_Config = loaded_zip.file(`${Category_Path_Name}/Config.json`);
 
 		const ConfigContent = await Category_Config.async("string");
 		const Category_Data = JSON.parse(ConfigContent);
 
-		let Settings: Setting[] = [];
+		const Settings: Setting[] = [];
 
 		for (const Setting_Path of Object.keys(loaded_zip.files)) {
 			if (
@@ -414,12 +414,12 @@ export async function Import_StyleShift_Zip(zipFile) {
 				Setting_Path.startsWith(`${Category_Path_Name}/`) &&
 				Setting_Path.endsWith("/")
 			) {
-				let Setting_Path_Name = Setting_Path.slice(Category_Path.length, -1);
+				const Setting_Path_Name = Setting_Path.slice(Category_Path.length, -1);
 
 				const Setting_Array = Setting_Path_Name.split(" - ");
 				const Setting_Index = Number(Setting_Array[0]);
 
-				let Setting_Data =
+				const Setting_Data =
 					JSON.parse(await loaded_zip.file(`${Setting_Path}Config.json`).async("string")) || {};
 
 				for (const Setting_Property_Path of Object.keys(loaded_zip.files)) {
@@ -429,7 +429,7 @@ export async function Import_StyleShift_Zip(zipFile) {
 						!Setting_Property_Path.endsWith("/") &&
 						!Setting_Property_Path.endsWith("Config.json")
 					) {
-						let Setting_Property_Name = Setting_Property_Path.slice(
+						const Setting_Property_Name = Setting_Property_Path.slice(
 							Setting_Path.length,
 							Setting_Property_Path.lastIndexOf(".")
 						);
@@ -529,7 +529,7 @@ export async function Export_StyleShift_Zip(StyleShift_Data, zipFileName) {
  * @param {HTMLDivElement} Parent - The parent element to which the child will be appended.
  * @param {Object} Child - The child element or object with specific properties (`Frame` or `Button`).
  */
-export function Dynamic_Append(Parent: HTMLDivElement, Child: Object | any) {
+export function Dynamic_Append(Parent: HTMLDivElement, Child: object | any) {
 	const element = Dynamic_Get_Element(Child);
 	if (element) {
 		Parent.appendChild(element);
@@ -548,7 +548,7 @@ export function Dynamic_Append(Parent: HTMLDivElement, Child: Object | any) {
  * property, or the object itself if neither property is found.
  */
 
-export function Dynamic_Get_Element(Child: Object | any) {
+export function Dynamic_Get_Element(Child: object | any) {
 	if (Child.Frame) {
 		return Child.Frame;
 	}

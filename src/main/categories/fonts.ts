@@ -1,8 +1,8 @@
 import { Category } from "../../styleshift/types/store";
 
 export const FontsCategory: Category = {
-	Category: "🔠 Fonts",
-	Settings: [
+	category: "🔠 Fonts",
+	settings: [
 		{
 			type: "Custom",
 			id: "FontManager",

@@ -1,7 +1,7 @@
 import { Apply_Drag } from "../../../build-in-functions/normal";
 import { Monaco, Is_Safe_Code } from "../../../core/extension";
 import { Save_All } from "../../../core/save";
-import { isFirefox, In_Setting_Page } from "../../../run";
+import { is_firefox, in_setting_page } from "../../../run";
 import { Update_Setting_Function } from "../../../settings/functions";
 import { Category } from "../../../types/store";
 import { Show_Window_Animation, Hide_Window_Animation, Animation_Time } from "../../extension";
@@ -55,7 +55,7 @@ export const Advance_Setting_UI = {
 	},
 
 	["File_Input"]: function (callback: Function, Type = null) {
-		let File_Input = document.createElement("input");
+		const File_Input = document.createElement("input");
 		File_Input.type = "file";
 		File_Input.className = "STYLESHIFT-File_Input";
 
@@ -64,7 +64,7 @@ export const Advance_Setting_UI = {
 		}
 
 		File_Input.addEventListener("change", function (event: any) {
-			let file = event.target.files[0];
+			const file = event.target.files[0];
 			if (file) {
 				callback(file);
 				File_Input.value = "";
@@ -75,7 +75,7 @@ export const Advance_Setting_UI = {
 	},
 
 	["Text_Editor"]: function (OBJ = {}, key: any = "") {
-		let Text_Editor = document.createElement("textarea");
+		const Text_Editor = document.createElement("textarea");
 		Text_Editor.className = "STYLESHIFT-Text-Editor";
 		Text_Editor.value = OBJ[key] || "";
 
@@ -137,7 +137,7 @@ export const Advance_Setting_UI = {
 			}
 		};
 
-		if (!isFirefox || In_Setting_Page) {
+		if (!is_firefox || in_setting_page) {
 			const Editor_Model = Monaco.editor.createModel(OBJ[key], language);
 
 			const Frame = document.createElement("div");
@@ -188,7 +188,7 @@ export const Advance_Setting_UI = {
 	},
 
 	["Setting_Name"]: function (text, position: "left" | "center" | "right" = "left") {
-		let Name = document.createElement("div");
+		const Name = document.createElement("div");
 		Name.className = "STYLESHIFT-Text-Main-Description";
 		Name.textContent = text;
 
@@ -213,7 +213,7 @@ export const Advance_Setting_UI = {
 	},
 
 	["Drag"]: function (Target) {
-		let Drag = document.createElement("div");
+		const Drag = document.createElement("div");
 		Drag.className = "STYLESHIFT-Drag-Top STYLESHIFT-Glow-Hover";
 		Drag.innerHTML = "=";
 
@@ -223,7 +223,7 @@ export const Advance_Setting_UI = {
 	},
 
 	["Close"]: function () {
-		let Close = document.createElement("div");
+		const Close = document.createElement("div");
 		Close.className = "STYLESHIFT-Close STYLESHIFT-Glow-Hover";
 		Close.innerHTML = "X";
 
@@ -231,17 +231,17 @@ export const Advance_Setting_UI = {
 	},
 
 	["Title"]: async function (This_Category: Category) {
-		let Frame = document.createElement("div");
-		let Base_Class = "STYLESHIFT-Category-Title";
+		const Frame = document.createElement("div");
+		const Base_Class = "STYLESHIFT-Category-Title";
 		Frame.className = Base_Class;
 
 		function Update_UI() {
-			Frame.className = This_Category.Rainbow ? Base_Class + " STYLESHIFT-Category-Title-Rainbow" : Base_Class;
-			Frame.innerHTML = This_Category.Category;
+			Frame.className = This_Category.rainbow ? Base_Class + " STYLESHIFT-Category-Title-Rainbow" : Base_Class;
+			Frame.innerHTML = This_Category.category;
 		}
 		Update_UI();
 
-		let Config_UI_Function = await Create_Config_UI_Function(This_Category.Editable, async function (Parent) {
+		const Config_UI_Function = await Create_Config_UI_Function(This_Category.editable, async function (Parent) {
 			await Settings_UI["Config_Main_Section"](
 				Parent,
 				This_Category,
@@ -258,10 +258,10 @@ export const Advance_Setting_UI = {
 	},
 
 	["Left-Title"]: function (Category, Skip_Animation) {
-		let Title = document.createElement("div");
+		const Title = document.createElement("div");
 		Title.className = "STYLESHIFT-Left-Category-Title";
 
-		let Text = document.createElement("div");
+		const Text = document.createElement("div");
 		Text.className = "STYLESHIFT-Left-Category-Text";
 		Text.textContent = Category;
 
@@ -275,7 +275,7 @@ export const Advance_Setting_UI = {
 	},
 
 	["Sub_Title"]: function (Text) {
-		let Title = document.createElement("div");
+		const Title = document.createElement("div");
 		Title.className = "STYLESHIFT-Sub-Title";
 
 		if (Is_Safe_Code(Text, "Sub_Title")) {
@@ -290,7 +290,7 @@ export const Advance_Setting_UI = {
 		TargetElement.className += " STYLESHIFT-Collapse";
 
 		TargetElement.style.maxHeight = "100%";
-		let Save_Style = TargetElement.getAttribute("style");
+		const Save_Style = TargetElement.getAttribute("style");
 
 		function Hide_Function() {
 			TargetElement.style.maxHeight = "0px";
@@ -306,7 +306,7 @@ export const Advance_Setting_UI = {
 		let Collapsed = true;
 		Hide_Function();
 
-		let Button = await Settings_UI["Button"]({
+		const Button = await Settings_UI["Button"]({
 			name: ButtonName,
 			color: color,
 			click_function: function () {
@@ -333,7 +333,7 @@ export const Advance_Setting_UI = {
 		document.body.appendChild(dropdownContainer);
 
 		let Updating_Position = true;
-		let Update_Position_Function = function () {
+		const Update_Position_Function = function () {
 			if (!Updating_Position) return;
 			const targetRect = target.getBoundingClientRect();
 			dropdownContainer.style.width = `${targetRect.width}px`;
@@ -417,7 +417,7 @@ export const Advance_Setting_UI = {
 	},
 
 	["Number_Slide_UI"]: function (Parent) {
-		let Number_Slide_UI = document.createElement("input");
+		const Number_Slide_UI = document.createElement("input");
 		Number_Slide_UI.type = "range";
 		Number_Slide_UI.className = "STYLESHIFT-Number_Slide";
 		Parent.appendChild(Number_Slide_UI);
@@ -432,7 +432,7 @@ export const Advance_Setting_UI = {
 	},
 
 	["Number_Input_UI"]: function (Parent) {
-		let Number_Input_UI = document.createElement("input");
+		const Number_Input_UI = document.createElement("input");
 		Number_Input_UI.type = "number";
 		Number_Input_UI.className = "STYLESHIFT-Number_Input";
 		Parent.appendChild(Number_Input_UI);

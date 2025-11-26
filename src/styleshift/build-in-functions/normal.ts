@@ -27,10 +27,10 @@ export function HEX_to_RBGA(hex: string): { r: number; g: number; b: number; a: 
 		throw new Error("Invalid hex color format");
 	}
 
-	let r = parseInt(hex.substring(0, 2), 16);
-	let g = parseInt(hex.substring(2, 4), 16);
-	let b = parseInt(hex.substring(4, 6), 16);
-	let a = parseInt(hex.substring(6, 8), 16) / 255;
+	const r = parseInt(hex.substring(0, 2), 16);
+	const g = parseInt(hex.substring(2, 4), 16);
+	const b = parseInt(hex.substring(4, 6), 16);
+	const a = parseInt(hex.substring(6, 8), 16) / 255;
 
 	return { r, g, b, a };
 }
@@ -103,9 +103,9 @@ export function RGB_to_HSV(rgb: { r: number; g: number; b: number }): { h: numbe
 	r /= 255;
 	g /= 255;
 	b /= 255;
-	let v = Math.max(r, g, b),
+	const v = Math.max(r, g, b),
 		c = v - Math.min(r, g, b);
-	let h = c && (v === r ? (g - b) / c : v === g ? 2 + (b - r) / c : 4 + (r - g) / c);
+	const h = c && (v === r ? (g - b) / c : v === g ? 2 + (b - r) / c : 4 + (r - g) / c);
 	return {
 		h: Math.round(60 * (h < 0 ? h + 6 : h)),
 		s: v && Math.round((c / v) * 100),
@@ -126,7 +126,7 @@ export function HSV_to_RGB(hsv: { h: number; s: number; v: number }): { r: numbe
 		v = hsv.v;
 	s /= 100;
 	v /= 100;
-	let f = (n: number) => (v - v * s * Math.max(Math.min((n + h / 60) % 6, 4 - ((n + h / 60) % 6), 1), 0)) * 255;
+	const f = (n: number) => (v - v * s * Math.max(Math.min((n + h / 60) % 6, 4 - ((n + h / 60) % 6), 1), 0)) * 255;
 	return { r: Math.round(f(5)), g: Math.round(f(3)), b: Math.round(f(1)) };
 }
 
@@ -137,9 +137,9 @@ export function HSV_to_RGB(hsv: { h: number; s: number; v: number }): { r: numbe
  * @param {HTMLElement} element - The element to check.
  * @returns {boolean}
  * @example
- * is_Scrollable(document.body); // true or false depending on the body scrollability
+ * is_scrollable(document.body); // true or false depending on the body scrollability
  */
-export function is_Scrollable(element: HTMLElement): boolean {
+export function is_scrollable(element: HTMLElement): boolean {
 	const hasVerticalScrollbar = element.scrollHeight > element.clientHeight;
 	const hasHorizontalScrollbar = element.scrollWidth > element.clientWidth;
 	return hasVerticalScrollbar || hasHorizontalScrollbar;
@@ -152,7 +152,7 @@ export function is_Scrollable(element: HTMLElement): boolean {
  * @example
  * Get_Scroll_Parent(document.querySelector("#myElement")); // Returns the nearest scrollable parent
  */
-export function Get_Scroll_Parent(element: HTMLElement | null): HTMLElement | null {
+export function get_scroll_parent(element: HTMLElement | null): HTMLElement | null {
 	if (!element) {
 		return null;
 	}
@@ -160,7 +160,7 @@ export function Get_Scroll_Parent(element: HTMLElement | null): HTMLElement | nu
 	let parent = element.parentNode;
 
 	while (parent && parent !== document) {
-		if (is_Scrollable(parent as HTMLElement)) {
+		if (is_scrollable(parent as HTMLElement)) {
 			return parent as HTMLElement;
 		}
 		parent = parent.parentNode;
@@ -219,7 +219,7 @@ export function Random(Minimum: number, Maximum: number, Seed: string | number):
  * await GetDocumentBody(); // Returns the document body element
  */
 export async function GetDocumentBody(): Promise<HTMLElement> {
-	let DocumentBody = document.body;
+	const DocumentBody = document.body;
 
 	if (DocumentBody) {
 		return DocumentBody;
@@ -236,7 +236,7 @@ export async function GetDocumentBody(): Promise<HTMLElement> {
  * await GetDocumentHead(); // Returns the document head element
  */
 export async function GetDocumentHead(): Promise<HTMLElement> {
-	let DocumentHead = document.head;
+	const DocumentHead = document.head;
 
 	if (DocumentHead) {
 		return DocumentHead;
@@ -254,7 +254,7 @@ export async function GetDocumentHead(): Promise<HTMLElement> {
  * Once_Element_Remove(document.querySelector("#myElement"),() => console.log("Element removed"));
  */
 export function Once_Element_Remove(targetElement: HTMLElement, callback: Function): void {
-	let observer = new MutationObserver((mutationsList, observer) => {
+	const observer = new MutationObserver((mutationsList, observer) => {
 		for (const mutation of mutationsList) {
 			if (mutation.type === "childList" && mutation.removedNodes.length > 0) {
 				for (const removedNode of Array.from(mutation.removedNodes)) {
@@ -450,7 +450,7 @@ export function deepClone(data: any): any {
  */
 export function Is_Same_OBJ(obj1: object, obj2: object): boolean {
 	if (Object.keys(obj1).length !== Object.keys(obj2).length) return false;
-	for (let key in obj1) {
+	for (const key in obj1) {
 		if (obj1[key] !== obj2[key]) return false;
 	}
 	return true;
@@ -487,8 +487,8 @@ export async function WaitForElement(selector: string, timeout?: number): Promis
  * Download_File("Hello, world!", "hello.txt");
  */
 export function Download_File(data: BlobPart, filename: string): void {
-	var file = new Blob([data]);
-	var a = document.createElement("a"),
+	const file = new Blob([data]);
+	const a = document.createElement("a"),
 		url = URL.createObjectURL(file);
 	a.href = url;
 	a.download = filename;
@@ -615,7 +615,7 @@ export async function On_Function_Event(
 		console.log("Recived", event);
 
 		//@ts-ignore
-		let remote_id = Detail.remote_id;
+		const remote_id = Detail.remote_id;
 		//@ts-ignore
 		// delete event.detail.remote_id;
 		//@ts-ignore
@@ -654,7 +654,7 @@ export async function On_Function_Event(
  * @example
  * await Wait_One_Frame(); // Waits for one animation frame
  */
-export function Wait_One_Frame(): Promise<boolean> {
+export function wait_one_frame(): Promise<boolean> {
 	return new Promise((resolve) => {
 		requestAnimationFrame(() => {
 			resolve(true);
@@ -669,7 +669,7 @@ export function Wait_One_Frame(): Promise<boolean> {
  * @example
  * insertAfter(document.createElement("div"), document.querySelector("#existingNode"));
  */
-export function insertAfter(newNode: Node, existingNode: Node, parentNode?: Node): void {
+export function insert_after(newNode: Node, existingNode: Node, parentNode?: Node): void {
 	(existingNode.parentNode || parentNode).insertBefore(newNode, existingNode.nextSibling);
 }
 
@@ -680,6 +680,6 @@ export function insertAfter(newNode: Node, existingNode: Node, parentNode?: Node
  * @example
  * numberWithCommas(1000); // "1,000"
  */
-export function numberWithCommas(x) {
+export function number_with_commas(x) {
 	return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }

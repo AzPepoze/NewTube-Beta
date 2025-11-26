@@ -27,18 +27,18 @@ export async function Create_StyleShift_Window({ Width = "30%", Height = "80%", 
 
 	BG_Frame.appendChild(Window);
 
-	let TopBar = document.createElement("div");
+	const TopBar = document.createElement("div");
 	TopBar.className = "STYLESHIFT-TopBar";
 	Window.append(TopBar);
 
-	let Drag_Top = await Settings_UI["Drag"](Window);
+	const Drag_Top = await Settings_UI["Drag"](Window);
 	Drag_Top.style.width = "calc(100% - 5px - 27px)";
 	TopBar.append(Drag_Top);
 
-	let Close = await Settings_UI["Close"]();
+	const Close = await Settings_UI["Close"]();
 	TopBar.append(Close);
 
-	let Run_Close = async function () {
+	const Run_Close = async function () {
 		await Hide_Window_Animation(Window);
 		BG_Frame.remove();
 	};
@@ -72,7 +72,7 @@ export let Notification_Container;
 	Notification_BG.append(Notification_Container);
 })();
 
-export let Animation_Time = 0.25;
+export const Animation_Time = 0.25;
 
 export async function Run_Animation(Target: HTMLDivElement, Animation_Name: string) {
 	Target.style.animation = `STYLESHIFT-${Animation_Name} ${Animation_Time}s forwards`;
