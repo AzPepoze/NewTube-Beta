@@ -319,7 +319,7 @@ export const developer_setting_ui = {
 
 	["selector_text_editor"]: async function (parent, this_category) {
 		const selector_text_editor = await settings_ui["text_editor"](this_category, "Selector");
-		selector_text_editor.text_editor.className += " STYLESHIFT-Selector-text-Editor";
+		selector_text_editor.text_editor.className += " STYLESHIFT-Selector-Text-Editor";
 		selector_text_editor.rearrange_value(function (value: string) {
 			return rearrange_selector(value);
 		});
@@ -377,7 +377,7 @@ export const developer_setting_ui = {
 			},
 		});
 
-		add_button.button.className += " STYLESHIFT-Add-Setting-button";
+		add_button.button.className += " STYLESHIFT-Add-Setting-Button";
 		add_button.button.style.borderRadius = "1000px";
 		return add_button;
 	},

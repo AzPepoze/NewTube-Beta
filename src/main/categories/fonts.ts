@@ -15,13 +15,13 @@ export const fonts_category: Category = {
 				const font_name_label = document.createElement("label");
 				font_name_label.textContent = 'Font name (e.g., "Roboto"):';
 				const font_name_input = document.createElement("input");
-				font_name_input.className = "STYLESHIFT-text_input";
+				font_name_input.className = "STYLESHIFT-Text_input";
 				font_name_input.placeholder = "Roboto";
 
 				const font_url_label = document.createElement("label");
 				font_url_label.textContent = "Font URL (e.g., from Google Fonts):";
 				const font_url_input = document.createElement("input");
-				font_url_input.className = "STYLESHIFT-text_input";
+				font_url_input.className = "STYLESHIFT-Text_input";
 				font_url_input.placeholder = "https://fonts.gstatic.com/s/roboto/v30/KFOmCnqEu92Fr1Mu4mxK.woff2";
 
 				const apply_button = document.createElement("div");

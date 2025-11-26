@@ -27,7 +27,7 @@ export const main_setting_ui = {
 		//-------------------------------------
 
 		const text = document.createElement("div");
-		text.className = "STYLESHIFT-text-Main-Description";
+		text.className = "STYLESHIFT-Text-Main-Description";
 
 		frame.append(text);
 
@@ -80,12 +80,12 @@ export const main_setting_ui = {
 	},
 	["Setting_Sub_title"]: async function (this_setting: Partial<Extract<Setting, { type: "Setting_Sub_title" }>>) {
 		const frame = settings_ui["setting_frame"](true, true);
-		frame.className = "STYLESHIFT-Setting-Sub-title";
+		frame.className = "STYLESHIFT-Setting-Sub-Title";
 
 		//-------------------------------------
 
 		const text = document.createElement("div");
-		text.className = "STYLESHIFT-text-Main-Description";
+		text.className = "STYLESHIFT-Text-Main-Description";
 
 		frame.append(text);
 
@@ -148,7 +148,7 @@ export const main_setting_ui = {
 		//-------------------------------------
 
 		const button = document.createElement("div");
-		button.className = "STYLESHIFT-button";
+		button.className = "STYLESHIFT-Button";
 		button.style.borderRadius = "20px";
 
 		// frame.appendChild(button);
@@ -156,14 +156,14 @@ export const main_setting_ui = {
 		//---------------------------------------
 
 		const image = document.createElement("img");
-		image.className = "STYLESHIFT-button-Logo";
+		image.className = "STYLESHIFT-Button-Logo";
 
 		button.append(image);
 
 		//---------------------------------------
 
 		const button_text = document.createElement("div");
-		button_text.className = "STYLESHIFT-button-text";
+		button_text.className = "STYLESHIFT-Button-text";
 
 		button.append(button_text);
 
@@ -287,7 +287,7 @@ export const main_setting_ui = {
 
 		const checkbox = document.createElement("input");
 		checkbox.type = "checkbox";
-		checkbox.className = "STYLESHIFT-checkbox";
+		checkbox.className = "STYLESHIFT-Checkbox";
 		sub_frame.appendChild(checkbox);
 
 		const setting_name = settings_ui["setting_name"]("");
@@ -483,7 +483,7 @@ export const main_setting_ui = {
 		//------------------------------
 
 		const subframe = settings_ui["setting_frame"](false, false);
-		subframe.className += " STYLESHIFT-dropdown-Frame";
+		subframe.className += " STYLESHIFT-Dropdown-Frame";
 		frame.append(subframe);
 
 		//------------------------------
@@ -493,7 +493,7 @@ export const main_setting_ui = {
 			color: "#FFFFFF",
 			text_align: "center",
 		});
-		dropdown.button.className += " STYLESHIFT-dropdown";
+		dropdown.button.className += " STYLESHIFT-Dropdown";
 		subframe.appendChild(dropdown.button);
 
 		const setting_name = settings_ui["setting_name"](this_setting.name);
@@ -604,7 +604,7 @@ export const main_setting_ui = {
 
 		const color = document.createElement("input");
 		color.type = "color";
-		color.className = "STYLESHIFT-color";
+		color.className = "STYLESHIFT-Color";
 		sub_frame.appendChild(color);
 
 		//-------------------------------------
@@ -733,7 +733,7 @@ export const main_setting_ui = {
 		//-------------------------------------
 
 		const text_input = document.createElement("input");
-		text_input.className = "STYLESHIFT-text_input";
+		text_input.className = "STYLESHIFT-Text-Input";
 		frame.appendChild(text_input);
 
 		//-------------------------------------

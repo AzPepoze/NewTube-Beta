@@ -57,7 +57,7 @@ export const advance_setting_ui = {
 	["file_input"]: function (callback: Function, type = null) {
 		const file_input = document.createElement("input");
 		file_input.type = "file";
-		file_input.className = "STYLESHIFT-file_input";
+		file_input.className = "STYLESHIFT-File-Input";
 
 		if (type) {
 			file_input.accept = type;
@@ -76,7 +76,7 @@ export const advance_setting_ui = {
 
 	["text_editor"]: function (obj = {}, key: any = "") {
 		const text_editor = document.createElement("textarea");
-		text_editor.className = "STYLESHIFT-text-Editor";
+		text_editor.className = "STYLESHIFT-Text-Editor";
 		text_editor.value = obj[key] || "";
 
 		let additinal_onchange: Function = null;
@@ -189,7 +189,7 @@ export const advance_setting_ui = {
 
 	["setting_name"]: function (text, position: "left" | "center" | "right" = "left") {
 		const name = document.createElement("div");
-		name.className = "STYLESHIFT-text-Main-Description";
+		name.className = "STYLESHIFT-Text-Main-Description";
 		name.textContent = text;
 
 		switch (position) {
@@ -232,7 +232,7 @@ export const advance_setting_ui = {
 
 	["title"]: async function (this_category: Category) {
 		const frame = document.createElement("div");
-		const base_class = "STYLESHIFT-Category-title";
+		const base_class = "STYLESHIFT-Category-Title";
 		frame.className = base_class;
 
 		function update_ui() {
@@ -276,7 +276,7 @@ export const advance_setting_ui = {
 
 	["Sub_title"]: function (text) {
 		const title = document.createElement("div");
-		title.className = "STYLESHIFT-Sub-title";
+		title.className = "STYLESHIFT-Sub-Title";
 
 		if (is_safe_code(text, "Sub_title")) {
 			title.innerHTML = text;
@@ -419,7 +419,7 @@ export const advance_setting_ui = {
 	["number_slide_ui"]: function (parent) {
 		const number_slide_ui = document.createElement("input");
 		number_slide_ui.type = "range";
-		number_slide_ui.className = "STYLESHIFT-number_slide";
+		number_slide_ui.className = "STYLESHIFT-Number-Slide";
 		parent.appendChild(number_slide_ui);
 
 		function update_number_slide(min: any = 0, max: any = 100, step: any = 1) {
@@ -434,14 +434,14 @@ export const advance_setting_ui = {
 	["number_input_ui"]: function (parent) {
 		const number_input_ui = document.createElement("input");
 		number_input_ui.type = "number";
-		number_input_ui.className = "STYLESHIFT-number_input";
+		number_input_ui.className = "STYLESHIFT-Number-Input";
 		parent.appendChild(number_input_ui);
 		return number_input_ui;
 	},
 
 	["space"]: async function (parent: HTMLElement, size = 20) {
 		const space = document.createElement("div");
-		space.className = "STYLESHIFT-space";
+		space.className = "STYLESHIFT-Space";
 		space.style.minHeight = `${size}px`;
 
 		parent.append(space);
