@@ -1,46 +1,46 @@
 import { Category } from "../styleshift/types/store";
-import { VideoCategory } from "./categories/video";
-import { VideoControlPanelCategory } from "./categories/video-control-panel";
-import { SubtitlesCategory } from "./categories/subtitles";
-import { TopbarSearchCategory } from "./categories/topbar-search";
-import { ThumbnailCategory } from "./categories/thumbnail";
-import { EnhancementCategory } from "./categories/enhancement";
-import { ColorThemeCategory } from "./categories/color-theme";
-import { SubscribeButtonCategory } from "./categories/subscribe-button";
-import { TopLeftIconCategory } from "./categories/top-left-icon";
-import { TabIconCategory } from "./categories/tab-icon";
-import { BordersShadowsCategory } from "./categories/borders-shadows";
+import { video_category } from "./categories/video";
+import { video_control_panel_category } from "./categories/video-control-panel";
+import { subtitles_category } from "./categories/subtitles";
+import { topbar_search_category } from "./categories/topbar-search";
+import { thumbnail_category } from "./categories/thumbnail";
+import { enhancement_category } from "./categories/enhancement";
+import { color_theme_category } from "./categories/color-theme";
+import { subscribe_button_category } from "./categories/subscribe-button";
+import { top_left_icon_category } from "./categories/top-left-icon";
+import { tab_icon_category } from "./categories/tab-icon";
+import { borders_shadows_category } from "./categories/borders-shadows";
 import { animation_category } from "./categories/animations";
-import { HoverClickColorCategory } from "./categories/hover-click-color";
-import { OtherSettingsCategory } from "./categories/other-settings";
-import { FontsCategory } from "./categories/fonts";
-import { BackgroundCategory } from "./categories/background";
-import { RemoveBlackBarsCategory } from "./categories/remove-black-bars";
-import { MoveToTopCategory } from "./categories/move-to-top";
-import { BetaFeaturesCategory } from "./categories/beta-features";
+import { hover_click_color_category } from "./categories/hover-click-color";
+import { other_settings_category } from "./categories/other-settings";
+import { fonts_category } from "./categories/fonts";
+import { background_category } from "./categories/background";
+import { remove_black_bars_category } from "./categories/remove-black-bars";
+import { move_to_top_category } from "./categories/move-to-top";
+import { beta_features_category } from "./categories/beta-features";
 
-const Default_StyleShift_Items: Category[] = [
-	VideoCategory,
-	VideoControlPanelCategory,
-	SubtitlesCategory,
-	TopbarSearchCategory,
-	ThumbnailCategory,
-	EnhancementCategory,
-	ColorThemeCategory,
-	SubscribeButtonCategory,
-	TopLeftIconCategory,
-	TabIconCategory,
-	BordersShadowsCategory,
+const default_styleshift_items: Category[] = [
+	video_category,
+	video_control_panel_category,
+	subtitles_category,
+	topbar_search_category,
+	thumbnail_category,
+	enhancement_category,
+	color_theme_category,
+	subscribe_button_category,
+	top_left_icon_category,
+	tab_icon_category,
+	borders_shadows_category,
 	animation_category,
-	HoverClickColorCategory,
-	OtherSettingsCategory,
-	FontsCategory,
-	BetaFeaturesCategory,
-	BackgroundCategory,
-	RemoveBlackBarsCategory,
-	MoveToTopCategory,
+	hover_click_color_category,
+	other_settings_category,
+	fonts_category,
+	beta_features_category,
+	background_category,
+	remove_black_bars_category,
+	move_to_top_category,
 ];
 
-export function Get_Default_Items() {
-	return Default_StyleShift_Items;
+export function get_default_items() {
+	return default_styleshift_items;
 }

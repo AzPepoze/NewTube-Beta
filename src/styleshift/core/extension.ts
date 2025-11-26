@@ -1,90 +1,90 @@
-import { Create_Error, Create_Notification } from "../build-in-functions/extension";
+import { create_error, create_notification } from "../build-in-functions/extension";
 import { sleep } from "../build-in-functions/normal";
-import { Update_All, in_setting_page, is_firefox } from "../run";
-import { color_obj } from "../types/store";
-import { Save_All } from "./save";
+import { update_all, in_setting_page, is_firefox } from "../run";
+import { Color_obj } from "../types/store";
+import { save_all } from "./save";
 
-export async function Save_And_Update_ALL() {
-	await Save_All();
-	Update_All();
+export async function save_and_update_all() {
+	await save_all();
+	update_all();
 }
 
-let StyleShift_Functions_List = {};
+let styleshift_functions_list = {};
 
-const getFunctionListScript = `
-function Run_StyleShift_Functions_List(){
+const get_function_list_script = `
+function run_styleshift_functions_list(){
 
 	if(window["StyleShift"] == null) {
-		setTimeout(Run_StyleShift_Functions_List, 1);
+		setTimeout(run_styleshift_functions_list, 1);
 		return;
 	}
 
-	let Get_Functions_List = {};
+	let Get_functions_list = {};
 
 	for (const [key, value] of Object.entries(window["StyleShift"])) {
-		Get_Functions_List[key] = Object.keys(value);
+		Get_functions_list[key] = Object.keys(value);
 	}
 
-	console.log("Avaliable StyleShift functions", Get_Functions_List);
+	console.log("Avaliable StyleShift functions", Get_functions_list);
 
 	window.dispatchEvent(
-		new CustomEvent("Sent_StyleShift_Functions_List", {
-			detail: Get_Functions_List,
+		new CustomEvent("Sent_styleshift_functions_list", {
+			detail: Get_functions_list,
 		})
 	);
 }
 
-Run_StyleShift_Functions_List();`;
+run_styleshift_functions_list();`;
 
-export async function Update_StyleShift_Functions_List() {
+export async function update_styleshift_functions_list() {
 	if (in_setting_page) {
 		while (window["StyleShift"] == null) {
 			await sleep(1);
 		}
 
 		for (const [key, value] of Object.entries(window["StyleShift"])) {
-			StyleShift_Functions_List[key] = Object.keys(value);
+			styleshift_functions_list[key] = Object.keys(value);
 		}
 		return;
 	}
 
 	return new Promise((resolve, reject) => {
 		window.addEventListener(
-			"Sent_StyleShift_Functions_List",
+			"Sent_styleshift_functions_list",
 			function (event) {
 				console.log("Recived", event);
 				//@ts-ignore
-				StyleShift_Functions_List = event.detail;
+				styleshift_functions_list = event.detail;
 				resolve(true);
 			},
 			{ once: true }
 		);
 
-		Run_Text_Script({
-			Text: getFunctionListScript,
-			Replace: false,
+		run_text_script({
+			text: get_function_list_script,
+			replace: false,
 		});
 	});
 }
 
-export async function Get_Global_Data(Mode: "Build-in" | "Custom", Function_Name) {
+export async function get_global_data(mode: "Build-in" | "Custom", function_name) {
 	if (
-		(window["StyleShift"] && window["StyleShift"][Mode] == null) ||
-		window["StyleShift"][Mode][Function_Name] == null
+		(window["StyleShift"] && window["StyleShift"][mode] == null) ||
+		window["StyleShift"][mode][function_name] == null
 	) {
 		await sleep(0);
-		return await Get_Global_Data(Mode, Function_Name);
+		return await get_global_data(mode, function_name);
 	} else {
-		console.log(window["StyleShift"][Mode], window["StyleShift"][Mode][Function_Name]);
-		return window["StyleShift"][Mode][Function_Name];
+		console.log(window["StyleShift"][mode], window["StyleShift"][mode][function_name]);
+		return window["StyleShift"][mode][function_name];
 	}
 }
 
-export function Is_Safe_Code(code: string, Code_Name: string) {
+export function is_safe_code(code: string, code_name: string) {
 	if (!code) return false;
-	const LoweredCase_Code = code.toLowerCase();
+	const lowered_case_code = code.toLowerCase();
 
-	const dangerousPatterns = [
+	const dangerous_patterns = [
 		/eval/i,
 		/new function/i,
 		/(?<!@)\bimport\b/i,
@@ -92,7 +92,7 @@ export function Is_Safe_Code(code: string, Code_Name: string) {
 		/xmlhttprequest/i,
 		/xhr/i,
 		/<\/?script>/i,
-		/document\.createelement\s*\(\s*['"]script['"]\s*\)/i,
+		/document\.createElement\s*\(\s*['"]script['"]\s*\)/i,
 		/\.write\s*\(/i,
 		/\.execcommand\s*\(/i,
 		/\.cookie\s*=/i,
@@ -130,38 +130,38 @@ export function Is_Safe_Code(code: string, Code_Name: string) {
 		/symbol\./i,
 	];
 
-	for (const pattern of dangerousPatterns) {
-		if (pattern.test(LoweredCase_Code)) {
-			const match = LoweredCase_Code.match(pattern);
+	for (const pattern of dangerous_patterns) {
+		if (pattern.test(lowered_case_code)) {
+			const match = lowered_case_code.match(pattern);
 			if (match) {
-				const matchIndex = match.index;
+				const match_index = match.index;
 
-				const beforeMatch = LoweredCase_Code.slice(0, matchIndex);
-				const lineNumber = beforeMatch.split("\n").length;
-				const charPosition = matchIndex - beforeMatch.lastIndexOf("\n");
+				const before_match = lowered_case_code.slice(0, match_index);
+				const line_number = before_match.split("\n").length;
+				const char_position = match_index - before_match.lastIndexOf("\n");
 
-				const codeLines = LoweredCase_Code.split("\n");
-				const errorLine = codeLines[lineNumber - 1];
+				const code_lines = lowered_case_code.split("\n");
+				const error_line = code_lines[line_number - 1];
 
-				const isComment = errorLine.replaceAll(" ", "").replaceAll("\t", "").startsWith("//");
-				if (isComment) {
+				const is_comment = error_line.replaceAll(" ", "").replaceAll("\t", "").startsWith("//");
+				if (is_comment) {
 					continue;
 				}
 
-				const startContext = Math.max(0, charPosition - 15);
-				const endContext = Math.min(errorLine.length, charPosition + match[0].length + 15);
-				const contextSnippet = errorLine.slice(startContext, endContext);
+				const start_context = Math.max(0, char_position - 15);
+				const end_context = Math.min(error_line.length, char_position + match[0].length + 15);
+				const context_snippet = error_line.slice(start_context, end_context);
 
-				const highlightedError = contextSnippet.replace(
+				const highlighted_error = context_snippet.replace(
 					match[0],
 					`<span style="color: red; text-decoration: underline;">${match[0]}</span>`
 				);
 
-				Create_Notification({
-					Icon: "🚫",
-					Title: "StyleShift - Error",
-					Content: `<b>"${match[0]}"</b> is not allowed.<br>Found at line: <b>${lineNumber}</b>, character: <b>${charPosition}</b><br>From: <b>${Code_Name}</b><br><br><pre>${highlightedError}</pre>`,
-					Timeout: 0,
+				create_notification({
+					icon: "🚫",
+					title: "StyleShift - Error",
+					content: `<b>"${match[0]}"</b> is not allowed.<br>Found at line: <b>${line_number}</b>, character: <b>${char_position}</b><br>From: <b>${code_name}</b><br><br><pre>${highlighted_error}</pre>`,
+					timeout: 0,
 				});
 
 				console.warn(match, pattern);
@@ -173,31 +173,31 @@ export function Is_Safe_Code(code: string, Code_Name: string) {
 	return true;
 }
 
-export async function Run_Text_Script({
-	Text = null as string | Function,
-	Replace = true,
-	Code_Name = "StyleShift",
+export async function run_text_script({
+	text = null as string | Function,
+	replace = true,
+	code_name = "StyleShift",
 	args = "",
 }) {
 	console.log("Trying to run script");
-	console.log(Text);
+	console.log(text);
 
-	if (typeof Text == "function") {
-		Text();
+	if (typeof text == "function") {
+		text();
 	} else {
-		if (Text != null && Text != "") {
+		if (text != null && text != "") {
 			//--------------------------------
 
-			if (Replace) {
-				if (Is_Safe_Code(Text, Code_Name)) {
-					for (const [Function_Mode, Functions_List] of Object.entries(StyleShift_Functions_List) as [
+			if (replace) {
+				if (is_safe_code(text, code_name)) {
+					for (const [function_mode, functions_list] of Object.entries(styleshift_functions_list) as [
 						string,
 						Array<string>
 					][]) {
-						for (const Function_Name of Functions_List) {
-							Text = Text.replace(
-								new RegExp(`\\b${Function_Name}\\b`, "g"),
-								`window["StyleShift"]["${Function_Mode}"]["${Function_Name}"]`
+						for (const function_name of functions_list) {
+							text = text.replace(
+								new RegExp(`\\b${function_name}\\b`, "g"),
+								`window["StyleShift"]["${function_mode}"]["${function_name}"]`
 							);
 						}
 					}
@@ -210,8 +210,8 @@ export async function Run_Text_Script({
 
 			if (!in_setting_page) {
 				chrome.runtime.sendMessage({
-					Command: "RunScript",
-					Script: Text,
+					Command: "runScript",
+					Script: text,
 					args: args,
 				});
 			}
@@ -219,101 +219,101 @@ export async function Run_Text_Script({
 	}
 }
 
-export function Run_Text_Script_From_Setting(This_Setting, Function_Name: string = "script") {
-	Run_Text_Script({
-		Text: This_Setting[Function_Name],
-		Code_Name: `${This_Setting.id} : ${Function_Name}`,
-		args: JSON.stringify({ setting_id: This_Setting.id }),
+export function run_text_script_from_setting(this_setting, function_name: string = "script") {
+	run_text_script({
+		text: this_setting[function_name],
+		code_name: `${this_setting.id} : ${function_name}`,
+		args: JSON.stringify({ setting_id: this_setting.id }),
 	});
 }
 
-export let Loaded_Developer_Modules = false;
-export let Try_Loaded_Developer_Modules = false;
+export let loaded_developer_modules = false;
+export let try_loaded_developer_modules = false;
 
-export let Monaco: typeof import("monaco-editor");
-export let Monaco_Themes;
-export let JSzip: typeof import("jszip");
+export let monaco: typeof import("monaco-editor");
+export let monaco_themes;
+export let jszip: typeof import("jszip");
 
-export async function Load_Developer_Modules() {
-	if (Try_Loaded_Developer_Modules || Loaded_Developer_Modules) {
+export async function load_developer_modules() {
+	if (try_loaded_developer_modules || loaded_developer_modules) {
 		return;
 	}
 
-	Try_Loaded_Developer_Modules = true;
+	try_loaded_developer_modules = true;
 
-	const Loading_UI = await Create_Notification({
-		Icon: "🔃",
-		Title: "StyleShift - Loading Developer Modules",
-		Content: "Loading...",
-		Timeout: -1,
+	const loading_ui = await create_notification({
+		icon: "🔃",
+		title: "StyleShift - loading Developer Modules",
+		content: "loading...",
+		timeout: -1,
 	});
 
 	try {
-		Loading_UI.Set_Content("Preparing : Jzip (Export theme as zip)");
-		JSzip = (await import(chrome.runtime.getURL("modules/jszip.js"))).default.default;
+		loading_ui.set_content("Preparing : Jzip (Export theme as zip)");
+		jszip = (await import(chrome.runtime.getURL("modules/jszip.js"))).default.default;
 
-		console.log("JSzip:", JSzip);
+		console.log("jszip:", jszip);
 
 		if (!is_firefox || in_setting_page) {
-			Loading_UI.Set_Content("Preparing : Monaco editor (Code editor)");
+			loading_ui.set_content("Preparing : monaco editor (Code editor)");
 
-			const MonacoModule = await import(chrome.runtime.getURL("modules/monaco.js"));
+			const monaco_module = await import(chrome.runtime.getURL("modules/monaco.js"));
 
-			console.log(MonacoModule);
+			console.log(monaco_module);
 
-			Monaco = MonacoModule.Monaco;
-			Monaco_Themes = MonacoModule.Monaco_Themes;
+			monaco = monaco_module.monaco;
+			monaco_themes = monaco_module.monaco_themes;
 
-			for (const [Theme_Name, Theme_Content] of Object.entries(Monaco_Themes) as [string, any][]) {
-				if (Theme_Name == "themelist") continue;
-				Monaco.editor.defineTheme(Theme_Name.replace(/[^a-zA-Z0-9]|_|-/g, ""), Theme_Content);
+			for (const [theme_name, theme_content] of Object.entries(monaco_themes) as [string, any][]) {
+				if (theme_name == "themelist") continue;
+				monaco.editor.defineTheme(theme_name.replace(/[^a-zA-Z0-9]|_|-/g, ""), theme_content);
 			}
 
-			Monaco.editor.setTheme("Dracula");
+			monaco.editor.setTheme("Dracula");
 
-			Loading_UI.Set_Icon("✅");
-			Loading_UI.Set_Title("StyleShift - Loaded Developer Modules");
-			Loading_UI.Set_Content("");
+			loading_ui.set_icon("✅");
+			loading_ui.set_title("StyleShift - loaded Developer Modules");
+			loading_ui.set_content("");
 		} else {
-			Loading_UI.Set_Icon("⚠️");
-			Loading_UI.Set_Title("StyleShift - Can't Monaco editor (Code editor)");
-			Loading_UI.Set_Content(
+			loading_ui.set_icon("⚠️");
+			loading_ui.set_title("StyleShift - Can't monaco editor (Code editor)");
+			loading_ui.set_content(
 				"If you want to use code editor, please consider enter setting page.\n(Firefox security issue!)"
 			);
 		}
 
 		setTimeout(() => {
-			Loading_UI.Close();
+			loading_ui.close();
 		}, 4000);
 
-		Loaded_Developer_Modules = true;
+		loaded_developer_modules = true;
 	} catch (error) {
 		console.log(error);
-		Loading_UI.Close();
-		(await Create_Error(error)).Set_Title("StyleShift - Error loading developer modules");
+		loading_ui.close();
+		(await create_error(error)).set_title("StyleShift - Error loading developer modules");
 	}
 }
 
 //----------------------------------------------
 
-export function Color_OBJ_to_HEX({ hex: HEX, alpha: Alpha }: color_obj): string {
-	const alpha = Math.round((Alpha / 100) * 255)
+export function color_obj_to_hex({ hex, alpha }: Color_obj): string {
+	const processed_alpha = Math.round((alpha / 100) * 255)
 		.toString(16)
 		.padStart(2, "0");
-	return `${HEX}${alpha}`;
+	return `${hex}${processed_alpha}`;
 }
 
-export function HEX_to_Color_OBJ(hex: string): { HEX: string; Alpha: number } {
+export function hex_to_color_obj(hex: string): { hex: string; alpha: number } {
 	if (typeof hex !== "string") {
-		console.warn("HEX_to_Color_OBJ received non-string hex value:", hex);
-		return { HEX: "#000000", Alpha: 100 };
+		console.warn("hex_to_color_obj received non-string hex value:", hex);
+		return { hex: "#000000", alpha: 100 };
 	}
-	const cleanHex = hex.startsWith("#") ? hex.slice(1) : hex;
-	const rgbHex = cleanHex.length === 8 ? cleanHex.slice(0, 6) : cleanHex;
-	const alphaHex = cleanHex.length === 8 ? cleanHex.slice(6) : "FF";
+	const clean_hex = hex.startsWith("#") ? hex.slice(1) : hex;
+	const rgb_hex = clean_hex.length === 8 ? clean_hex.slice(0, 6) : clean_hex;
+	const alpha_hex = clean_hex.length === 8 ? clean_hex.slice(6) : "FF";
 
 	return {
-		HEX: `#${rgbHex}`,
-		Alpha: Math.round((parseInt(alphaHex, 16) / 255) * 100),
+		hex: `#${rgb_hex}`,
+		alpha: Math.round((parseInt(alpha_hex, 16) / 255) * 100),
 	};
 }

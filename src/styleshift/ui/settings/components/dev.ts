@@ -1,384 +1,384 @@
-import { HEX_to_RBG, RGB_to_HSV, HSV_to_RGB, ReArrange_Selector } from "../../../build-in-functions/normal";
-import { Save_All } from "../../../core/save";
-import { UI_Preset } from "../../../settings/default-items";
-import { Add_Setting } from "../../../settings/items";
+import { hex_to_rbg, rgb_to_hsv, hsv_to_rgb, rearrange_selector } from "../../../build-in-functions/normal";
+import { save_all } from "../../../core/save";
+import { ui_preset } from "../../../settings/default-items";
+import { add_setting } from "../../../settings/items";
 import { Setting } from "../../../types/store";
-import { Settings_UI } from "../setting-components";
-import { Main_Setting_UI } from "./main";
+import { settings_ui } from "../setting-components";
+import { main_setting_ui } from "./main";
 
-export const Developer_Setting_UI = {
-	["Setting_Developer_Text_Editor"]: async function (
-		Parent: HTMLElement,
-		This_Setting,
+export const developer_setting_ui = {
+	["setting_developer_text_editor"]: async function (
+		parent: HTMLElement,
+		this_setting,
 		this_property,
-		Update_UI = function (value) {}
+		update_ui = function (value) {}
 	) {
-		const Main_UI = Settings_UI["Setting_Frame"](true, true);
-		Main_UI.className += " STYLESHIFT-Config-Sub-Frame";
+		const main_ui = settings_ui["setting_frame"](true, true);
+		main_ui.className += " STYLESHIFT-Config-Sub-Frame";
 
-		const Text_Editors = {};
+		const text_editors = {};
 
-		for (const [Title, Property] of Object.entries(this_property)) {
-			Main_UI.append(Settings_UI["Sub_Title"](Title));
-			const Setting_Developer_Text_Editor = Settings_UI["Text_Editor"](This_Setting, Property);
-			Setting_Developer_Text_Editor.Additinal_OnChange(Update_UI);
-			Main_UI.append(Setting_Developer_Text_Editor.Text_Editor);
-			Text_Editors[Title] = Setting_Developer_Text_Editor;
+		for (const [title, property] of Object.entries(this_property)) {
+			main_ui.append(settings_ui["Sub_title"](title));
+			const setting_developer_text_editor = settings_ui["text_editor"](this_setting, property);
+			setting_developer_text_editor.additinal_onchange(update_ui);
+			main_ui.append(setting_developer_text_editor.text_editor);
+			text_editors[title] = setting_developer_text_editor;
 		}
 
-		Parent.appendChild(Main_UI);
+		parent.appendChild(main_ui);
 
-		return { Main_UI, Text_Editors };
+		return { main_ui, text_editors };
 	},
 
-	["Setting_Developer_Frame"]: async function (
-		Parent,
-		This_Setting,
-		RunType,
+	["Setting_Developer_frame"]: async function (
+		parent,
+		this_setting,
+		run_type,
 		ext_array = ["function", "css"],
-		Update_Config
+		update_config
 	) {
-		let This_RunType_Name = RunType;
-		let Color = "#999999";
+		let this_runtype_name = run_type;
+		let color = "#999999";
 
-		switch (RunType) {
+		switch (run_type) {
 			case "var":
-				This_RunType_Name = "Variable";
-				Color = "#FFA500";
+				this_runtype_name = "Variable";
+				color = "#FFA500";
 				break;
 
 			case "click":
-				This_RunType_Name = "On Click";
-				Color = "#00DFFF";
+				this_runtype_name = "On Click";
+				color = "#00DFFF";
 				break;
 
 			case "constant":
-				This_RunType_Name = "Constant CSS";
-				Color = "#09ff00";
+				this_runtype_name = "Constant CSS";
+				color = "#09ff00";
 				break;
 
 			case "ui":
-				This_RunType_Name = "UI";
-				Color = "#3232FF";
+				this_runtype_name = "ui";
+				color = "#3232FF";
 				break;
 
 			case "setup":
-				This_RunType_Name = "Startup Script";
-				Color = "#3232FF";
+				this_runtype_name = "Startup Script";
+				color = "#3232FF";
 				break;
 
 			case "enable":
-				This_RunType_Name = "On Enable";
-				Color = "#32CD32";
+				this_runtype_name = "On Enable";
+				color = "#32CD32";
 				break;
 
 			case "disable":
-				This_RunType_Name = "On Disable";
-				Color = "#FF3232";
+				this_runtype_name = "On Disable";
+				color = "#FF3232";
 				break;
 
 			case "update":
-				This_RunType_Name = "On Change";
-				Color = "#FF00F5";
+				this_runtype_name = "On Change";
+				color = "#FF00F5";
 				break;
 
 			default:
 				break;
 		}
 
-		const { r, g, b } = HEX_to_RBG(Color);
+		const { r, g, b } = hex_to_rbg(color);
 
-		const BG_HSV = RGB_to_HSV({ r, g, b });
-		BG_HSV.s /= 2;
-		BG_HSV.v /= 3;
-		const BG_Color = HSV_to_RGB(BG_HSV);
+		const bg_hsv = rgb_to_hsv({ r, g, b });
+		bg_hsv.s /= 2;
+		bg_hsv.v /= 3;
+		const bg_color = hsv_to_rgb(bg_hsv);
 
-		const BGT_HSV = RGB_to_HSV({ r, g, b });
-		BGT_HSV.s /= 1.5;
-		BGT_HSV.v /= 2;
-		const BGT_Color = HSV_to_RGB(BGT_HSV);
+		const bgt_hsv = rgb_to_hsv({ r, g, b });
+		bgt_hsv.s /= 1.5;
+		bgt_hsv.v /= 2;
+		const bgt_color = hsv_to_rgb(bgt_hsv);
 
-		const Background_TOP_Color = `${BGT_Color.r},${BGT_Color.g},${BGT_Color.b}`;
-		const Background_Color = `${BG_Color.r},${BG_Color.g},${BG_Color.b}`;
-		const Border_Color = `${r + 150},${g + 150},${b + 150}`;
-
-		//---------------------------
-
-		const This_Frame = Settings_UI["Setting_Frame"](true, true);
-		This_Frame.style.paddingBottom = "10px";
-		This_Frame.style.background = `radial-gradient(at center top, rgb(${Background_TOP_Color}), rgb(${Background_Color}, 0.5))`;
-		This_Frame.style.border = `rgb(${Border_Color}) 1px solid`;
+		const background_top_color = `${bgt_color.r},${bgt_color.g},${bgt_color.b}`;
+		const background_color = `${bg_color.r},${bg_color.g},${bg_color.b}`;
+		const border_color = `${r + 150},${g + 150},${b + 150}`;
 
 		//---------------------------
 
-		const Collapsed_Button = await Settings_UI["Collapsed_Button"](This_RunType_Name, Color, This_Frame);
-		Collapsed_Button.Button.style.borderBottom = "solid 1px white";
+		const this_frame = settings_ui["setting_frame"](true, true);
+		this_frame.style.paddingBottom = "10px";
+		this_frame.style.background = `radial-gradient(at center top, rgb(${background_top_color}), rgb(${background_color}, 0.5))`;
+		this_frame.style.border = `rgb(${border_color}) 1px solid`;
 
 		//---------------------------
 
-		Parent.append(Collapsed_Button.Button);
-		Parent.append(This_Frame);
+		const collapsed_button = await settings_ui["collapsed_button"](this_runtype_name, color, this_frame);
+		collapsed_button.button.style.borderBottom = "solid 1px white";
+
+		//---------------------------
+
+		parent.append(collapsed_button.button);
+		parent.append(this_frame);
 
 		for (const ext of ext_array) {
-			let This_Type_Name;
+			let this_type_name;
 
 			switch (ext) {
 				case "function":
-					This_Type_Name = "JS";
+					this_type_name = "JS";
 					break;
 
 				case "css":
-					This_Type_Name = "CSS";
+					this_type_name = "CSS";
 					break;
 
 				default:
 					break;
 			}
 
-			This_Frame.append(Settings_UI["Sub_Title"](This_Type_Name));
+			this_frame.append(settings_ui["Sub_title"](this_type_name));
 
-			if (This_Type_Name == "JS") {
-				This_Type_Name = "javascript";
+			if (this_type_name == "JS") {
+				this_type_name = "javascript";
 			}
 
-			if (This_Type_Name == "CSS") {
-				This_Type_Name = "css";
+			if (this_type_name == "CSS") {
+				this_type_name = "css";
 			}
 
-			await Settings_UI["Code_Editor"](
-				This_Frame,
-				This_Setting,
-				RunType + "_" + ext,
-				This_Type_Name,
-				RunType == "var" ? 100 : 400
+			await settings_ui["code_editor"](
+				this_frame,
+				this_setting,
+				run_type + "_" + ext,
+				this_type_name,
+				run_type == "var" ? 100 : 400
 			);
 		}
 
-		return This_Frame;
+		return this_frame;
 	},
 
-	["Config_Main_Section"]: async function (Parent, This_Setting, Props, Update_UI = function () {}) {
-		for (let [Title, Property] of Object.entries(Props) as [string, any]) {
-			let Update;
+	["Config_Main_Section"]: async function (parent, this_setting, props, update_ui = function () {}) {
+		for (let [title, property] of Object.entries(props) as [string, any]) {
+			let update;
 
-			if (typeof Property != "string") {
-				Update = Property[1];
-				Property = Property[0];
+			if (typeof property != "string") {
+				update = property[1];
+				property = property[0];
 			} else {
-				Update = Update_UI;
+				update = update_ui;
 			}
 
 			//-----------------------------------
 
-			if (Array.isArray(Update)) {
-				const DropDown_Setting = {};
+			if (Array.isArray(update)) {
+				const dropdown_setting = {};
 
-				for (const value of Update) {
-					DropDown_Setting[value] = {
+				for (const value of update) {
+					dropdown_setting[value] = {
 						enable_function: function () {
-							This_Setting[Property] = value;
-							Update_UI();
-							Save_All();
+							this_setting[property] = value;
+							update_ui();
+							save_all();
 						},
 					};
 				}
 
-				const Dropdown_UI = await Settings_UI["Dropdown"]({
-					name: Title,
-					value: This_Setting[Property],
-					options: DropDown_Setting,
+				const dropdown_ui = await settings_ui["dropdown"]({
+					name: title,
+					value: this_setting[property],
+					options: dropdown_setting,
 				});
 
-				Dropdown_UI.Frame.className += " STYLESHIFT-Config-Sub-Frame";
+				dropdown_ui.frame.className += " STYLESHIFT-Config-Sub-Frame";
 
-				Parent.append(Dropdown_UI.Frame);
+				parent.append(dropdown_ui.frame);
 				continue;
 			}
 
 			//-----------------------------------
 
-			if (Property == "Rainbow") {
-				const Checkbox_UI = (
-					await Settings_UI["Checkbox"](
+			if (property == "Rainbow") {
+				const checkbox_ui = (
+					await settings_ui["checkbox"](
 						{
-							name: Title,
-							value: This_Setting.Rainbow,
+							name: title,
+							value: this_setting.Rainbow,
 						},
 						function (value) {
-							This_Setting.Rainbow = value;
-							Update_UI();
-							Save_All();
+							this_setting.Rainbow = value;
+							update_ui();
+							save_all();
 						}
 					)
-				).Frame;
+				).frame;
 
-				Checkbox_UI.className += " STYLESHIFT-Config-Sub-Frame";
+				checkbox_ui.className += " STYLESHIFT-Config-Sub-Frame";
 
-				Parent.append(Checkbox_UI);
+				parent.append(checkbox_ui);
 				continue;
 			}
 
 			//-----------------------------------
 
-			if (Property == "color") {
-				const Color_UI = (
-					await Settings_UI["Color"]({
-						name: Title,
-						value: This_Setting.color,
+			if (property == "color") {
+				const color_ui = (
+					await settings_ui["color"]({
+						name: title,
+						value: this_setting.color,
 						show_alpha_slider: false,
 						update_function: function (value) {
-							This_Setting.color = value;
-							Update_UI();
-							Save_All();
+							this_setting.color = value;
+							update_ui();
+							save_all();
 						},
 					})
-				).Frame;
+				).frame;
 
-				Color_UI.className += " STYLESHIFT-Config-Sub-Frame";
+				color_ui.className += " STYLESHIFT-Config-Sub-Frame";
 
-				Parent.append(Color_UI);
+				parent.append(color_ui);
 				continue;
 			}
 
 			//-----------------------------------
 
-			if (Property == "font_size") {
-				const Number_Slide_UI = (
-					await Settings_UI["Number_Slide"]({
-						name: Title,
-						value: This_Setting.font_size,
+			if (property == "font_size") {
+				const number_slide_ui = (
+					await settings_ui["number_slide"]({
+						name: title,
+						value: this_setting.font_size,
 						update_function: function (value) {
-							This_Setting.font_size = value;
-							Update_UI();
-							Save_All();
+							this_setting.font_size = value;
+							update_ui();
+							save_all();
 						},
 					})
-				).Frame;
+				).frame;
 
-				Number_Slide_UI.className += " STYLESHIFT-Config-Sub-Frame";
-				Number_Slide_UI.style.width = "-webkit-fill-available";
+				number_slide_ui.className += " STYLESHIFT-Config-Sub-Frame";
+				number_slide_ui.style.width = "-webkit-fill-available";
 
-				Parent.append(Number_Slide_UI);
+				parent.append(number_slide_ui);
 				continue;
 			}
 
 			//-----------------------------------
 
-			const Text_Editor = await Settings_UI["Setting_Developer_Text_Editor"](Parent, This_Setting, {
-				[Title]: Property,
+			const text_editor = await settings_ui["setting_developer_text_editor"](parent, this_setting, {
+				[title]: property,
 			});
 
-			let Update_function;
+			let update_function;
 
-			if (typeof Update === "function") {
-				Update_function = Update;
-			} else if (typeof Update === "object") {
-				Update_function = function (value) {
-					This_Setting[Property] = value;
-					Update_UI();
-					Save_All();
+			if (typeof update === "function") {
+				update_function = update;
+			} else if (typeof update === "object") {
+				update_function = function (value) {
+					this_setting[property] = value;
+					update_ui();
+					save_all();
 				};
 			} else {
 				return;
 			}
 
-			Text_Editor.Text_Editors[Title].Additinal_OnChange(Update_function);
+			text_editor.text_editors[title].additinal_onchange(update_function);
 		}
 	},
 
-	["Config_Sub_Section"]: async function (Parent, This_Setting, Props) {
-		for (let [Title, Property] of Object.entries(Props)) {
-			if (Title == "Update_Config") {
+	["Config_Sub_Section"]: async function (parent, this_setting, props) {
+		for (let [title, property] of Object.entries(props)) {
+			if (title == "update_config") {
 				continue;
 			}
 
-			switch (Property) {
+			switch (property) {
 				case 0:
-					Property = ["css", "function"];
+					property = ["css", "function"];
 					break;
 				case 1:
-					Property = ["var"];
+					property = ["var"];
 					break;
 				case 2:
-					Property = ["css"];
+					property = ["css"];
 					break;
 				case 3:
-					Property = ["function"];
+					property = ["function"];
 					break;
 			}
 
-			Settings_UI["Setting_Developer_Frame"](
-				Parent,
-				This_Setting,
-				Title,
-				Property as any,
-				Props.Update_Config
+			settings_ui["Setting_Developer_frame"](
+				parent,
+				this_setting,
+				title,
+				property as any,
+				props.update_config
 			);
 		}
 	},
 
-	["Selector_Text_Editor"]: async function (Parent, This_Category) {
-		const Selector_Text_Editor = await Settings_UI["Text_Editor"](This_Category, "Selector");
-		Selector_Text_Editor.Text_Editor.className += " STYLESHIFT-Selector-Text-Editor";
-		Selector_Text_Editor.ReArrange_Value(function (value: string) {
-			return ReArrange_Selector(value);
+	["selector_text_editor"]: async function (parent, this_category) {
+		const selector_text_editor = await settings_ui["text_editor"](this_category, "Selector");
+		selector_text_editor.text_editor.className += " STYLESHIFT-Selector-text-Editor";
+		selector_text_editor.rearrange_value(function (value: string) {
+			return rearrange_selector(value);
 		});
-		Parent.append(Selector_Text_Editor.Text_Editor);
-		return Selector_Text_Editor;
+		parent.append(selector_text_editor.text_editor);
+		return selector_text_editor;
 	},
 
-	["Setting_Delete_Button"]: async function (Parent, WhenClick, type: "full" | "mini" = "full") {
-		const Setting_Delete_Button = await Settings_UI["Button"]({
+	["setting_delete_button"]: async function (parent, when_click, type: "full" | "mini" = "full") {
+		const setting_delete_button = await settings_ui["button"]({
 			name: "🗑️",
 			color: "#FF0000",
 			text_align: "center",
 		});
-		Setting_Delete_Button.Button.addEventListener("click", WhenClick);
-		Parent.append(Setting_Delete_Button.Button);
+		setting_delete_button.button.addEventListener("click", when_click);
+		parent.append(setting_delete_button.button);
 
 		switch (type) {
 			case "full":
-				Setting_Delete_Button.Button.style.width = "100%";
+				setting_delete_button.button.style.width = "100%";
 				break;
 			case "mini":
-				Setting_Delete_Button.Button.style.width = "30px";
+				setting_delete_button.button.style.width = "30px";
 				break;
 		}
 
-		return Setting_Delete_Button;
+		return setting_delete_button;
 	},
 
-	["Add_Setting_Button"]: async function (Category_Settings: Setting[]) {
-		let Current_Dropdown;
+	["add_setting_button"]: async function (category_settings: Setting[]) {
+		let current_dropdown;
 
-		const Add_Button = await Settings_UI["Button"]({
+		const add_button = await settings_ui["button"]({
 			name: "+",
 			color: "#FFFFFF",
 			text_align: "center",
 			click_function: async function () {
-				Add_Button.Button.setAttribute("selecting", "");
+				add_button.button.setAttribute("selecting", "");
 
-				if (Current_Dropdown) {
-					Current_Dropdown.Cancel();
+				if (current_dropdown) {
+					current_dropdown.Cancel();
 					return;
 				}
-				Current_Dropdown = Settings_UI["Show_Dropdown"](Object.keys(Main_Setting_UI), Add_Button.Button);
-				const Selected = await Current_Dropdown.Selection;
-				if (Selected) {
-					const Get_Preset: any = UI_Preset.filter((This_Preset) => This_Preset.type == Selected)[0];
+				current_dropdown = settings_ui["show_dropdown"](Object.keys(main_setting_ui), add_button.button);
+				const selected = await current_dropdown.Selection;
+				if (selected) {
+					const get_preset: any = ui_preset.filter((this_preset) => this_preset.type == selected)[0];
 
-					if (Get_Preset) {
-						await Add_Setting(Category_Settings, Get_Preset);
+					if (get_preset) {
+						await add_setting(category_settings, get_preset);
 					}
 				}
-				Current_Dropdown = null;
+				current_dropdown = null;
 
-				Add_Button.Button.removeAttribute("selecting");
+				add_button.button.removeAttribute("selecting");
 			},
 		});
 
-		Add_Button.Button.className += " STYLESHIFT-Add-Setting-Button";
-		Add_Button.Button.style.borderRadius = "1000px";
-		return Add_Button;
+		add_button.button.className += " STYLESHIFT-Add-Setting-button";
+		add_button.button.style.borderRadius = "1000px";
+		return add_button;
 	},
 };

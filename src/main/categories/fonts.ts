@@ -1,60 +1,60 @@
 import { Category } from "../../styleshift/types/store";
 
-export const FontsCategory: Category = {
+export const fonts_category: Category = {
 	category: "🔠 Fonts",
 	settings: [
 		{
 			type: "Custom",
 			id: "FontManager",
 			ui_function: async function (frame: HTMLElement) {
-				frame.innerHTML = ""; // Clear previous UI
+				frame.innerHTML = ""; // Clear previous ui
 				frame.style.display = "flex";
 				frame.style.flexDirection = "column";
 				frame.style.gap = "10px";
 
-				const fontNameLabel = document.createElement("label");
-				fontNameLabel.textContent = 'Font Name (e.g., "Roboto"):';
-				const fontNameInput = document.createElement("input");
-				fontNameInput.className = "STYLESHIFT-Text_Input";
-				fontNameInput.placeholder = "Roboto";
+				const font_name_label = document.createElement("label");
+				font_name_label.textContent = 'Font name (e.g., "Roboto"):';
+				const font_name_input = document.createElement("input");
+				font_name_input.className = "STYLESHIFT-text_input";
+				font_name_input.placeholder = "Roboto";
 
-				const fontUrlLabel = document.createElement("label");
-				fontUrlLabel.textContent = "Font URL (e.g., from Google Fonts):";
-				const fontUrlInput = document.createElement("input");
-				fontUrlInput.className = "STYLESHIFT-Text_Input";
-				fontUrlInput.placeholder = "https://fonts.gstatic.com/s/roboto/v30/KFOmCnqEu92Fr1Mu4mxK.woff2";
+				const font_url_label = document.createElement("label");
+				font_url_label.textContent = "Font URL (e.g., from Google Fonts):";
+				const font_url_input = document.createElement("input");
+				font_url_input.className = "STYLESHIFT-text_input";
+				font_url_input.placeholder = "https://fonts.gstatic.com/s/roboto/v30/KFOmCnqEu92Fr1Mu4mxK.woff2";
 
-				const applyButton = document.createElement("div");
-				applyButton.className = "STYLESHIFT-Button";
-				applyButton.textContent = "Apply Font";
-				applyButton.style.textAlign = "center";
+				const apply_button = document.createElement("div");
+				apply_button.className = "STYLESHIFT-button";
+				apply_button.textContent = "Apply Font";
+				apply_button.style.textAlign = "center";
 
-				frame.append(fontNameLabel, fontNameInput, fontUrlLabel, fontUrlInput, applyButton);
+				frame.append(font_name_label, font_name_input, font_url_label, font_url_input, apply_button);
 
-				applyButton.addEventListener("click", () => {
-					const fontName = fontNameInput.value;
-					const fontUrl = fontUrlInput.value;
+				apply_button.addEventListener("click", () => {
+					const font_name = font_name_input.value;
+					const font_url = font_url_input.value;
 
-					if (!fontName || !fontUrl) {
+					if (!font_name || !font_url) {
 						alert("Please provide both a font name and a URL.");
 						return;
 					}
 
-					const styleId = "styleshift-custom-font-style";
-					let styleTag = document.getElementById(styleId) as HTMLStyleElement;
-					if (!styleTag) {
-						styleTag = document.createElement("style");
-						styleTag.id = styleId;
-						document.head.appendChild(styleTag);
+					const style_id = "styleshift-custom-font-style";
+					let style_tag = document.getElementById(style_id) as HTMLStyleElement;
+					if (!style_tag) {
+						style_tag = document.createElement("style");
+						style_tag.id = style_id;
+						document.head.appendChild(style_tag);
 					}
 
-					styleTag.innerHTML = `
+					style_tag.innerHTML = `
                         @font-face {
-                            font-family: '${fontName}';
-                            src: url('${fontUrl}');
+                            font-family: '${font_name}';
+                            src: url('${font_url}');
                         }
                         body, #masthead, .ytd-app, button, input, textarea, select {
-                            font-family: '${fontName}', Roboto, Arial, sans-serif !important;
+                            font-family: '${font_name}', Roboto, Arial, sans-serif !important;
                         }
                     `;
 					alert("Font applied!");

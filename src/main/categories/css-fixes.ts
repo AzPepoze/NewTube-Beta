@@ -1,10 +1,10 @@
 import { Category } from "../../styleshift/types/store";
 
-export const CssFixesCategory: Category = {
+export const css_fixes_category: Category = {
 	category: "🔧 CSS Engine & Fixes",
 	settings: [
 		{
-			type: "Checkbox",
+			type: "checkbox",
 			id: "CoreCssFixes",
 			name: "Enable Core CSS Engine",
 			description:
@@ -40,14 +40,14 @@ export const CssFixesCategory: Category = {
                     position: revert !important;
                 }
 
-                /* Hiding Ads & Unwanted Elements */
+                /* Hiding Ads & Unwanted elements */
                 .ytp-ad-module, #play.ytd-player-legacy-desktop-watch-while-renderer {
                     display: none !important;
                 }
             `,
 		},
 		{
-			type: "Checkbox",
+			type: "checkbox",
 			id: "ScrollbarFixes",
 			name: "Enable Scrollbar Styling",
 			description: "Applies custom styling to the browser scrollbar.",
@@ -68,18 +68,18 @@ export const CssFixesCategory: Category = {
             `,
 		},
 		{
-			type: "Checkbox",
+			type: "checkbox",
 			id: "ComponentStyleFixes",
-			name: "Enable UI Component Styling",
+			name: "Enable ui Component Styling",
 			description:
-				"Applies general theme colors and styles to various UI components like buttons, menus, and popups.",
+				"Applies general theme colors and styles to various ui components like buttons, menus, and popups.",
 			value: true,
 			enable_css: `
                 /* Links */
                 ytd-text-inline-expander yt-attributed-string a {
                     color: var(--link-color) !important;
                 }
-                /* Buttons & Chips */
+                /* buttons & Chips */
                 .yt-spec-button-shape-next--mono.yt-spec-button-shape-next--tonal {
                     background: var(--top-bar-and-search-background);
                 }

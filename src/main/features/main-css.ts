@@ -1,4 +1,4 @@
-// import { Load, LoadRgba } from "../../styleshift/core/save";
+// import { load, load_rgba } from "../../styleshift/core/save";
 
 // export const main_css =
 // `
@@ -55,37 +55,37 @@
 // }
 
 // :root {
-// 	--NewtubeTheme: ${ThemeColor};
+// 	--NewtubeTheme: ${Themecolor};
 // 	--blur-amount: ` +
-// (await Load("BlurAm")) +
+// (await load("BlurAm")) +
 // `px;
 // 	--Bg-blur: ` +
-// (await Load("BlurBGAM")) +
+// (await load("BlurBGAM")) +
 // `px;
-// 	--theme-fort: ${ThemeColor3};
+// 	--theme-fort: ${Themecolor3};
 // 	--playlist-bg: ` +
-// PlayListColor +
+// PlayListcolor +
 // `;
 // 	--text-color: ` +
-// TextColor +
+// textcolor +
 // `;
 // 	--nd-text-color: ` +
-// TextColor2 +
+// textcolor2 +
 // `;
 // 	--border-width: ` +
-// (await Load("Border")) +
+// (await load("Border")) +
 // `px;
 // 	--player-bg-border-width: ` +
-// (await Load("PlayerBorder")) +
+// (await load("PlayerBorder")) +
 // `px;
 // 	--border-color: ` +
-// (await LoadRgba("OutSha")) +
+// (await load_rgba("OutSha")) +
 // `;
 // 	--border-hover-color: ` +
-// (await LoadRgba("ThumbHoverColor")) +
+// (await load_rgba("Thumbhovercolor")) +
 // `;
 // 	--border-click-color: ` +
-// (await LoadRgba("ThumbClick")) +
+// (await load_rgba("ThumbClick")) +
 // `;
 // 	--bg-color: ` +
 // BG +
@@ -94,10 +94,10 @@
 // ControlPanel +
 // `;
 // 	--top-bar-and-search-background: ` +
-// (await LoadRgba("ThemeSnd")) +
+// (await load_rgba("ThemeSnd")) +
 // `;
 // 	--things-end-on-video: ` +
-// (await LoadRgba("EndBG")) +
+// (await load_rgba("EndBG")) +
 // `;
 // 	--hover-time-background: ` +
 // TimeBG +
@@ -106,54 +106,54 @@
 // Themehover +
 // `;
 // 	--theme-radius: ` +
-// (await Load("Edge")) +
+// (await load("Edge")) +
 // `px;
 // 	--theme-time-radius: ` +
-// (await Load("TimeEdge")) +
+// (await load("TimeEdge")) +
 // `px;
 // 	--theme-radius-big: ` +
-// (await Load("PlayerEdge")) +
+// (await load("PlayerEdge")) +
 // `px;
 // 	--border-minus: calc(var(--border-width) * -1);
 // 	--bg-border-minus: calc(var(--player-bg-border-width) * -1);
 
 // 	--border-width-hover: ` +
-// (await Load("HoverBorder")) +
+// (await load("hoverBorder")) +
 // `px;
 // 	--border-minus-hover: calc(var(--border-width-hover) * -1);
 
 // 	--theme-third: ` +
-// ThemeColor2 +
+// Themecolor2 +
 // `;
 // 	--Zoom: ` +
-// (await Load("Zoom")) +
+// (await load("Zoom")) +
 // `;
 
-// 	--sub-ShaWidth: ` +
-// (await Load("subShaWidth")) +
+// 	--sub-Shawidth: ` +
+// (await load("subShawidth")) +
 // `px;
 // 	--sub-ShaBlur: ` +
-// (await Load("subShaBlur")) +
+// (await load("subShaBlur")) +
 // `px;
 
-// 	--sub-Width: ` +
-// (await Load("subWidth")) +
+// 	--sub-width: ` +
+// (await load("subwidth")) +
 // `;
-// 	--sub-Space: ` +
-// (await Load("subSpace")) +
+// 	--sub-space: ` +
+// (await load("subspace")) +
 // `px;
 // 	--sub-color: ` +
-// (await LoadRgba("Subtitle")) +
+// (await load_rgba("Subtitle")) +
 // `;
 // 	--sub-bg: ` +
-// (await LoadRgba("CapBG")) +
+// (await load_rgba("CapBG")) +
 // `;
 // 	--sub-sha-color: ` +
-// (await LoadRgba("subShaColor")) +
+// (await load_rgba("subShacolor")) +
 // `;
 
-// 	--SubSc-BG : ${await LoadRgba("SPSubScribeBG")};
-// 	--SubSc-Tx : ${await LoadRgba("SPSubScribeColor")};
+// 	--SubSc-BG : ${await load_rgba("SPSubScribeBG")};
+// 	--SubSc-Tx : ${await load_rgba("SPSubScribecolor")};
 // }
 
 // .ytp-contextmenu .ytp-menuitem {
@@ -171,7 +171,7 @@
 // }
 
 // ytd-text-inline-expander yt-attributed-string a{
-// 	color: ${LinkColor} !important;
+// 	color: ${Linkcolor} !important;
 // }
 
 // ytd-menu-renderer .ytd-menu-renderer[style-target=button] yt-icon{
@@ -231,13 +231,13 @@
 // }
 
 // #chips-wrapper{
-// 	background: ${await LoadRgba("ThemeChips")} !important;
+// 	background: ${await load_rgba("ThemeChips")} !important;
 // }
 
 // @supports (scrollbar-width: auto) {
 // 	*{
 // 		scrollbar-width: ` +
-// (await Load("ScWidthNew")) +
+// (await load("ScwidthNew")) +
 // `;
 // 		scrollbar-color: var(--NewtubeTheme) transparent;
 // 	}
@@ -249,7 +249,7 @@
 // 	body::-webkit-scrollbar-track
 // 	{
 // 		scrollbar-color: var(--NewtubeTheme) ` +
-// (await Load("BGC")) +
+// (await load("BGC")) +
 // ` !important;
 // 	}
 // }
@@ -258,10 +258,10 @@
 // 	*::-webkit-scrollbar
 // 	{
 // 		width: ` +
-// (await Load("ScWidth")) +
+// (await load("Scwidth")) +
 // `px  !important;
 // 		height: ` +
-// (await Load("ScWidth")) +
+// (await load("Scwidth")) +
 // `px  !important;
 
 // 		background-color: transparent !important;
@@ -285,7 +285,7 @@
 // 	body::-webkit-scrollbar-track
 // 	{
 // 		background: ` +
-// (await Load("BGC")) +
+// (await load("BGC")) +
 // ` !important;
 // 	}
 // }
@@ -300,14 +300,14 @@
 // ytd-thumbnail-overlay-bottom-panel-renderer
 // {
 // 	height: ` +
-// (await Load("TimeH")) +
+// (await load("TimeH")) +
 // `px !important;
 // }
 
 // .ytp-time-current, .ytp-time-separator, .ytp-time-duration
 // {
 // 	color: ` +
-// (await LoadRgba("VDOTEXT")) +
+// (await load_rgba("VDOTEXT")) +
 // `!important;
 // }
 
@@ -456,7 +456,7 @@
 // .ytd-thumbnail-overlay-bottom-panel-renderer,
 // ytd-thumbnail-overlay-time-status-renderer *{
 // 	color: ` +
-// TimeText +
+// Timetext +
 // ` !important;
 // }
 
@@ -769,7 +769,7 @@
 // ytmusic-player-queue-item,
 // yt-dynamic-text-view-model,
 // .ytp-inline-preview-controls,
-// .ytSearchboxComponentSearchButton,
+// .ytSearchboxComponentSearchbutton,
 // [role="listbox"] > div
 // {
 // 	border-radius: var(--theme-radius) !important;
@@ -809,7 +809,7 @@
 // .ytp-menuitem-icon path:not([fill="none"]),
 // .ytd-thumbnail-overlay-hover-text-renderer path,
 // .ytd-thumbnail-overlay-bottom-panel-renderer path,
-// .ytSearchboxComponentInnerSearchIcon path,
+// .ytSearchboxComponentInnerSearchicon path,
 // svg path[fill="#FF0000"],
 // svg [fill="#FF0000"],
 // svg [fill="#FF0033"],
@@ -951,7 +951,7 @@
 // .ytp-button:not([aria-disabled=true]):not([disabled]):not([aria-hidden=true]):hover > svg path
 // {
 // 	fill: ` +
-// (await LoadRgba("HBT")) +
+// (await load_rgba("HBT")) +
 // ` !important;
 // }
 
@@ -1002,12 +1002,12 @@
 
 // .ytp-tooltip:not([aria-hidden=true])
 // {
-// 	transform: scale(1) translateY(var(--Media-Space)) !important;
+// 	transform: scale(1) translateY(var(--Media-space)) !important;
 // }
 
 // .ytp-tooltip[aria-hidden=true]
 // {
-// 	transform: scale(1.2) translateY(var(--Media-Space)) !important;
+// 	transform: scale(1.2) translateY(var(--Media-space)) !important;
 // }
 
 // .ytp-tooltip[aria-hidden=true] > .ytp-tooltip-text-wrapper
@@ -1044,10 +1044,10 @@
 // }
 
 // .ytp-load-progress,
-// .YtProgressBarLineProgressBarLoaded
+// .YtProgressBarLineProgressBarloaded
 // {
 // 	background: ` +
-// TimeLoaded +
+// Timeloaded +
 // ` !important;
 // }
 
@@ -1079,7 +1079,7 @@
 // 	width: 0px !important;
 // }
 
-// @keyframes show-searchIcon {
+// @keyframes show-searchicon {
 // 	0% {
 // 		opacity: 0;
 // 		left: 20px;
@@ -1090,11 +1090,11 @@
 // 	}
 // }
 
-// yt-searchbox [class*="SearchIcon"]{
+// yt-searchbox [class*="Searchicon"]{
 // 	display:block !important;
 // 	width: 20px !important;
 // 	position: absolute;
-// 	animation: show-searchIcon 0.4s;
+// 	animation: show-searchicon 0.4s;
 // }
 
 // yt-searchbox [role="listbox"]{
@@ -1149,7 +1149,7 @@
 // #guide-content,
 // #mini-guide-background{
 // 	background: ` +
-// (await LoadRgba("LeftBar")) +
+// (await load_rgba("LeftBar")) +
 // ` !important;
 // 	border-color: transparent !important;
 // }
@@ -1165,7 +1165,7 @@
 // {
 // 	padding: 0px !important;
 // 	height: ` +
-// (await Load("MediaH")) +
+// (await load("MediaH")) +
 // `px !important;
 // 	border-radius: var(--theme-radius-big) !important;
 // 	` +
@@ -1175,7 +1175,7 @@
 
 // .ytp-fullscreen .ytp-gradient-bottom{
 // 	height: ` +
-// (await Load("MediaHFull")) +
+// (await load("MediaHFull")) +
 // `px !important;
 // }
 
@@ -1326,7 +1326,7 @@
 
 // #below {
 // 	margin-top:` +
-// (await Load("BelowSpace")) +
+// (await load("Belowspace")) +
 // `px;
 // }
 
@@ -1435,7 +1435,7 @@
 // }
 
 // #text.ytd-channel-name{
-// 	color: ${Chanel_Color};
+// 	color: ${Chanel_color};
 // }
 
 // yt-chip-cloud-chip-renderer[selected] #chip-container {
@@ -2012,7 +2012,7 @@ yt-img-shadow img,
 ytmusic-player-queue-item,
 yt-dynamic-text-view-model,
 .ytp-inline-preview-controls,
-.ytSearchboxComponentSearchButton,
+.ytSearchboxComponentSearchbutton,
 [role="listbox"] > div
 {
 	border-radius: var(--theme-radius) !important;
@@ -2052,7 +2052,7 @@ path.ytp-large-play-button-bg[d="M66.52,7.74c-0.78-2.93-2.49-5.41-5.42-6.19C55.7
 .ytp-menuitem-icon path:not([fill="none"]),
 .ytd-thumbnail-overlay-hover-text-renderer path,
 .ytd-thumbnail-overlay-bottom-panel-renderer path,
-.ytSearchboxComponentInnerSearchIcon path,
+.ytSearchboxComponentInnerSearchicon path,
 svg path[fill="#FF0000"],
 svg [fill="#FF0000"],
 svg [fill="#FF0033"],
@@ -2245,12 +2245,12 @@ ytd-app{
 
 .ytp-tooltip:not([aria-hidden=true])
 {
-	transform: scale(1) translateY(var(--Media-Space)) !important;
+	transform: scale(1) translateY(var(--Media-space)) !important;
 }
 
 .ytp-tooltip[aria-hidden=true]
 {
-	transform: scale(1.2) translateY(var(--Media-Space)) !important;
+	transform: scale(1.2) translateY(var(--Media-space)) !important;
 }
 
 .ytp-tooltip[aria-hidden=true] > .ytp-tooltip-text-wrapper
@@ -2285,7 +2285,7 @@ ytd-app{
 }
 
 .ytp-load-progress,
-.YtProgressBarLineProgressBarLoaded
+.YtProgressBarLineProgressBarloaded
 {
 
 }
@@ -2318,7 +2318,7 @@ ytd-playlist-thumbnail > a > div > ytd-playlist-custom-thumbnail-renderer > yt-i
 	width: 0px !important;
 }
 
-@keyframes show-searchIcon {
+@keyframes show-searchicon {
 	0% {
 		opacity: 0;
 		left: 20px;
@@ -2329,11 +2329,11 @@ ytd-playlist-thumbnail > a > div > ytd-playlist-custom-thumbnail-renderer > yt-i
 	}
 }
 
-yt-searchbox [class*="SearchIcon"]{
+yt-searchbox [class*="Searchicon"]{
 	display:block !important;
 	width: 20px !important;
 	position: absolute;
-	animation: show-searchIcon 0.4s;
+	animation: show-searchicon 0.4s;
 }
 
 yt-searchbox [role="listbox"]{

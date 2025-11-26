@@ -1,13 +1,13 @@
-import { Convert_To_Export_Setting } from "../core/export-converter";
-import { Save_And_Update_ALL, JSzip } from "../core/extension";
-import { StyleShift_Allowed_Keys, Saved_Data, Set_Null_Save, Load, Save } from "../core/save";
-import { StyleShift_Station } from "../run";
-import { StyleShift_Category_List } from "../settings/default-items";
-import { Show_StyleSheet, Hide_StyleSheet } from "../settings/style-sheet";
+import { convert_to_export_setting } from "../core/export-converter";
+import { save_and_update_all, jszip } from "../core/extension";
+import { styleshift_allowed_keys, saved_data, set_null_save, load, save } from "../core/save";
+import { styleshift_station } from "../run";
+import { styleshift_category_list } from "../settings/default-items";
+import { show_stylesheet, hide_stylesheet } from "../settings/style-sheet";
 import { Category, Setting } from "../types/store";
-import { Notification_Container, Run_Animation, Create_StyleShift_Window } from "../ui/extension";
-import { Settings_UI } from "../ui/settings/setting-components";
-import { sleep, deepClone, Download_File, Get_Current_Domain, Create_UniqueID } from "./normal";
+import { notification_container, run_animation, create_styleshift_window } from "../ui/extension";
+import { settings_ui } from "../ui/settings/setting-components";
+import { sleep, deep_clone, download_file, get_current_domain, create_unique_id } from "./normal";
 
 /*
 -------------------------------------------------------
@@ -20,9 +20,9 @@ For Normal user !!!
  * @param {string} text - The text to copy.
  * @returns {boolean}
  * @example
- * Copy_to_clipboard("Hello, world!"); // Copies "Hello, world!" to the clipboard
+ * copy_to_clipboard("Hello, world!"); // Copies "Hello, world!" to the clipboard
  */
-export function Copy_to_clipboard(text: string) {
+export function copy_to_clipboard(text: string) {
 	navigator.clipboard.writeText(text).then(
 		() => {
 			return true;
@@ -37,138 +37,138 @@ export function Copy_to_clipboard(text: string) {
 /**
  * Creates a notification.
  * @param {Object} options - The notification options.
- * @param {string} [options.Icon=null] - The icon.
- * @param {string} [options.Title="StyleShift"] - The title.
- * @param {string} [options.Content=""] - The content.
- * @param {number} [options.Timeout=3000] - The timeout in milliseconds.
+ * @param {string} [options.icon=null] - The icon.
+ * @param {string} [options.title="StyleShift"] - The title.
+ * @param {string} [options.content=""] - The content.
+ * @param {number} [options.timeout=3000] - The timeout in milliseconds.
  * @returns {Promise<Object>}
  * @example
- * await Create_Notification({ Title: "Hello", Content: "This is a notification" });
+ * await create_notification({ title: "Hello", content: "This is a notification" });
  */
-export async function Create_Notification({ Icon = null, Title = "StyleShift", Content = "", Timeout = 3000 }) {
-	// console.log(Title, Content);
+export async function create_notification({ icon = null, title = "StyleShift", content = "", timeout = 3000 }) {
+	// console.log(title, content);
 
-	const Notification_Frame = await Settings_UI["Setting_Frame"](true, false, {
+	const notification_frame = await settings_ui["setting_frame"](true, false, {
 		x: false,
 		y: true,
 	});
 
-	Notification_Frame.className = "STYLESHIFT-Notification";
+	notification_frame.className = "STYLESHIFT-Notification";
 	setTimeout(() => {
-		Notification_Container.append(Notification_Frame);
+		notification_container.append(notification_frame);
 	}, 1);
 
-	let Icon_UI;
+	let icon_ui;
 
-	if (Icon) {
-		Icon_UI = await Settings_UI["Setting_Frame"](true, false, {
+	if (icon) {
+		icon_ui = await settings_ui["setting_frame"](true, false, {
 			x: true,
 			y: true,
 		});
-		Icon_UI.className += " STYLESHIFT-Notification-Icon";
-		Icon_UI.textContent = Icon;
-		Notification_Frame.append(Icon_UI);
+		icon_ui.className += " STYLESHIFT-Notification-Icon";
+		icon_ui.textContent = icon;
+		notification_frame.append(icon_ui);
 	}
 
 	//---------------------------------
 
-	const Notification_Content_Frame = await Settings_UI["Setting_Frame"](false, true);
-	Notification_Content_Frame.className += " STYLESHIFT-Notification-Content-Frame";
-	Notification_Frame.append(Notification_Content_Frame);
+	const notification_content_frame = await settings_ui["setting_frame"](false, true);
+	notification_content_frame.className += " STYLESHIFT-Notification-Content-Frame";
+	notification_frame.append(notification_content_frame);
 
-	const Title_UI = await Settings_UI["Setting_Frame"](true, false, {
+	const title_ui = await settings_ui["setting_frame"](true, false, {
 		x: false,
 		y: true,
 	});
-	Title_UI.className += " STYLESHIFT-Notification-Title";
-	Title_UI.textContent = Title;
-	Notification_Content_Frame.append(Title_UI);
+	title_ui.className += " STYLESHIFT-Notification-Title";
+	title_ui.textContent = title;
+	notification_content_frame.append(title_ui);
 
-	const Content_UI = await Settings_UI["Setting_Frame"](true, false, {
+	const content_ui = await settings_ui["setting_frame"](true, false, {
 		x: false,
 		y: true,
 	});
-	Content_UI.className += " STYLESHIFT-Notification-Content";
-	Notification_Content_Frame.append(Content_UI);
+	content_ui.className += " STYLESHIFT-Notification-Content";
+	notification_content_frame.append(content_ui);
 
-	const Set_Content = (New_Content) => {
-		New_Content = String(New_Content);
-		Content_UI.innerHTML = New_Content.replaceAll("<script", "").replaceAll("/script>", "");
+	const set_content = (new_content) => {
+		new_content = String(new_content);
+		content_ui.innerHTML = new_content.replaceAll("<script", "").replaceAll("/script>", "");
 	};
 
-	Set_Content(Content);
+	set_content(content);
 
 	//---------------------------------
 
-	async function Close() {
-		await Run_Animation(Notification_Frame, "Notification-Hide");
-		Notification_Frame.remove();
+	async function close() {
+		await run_animation(notification_frame, "Notification-Hide");
+		notification_frame.remove();
 	}
 
-	if (Timeout == 0) {
-		const Close_UI = await Settings_UI["Setting_Frame"](true, false, {
+	if (timeout == 0) {
+		const close_ui = await settings_ui["setting_frame"](true, false, {
 			x: true,
 			y: true,
 		});
-		Close_UI.className += " STYLESHIFT-Notification-Close";
-		Close_UI.textContent = "X";
-		Notification_Frame.append(Close_UI);
+		close_ui.className += " STYLESHIFT-Notification-Close";
+		close_ui.textContent = "X";
+		notification_frame.append(close_ui);
 
-		Close_UI.addEventListener("click", function (e) {
+		close_ui.addEventListener("click", function (e) {
 			e.preventDefault();
-			Close();
+			close();
 		});
 	}
 
 	//---------------------------------
 
-	await Run_Animation(Notification_Frame, "Notification-Show");
+	await run_animation(notification_frame, "Notification-Show");
 	setTimeout(async () => {
-		if (Timeout > 0) {
-			await sleep(Timeout);
-			Close();
+		if (timeout > 0) {
+			await sleep(timeout);
+			close();
 		}
 	}, 0);
 
 	return {
-		Set_Icon: (New_Icon) => {
-			if (Icon_UI) {
-				Icon_UI.textContent = New_Icon;
+		set_icon: (new_icon) => {
+			if (icon_ui) {
+				icon_ui.textContent = new_icon;
 			}
 		},
-		Set_Content,
-		Set_Title: (New_Title) => {
-			Title_UI.textContent = New_Title;
+		set_content,
+		set_title: (new_title) => {
+			title_ui.textContent = new_title;
 		},
-		Close,
+		close,
 	};
 }
 
 /**
  * Creates an error notification.
- * @param {string} Content - The error content.
+ * @param {string} content - The error content.
  * @returns {Promise<Object>}
  * @example
- * await Create_Error("An error occurred");
+ * await create_error("An error occurred");
  */
-export async function Create_Error(Content, Timeout = 0) {
-	console.error("StyleShift - " + Content);
-	return await Create_Notification({
-		Icon: "❌",
-		Title: "StyleShift - Error",
-		Content: Content,
-		Timeout: Timeout,
+export async function create_error(content, timeout = 0) {
+	console.error("StyleShift - " + content);
+	return await create_notification({
+		icon: "❌",
+		title: "StyleShift - Error",
+		content: content,
+		timeout: timeout,
 	});
 }
 
-export async function Create_Warning(Content, { Timeout = 0, Show = true } = {}) {
-	console.warn("StyleShift - " + Content);
-	if (!Show) return;
-	return await Create_Notification({
-		Icon: "⚠️",
-		Title: "StyleShift - Warning",
-		Content: Content,
-		Timeout: Timeout,
+export async function create_warning(content, { timeout = 0, show = true } = {}) {
+	console.warn("StyleShift - " + content);
+	if (!show) return;
+	return await create_notification({
+		icon: "⚠️",
+		title: "StyleShift - Warning",
+		content: content,
+		timeout: timeout,
 	});
 }
 
@@ -178,72 +178,72 @@ For advanced user !!!
 -------------------------------------------------------
 */
 /**
- * Shows a text input prompt window.
- * @param {{ Title : string, Placeholder : string, Content : string }} Options
+ * shows a text input prompt window.
+ * @param {{ title : string, placeholder : string, content : string }} Options
  * @returns {Promise<string>}
  * @example
- * await Enter_Text_Prompt({ Title : "Enter your name", Placeholder : "John Doe", Content : "Please enter your name." });
+ * await enter_text_prompt({ title : "Enter your name", placeholder : "John Doe", content : "Please enter your name." });
  */
-export async function Enter_Text_Prompt({ Title = "Enter text", Placeholder = "", Content = "" }) {
-	const StyleShift_Window = await Create_StyleShift_Window({
-		Width: "40%",
-		Height: "70%",
+export async function enter_text_prompt({ title = "Enter text", placeholder = "", content = "" }) {
+	const styleshift_window = await create_styleshift_window({
+		width: "40%",
+		height: "70%",
 	});
 
-	StyleShift_Window.BG_Frame.style.background = "";
-	StyleShift_Window.BG_Frame.style.pointerEvents = "";
-	StyleShift_Window.BG_Frame.style.zIndex = "10001";
+	styleshift_window.bg_frame.style.background = "";
+	styleshift_window.bg_frame.style.pointerEvents = "";
+	styleshift_window.bg_frame.style.zIndex = "10001";
 
-	const Content_Window = StyleShift_Window.Window;
+	const content_window = styleshift_window.window_element;
 
 	//---------------------------------
 
-	const Header = await Settings_UI["Text"]({
-		type: "Text",
-		html: Title,
+	const header = await settings_ui["text"]({
+		type: "text",
+		html: title,
 		font_size: 20,
 		text_align: "center",
 	});
-	Dynamic_Append(Content_Window, Header);
+	dynamic_append(content_window, header);
 
 	//---------------------------------
 
-	const Text_Input = await Settings_UI["Text_Editor"]();
-	Text_Input.OnChange(() => {});
-	Text_Input.Text_Editor.style.height = "inherit";
-	Content_Window.append(Text_Input.Text_Editor);
+	const text_input = await settings_ui["text_editor"]();
+	text_input.on_change(() => {});
+	text_input.text_editor.style.height = "inherit";
+	content_window.append(text_input.text_editor);
 
 	//---------------------------------
 
-	const Button_Frame = await Settings_UI["Setting_Frame"](true, false);
-	Button_Frame.style.gap = "10px";
-	Dynamic_Append(Content_Window, Button_Frame);
+	const button_frame = await settings_ui["setting_frame"](true, false);
+	button_frame.style.gap = "10px";
+	dynamic_append(content_window, button_frame);
 
 	//---------------------------------
 
-	const OK_Button = await Settings_UI["Button"]({
+	const ok_button = await settings_ui["button"]({
 		name: "OK",
 		color: "#00ff00",
 		text_align: "center",
 	});
-	Dynamic_Append(Button_Frame, OK_Button);
+	dynamic_append(button_frame, ok_button);
 
 	//---------------------------------
 
-	const Cancel_Button = await Settings_UI["Button"]({
+	const cancel_button = await settings_ui["button"]({
 		name: "Cancel",
 		color: "#ff0000",
 		text_align: "center",
 	});
-	Dynamic_Append(Button_Frame, Cancel_Button);
+	dynamic_append(button_frame, cancel_button);
 
 	return new Promise((resolve, reject) => {
-		OK_Button.Button.addEventListener("click", () => {
-			StyleShift_Window.Run_Close();
-			resolve(Text_Input.Text_Editor.value);
+		ok_button.button.addEventListener("click", () => {
+			styleshift_window.run_close();
+			resolve(text_input.text_editor.value);
 		});
-		Cancel_Button.Button.addEventListener("click", () => {
-			StyleShift_Window.Run_Close();
+		cancel_button.button.addEventListener("click", () => {
+			styleshift_window.run_close();
 			reject();
 		});
 	});
@@ -252,11 +252,11 @@ export async function Enter_Text_Prompt({ Title = "Enter text", Placeholder = ""
 /**
  * Prompts the user to select a file.
  * @param {string} type - The file type.
- * @returns {Promise<File>}
+ * @returns {Promise<file>}
  * @example
- * const file = await Get_File(".txt");
+ * const file = await get_file(".txt");
  */
-export async function Get_File(type) {
+export async function get_file(type) {
 	return new Promise((resolve, reject) => {
 		const input = document.createElement("input");
 		input.type = "file";
@@ -281,39 +281,39 @@ export async function Get_File(type) {
 
 /**
  * Imports StyleShift data and updates the saved data.
- * @param {Object} StyleShift_Data - The JSON data to import.
+ * @param {Object} styleshift_data - The JSON data to import.
  * @returns {Promise<void>}
  * @example
- * await Import_StyleShift_Data(data);
+ * await import_styleshift_data(data);
  */
-export async function Import_StyleShift_Data(StyleShift_Data: object) {
-	const Notification = await Create_Notification({
-		Icon: "🔄️",
-		Title: "StyleShift - Importing data",
-		Content: "Please wait...",
-		Timeout: -1,
+export async function import_styleshift_data(styleshift_data: object) {
+	const notification = await create_notification({
+		icon: "🔄️",
+		title: "StyleShift - Importing data",
+		content: "Please wait...",
+		timeout: -1,
 	});
 
 	try {
-		for (const This_Key of StyleShift_Allowed_Keys) {
-			Saved_Data[This_Key] = StyleShift_Data[This_Key];
+		for (const this_key of styleshift_allowed_keys) {
+			saved_data[this_key] = styleshift_data[this_key];
 		}
 
-		await Set_Null_Save();
-		Save_And_Update_ALL();
+		await set_null_save();
+		save_and_update_all();
 
-		Notification.Set_Icon("✅");
-		Notification.Set_Title("StyleShift - Imported data");
-		Notification.Set_Content("Imported successfully!");
+		notification.set_icon("✅");
+		notification.set_title("StyleShift - Imported data");
+		notification.set_content("Imported successfully!");
 
 		await sleep(3000);
 
-		Notification.Close();
+		notification.close();
 	} catch (error) {
-		Notification.Close();
+		notification.close();
 
-		Create_Error(error).then((Notification) => {
-			Notification.Set_Title("StyleShift - Import Failed");
+		create_error(error).then((notification) => {
+			notification.set_title("StyleShift - Import Failed");
 		});
 	}
 }
@@ -322,217 +322,217 @@ export async function Import_StyleShift_Data(StyleShift_Data: object) {
  * Exports custom items.
  * @returns {Object[]}
  * @example
- * const items = Export_StyleShift_Data();
+ * const items = export_styleshift_data();
  */
-export function Export_StyleShift_Data() {
-	const Export_StyleShift_Data = {};
+export function export_styleshift_data() {
+	const export_styleshift_data = {};
 
-	for (const This_Key of StyleShift_Allowed_Keys) {
-		if (Saved_Data[This_Key]) {
-			Export_StyleShift_Data[This_Key] = deepClone(Saved_Data[This_Key]);
+	for (const this_key of styleshift_allowed_keys) {
+		if (saved_data[this_key]) {
+			export_styleshift_data[this_key] = deep_clone(saved_data[this_key]);
 		}
 	}
 
-	const custom_items = Export_StyleShift_Data["Custom_StyleShift_Items"];
+	const custom_items = export_styleshift_data["custom_styleshift_items"];
 
 	if (custom_items) {
-		for (const This_Category of custom_items) {
-			delete This_Category.Highlight_Color;
-			delete This_Category.Editable;
+		for (const this_category of custom_items) {
+			delete this_category.Highlight_color;
+			delete this_category.editable;
 
-			for (const This_Setting of This_Category.Settings) {
-				delete This_Setting.Editable;
+			for (const this_setting of this_category.settings) {
+				delete this_setting.editable;
 			}
 		}
 	} else {
-		Create_Warning("No custom items found. Skipping...", { Show: false });
+		create_warning("No custom items found. Skipping...", { show: false });
 	}
 
-	return Export_StyleShift_Data;
+	return export_styleshift_data;
 }
 
 /**
  * Imports StyleShift data from a JSON string.
- * @param {string} Text - The JSON string to import.
+ * @param {string} text - The JSON string to import.
  * @returns {Promise<void>}
  * @example
- * const json = '{"Custom_StyleShift_Items":[{"Category":"Test","Settings":[{"type":"Text","id":"test_text","html":"<p>Test</p>"}]}]}';
- * await Import_StyleShift_JSON_Text(json);
+ * const json = '{"custom_styleshift_items":[{"Category":"Test","settings":[{"type":"text","id":"test_text","html":"<p>Test</p>"}]}]}';
+ * await import_styleshift_json_text(json);
  */
-export async function Import_StyleShift_JSON_Text(Text) {
-	await Import_StyleShift_Data(JSON.parse(Text));
+export async function import_styleshift_json_text(text) {
+	await import_styleshift_data(JSON.parse(text));
 }
 
 /**
  * Exports custom items as a JSON string.
  * @returns {string}
  * @example
- * const json = Export_StyleShift_JSON_Text();
+ * const json = export_styleshift_json_text();
  */
-export function Export_StyleShift_JSON_Text() {
-	return JSON.stringify(Export_StyleShift_Data(), null, 2);
+export function export_styleshift_json_text() {
+	return JSON.stringify(export_styleshift_data(), null, 2);
 }
 
 /**
  * Imports StyleShift data from a ZIP file.
- * @param {File} zipFile - The ZIP file.
+ * @param {file} zip_file - The ZIP file.
  * @returns {Promise<Category[]>}
  * @example
- * const data = await Import_StyleShift_Zip(file);
+ * const data = await import_styleshift_zip(file);
  */
-export async function Import_StyleShift_Zip(zipFile) {
-	const zip = new JSzip();
+export async function import_styleshift_zip(zip_file) {
+	const zip = new jszip();
 
-	const loaded_zip = await zip.loadAsync(zipFile, {
+	const loaded_zip = await zip.loadAsync(zip_file, {
 		createFolders: true,
 	});
 
-	const Custom_StyleShift_Items: Category[] = [];
+	const custom_styleshift_items: Category[] = [];
 
-	const Category_Folders = Object.keys(loaded_zip.files).filter((path) => {
-		const Path_Array = path.split("/");
-		if (Path_Array.length === 2 && Path_Array[1] == "") {
+	const category_folders = Object.keys(loaded_zip.files).filter((path) => {
+		const path_array = path.split("/");
+		if (path_array.length === 2 && path_array[1] == "") {
 			return true;
 		}
 	});
 
-	for (const Category_Path of Category_Folders) {
-		const Category_Path_Name = Category_Path.slice(0, -1);
-		const Category_Array = Category_Path_Name.split(" - ");
-		const Category_Index = Number(Category_Array[0]);
+	for (const category_path of category_folders) {
+		const category_path_name = category_path.slice(0, -1);
+		const category_array = category_path_name.split(" - ");
+		const category_index = Number(category_array[0]);
 
-		const Category_Config = loaded_zip.file(`${Category_Path_Name}/Config.json`);
+		const category_config = loaded_zip.file(`${category_path_name}/Config.json`);
 
-		const ConfigContent = await Category_Config.async("string");
-		const Category_Data = JSON.parse(ConfigContent);
+		const config_content = await category_config.async("string");
+		const category_data = JSON.parse(config_content);
 
-		const Settings: Setting[] = [];
+		const settings: Setting[] = [];
 
-		for (const Setting_Path of Object.keys(loaded_zip.files)) {
+		for (const setting_path of Object.keys(loaded_zip.files)) {
 			if (
-				Setting_Path.split("/").length === 3 &&
-				Setting_Path.startsWith(`${Category_Path_Name}/`) &&
-				Setting_Path.endsWith("/")
+				setting_path.split("/").length === 3 &&
+				setting_path.startsWith(`${category_path_name}/`) &&
+				setting_path.endsWith("/")
 			) {
-				const Setting_Path_Name = Setting_Path.slice(Category_Path.length, -1);
+				const setting_path_name = setting_path.slice(category_path.length, -1);
 
-				const Setting_Array = Setting_Path_Name.split(" - ");
-				const Setting_Index = Number(Setting_Array[0]);
+				const setting_array = setting_path_name.split(" - ");
+				const setting_index = Number(setting_array[0]);
 
-				const Setting_Data =
-					JSON.parse(await loaded_zip.file(`${Setting_Path}Config.json`).async("string")) || {};
+				const setting_data =
+					JSON.parse(await loaded_zip.file(`${setting_path}Config.json`).async("string")) || {};
 
-				for (const Setting_Property_Path of Object.keys(loaded_zip.files)) {
+				for (const setting_property_path of Object.keys(loaded_zip.files)) {
 					if (
-						Setting_Property_Path.split("/").length === 3 &&
-						Setting_Property_Path.startsWith(Setting_Path) &&
-						!Setting_Property_Path.endsWith("/") &&
-						!Setting_Property_Path.endsWith("Config.json")
+						setting_property_path.split("/").length === 3 &&
+						setting_property_path.startsWith(setting_path) &&
+						!setting_property_path.endsWith("/") &&
+						!setting_property_path.endsWith("Config.json")
 					) {
-						const Setting_Property_Name = Setting_Property_Path.slice(
-							Setting_Path.length,
-							Setting_Property_Path.lastIndexOf(".")
+						const setting_property_name = setting_property_path.slice(
+							setting_path.length,
+							setting_property_path.lastIndexOf(".")
 						);
 
-						console.log(Setting_Property_Path);
+						console.log(setting_property_path);
 
-						Setting_Data[Setting_Property_Name] = await loaded_zip
-							.file(Setting_Property_Path)
+						setting_data[setting_property_name] = await loaded_zip
+							.file(setting_property_path)
 							.async("string");
 					}
 				}
 
-				Settings[Setting_Index] = Setting_Data;
+				settings[setting_index] = setting_data;
 			}
 		}
 
 		// clear null settings
-		Category_Data["Settings"] = Settings.filter((setting) => setting !== null);
+		category_data["settings"] = settings.filter((setting) => setting !== null);
 
-		Custom_StyleShift_Items[Category_Index] = Category_Data;
+		custom_styleshift_items[category_index] = category_data;
 	}
 
-	const StyleShift_Data = {
-		Custom_StyleShift_Items,
+	const styleshift_data = {
+		custom_styleshift_items,
 	};
 
-	console.log(StyleShift_Data);
+	console.log(styleshift_data);
 
-	await Import_StyleShift_Data(StyleShift_Data);
+	await import_styleshift_data(styleshift_data);
 }
 
 /**
  * Exports StyleShift data as a ZIP file.
- * @param {Object} StyleShift_Data - The JSON data.
- * @param {string} zipFileName - The ZIP file name.
+ * @param {Object} styleshift_data - The JSON data.
+ * @param {string} zip_file_name - The ZIP file name.
  * @returns {Promise<void>}
  * @example
- * await Export_StyleShift_Zip(data, "styleshift.zip");
+ * await export_styleshift_zip(data, "styleshift.zip");
  */
-export async function Export_StyleShift_Zip(StyleShift_Data, zipFileName) {
-	console.log("Data", StyleShift_Data);
+export async function export_styleshift_zip(styleshift_data, zip_file_name) {
+	console.log("Data", styleshift_data);
 
-	const zip = new JSzip();
+	const zip = new jszip();
 
-	for (const [Category_index, This_Category] of StyleShift_Data.entries()) {
-		const Renamed_Category = (This_Category.Category || "Untitled Category").replace(/\/|\n/g, "_");
-		const Category_Folder = zip.folder(`${Category_index} - ${Renamed_Category}`);
+	for (const [category_index, this_category] of styleshift_data.entries()) {
+		const renamed_category = (this_category.Category || "Untitled Category").replace(/\/|\n/g, "_");
+		const category_folder = zip.folder(`${category_index} - ${renamed_category}`);
 
-		const Category_Config = {};
+		const category_config = {};
 
-		for (const [key, value] of Object.entries(StyleShift_Category_List)) {
-			if (key !== "Settings") {
-				if (This_Category[key]) {
-					Category_Config[key] = This_Category[key];
+		for (const [key, value] of Object.entries(styleshift_category_list)) {
+			if (key !== "settings") {
+				if (this_category[key]) {
+					category_config[key] = this_category[key];
 				} else {
-					Category_Config[key] = value;
+					category_config[key] = value;
 				}
 			}
 		}
 
-		Category_Folder.file("Config.json", JSON.stringify(Category_Config, null, 2));
+		category_folder.file("Config.json", JSON.stringify(category_config, null, 2));
 
-		if (This_Category.Settings) {
-			for (const [Setting_index, Original_Setting] of This_Category.Settings.entries()) {
-				console.log(Original_Setting);
+		if (this_category.settings) {
+			for (const [setting_index, original_setting] of this_category.settings.entries()) {
+				console.log(original_setting);
 
-				const Renamed_Setting_Name = (
-					Original_Setting.name ||
-					Original_Setting.id ||
+				const renamed_setting_name = (
+					original_setting.name ||
+					original_setting.id ||
 					"Untitled Setting"
 				).replace(/\/|\n/g, "_");
 
-				const This_Setting = deepClone(Original_Setting);
-				const Settings_Folder = Category_Folder.folder(`${Setting_index} - ${Renamed_Setting_Name}`);
+				const this_setting = deep_clone(original_setting);
+				const settings_folder = category_folder.folder(`${setting_index} - ${renamed_setting_name}`);
 
-				await Convert_To_Export_Setting(This_Setting, async (File_Name, File_Data) => {
-					Settings_Folder.file(File_Name, File_Data);
+				await convert_to_export_setting(this_setting, async (file_name, file_data) => {
+					settings_folder.file(file_name, file_data);
 				});
 
-				Settings_Folder.file("Config.json", JSON.stringify(This_Setting, null, 2));
+				settings_folder.file("Config.json", JSON.stringify(this_setting, null, 2));
 			}
 		}
 	}
 
-	const zipBlob = await zip.generateAsync({ type: "blob" });
-	Download_File(zipBlob, zipFileName);
+	const zip_blob = await zip.generateAsync({ type: "blob" });
+	download_file(zip_blob, zip_file_name);
 }
 
 /**
  * Appends a child element to a parent HTMLDivElement.
  *
  * This function dynamically appends a child element to the specified parent
- * based on the properties of the child. If the child has a `Frame` property,
- * it appends the frame. If the child has a `Button` property, it appends the
+ * based on the properties of the child. If the child has a `frame` property,
+ * it appends the frame. If the child has a `button` property, it appends the
  * button. Otherwise, it appends the child element itself.
  *
- * @param {HTMLDivElement} Parent - The parent element to which the child will be appended.
- * @param {Object} Child - The child element or object with specific properties (`Frame` or `Button`).
+ * @param {HTMLDivElement} parent - The parent element to which the child will be appended.
+ * @param {Object} child - The child element or object with specific properties (`frame` or `button`).
  */
-export function Dynamic_Append(Parent: HTMLDivElement, Child: object | any) {
-	const element = Dynamic_Get_Element(Child);
+export function dynamic_append(parent: HTMLDivElement, child: object | any) {
+	const element = dynamic_get_element(child);
 	if (element) {
-		Parent.appendChild(element);
+		parent.appendChild(element);
 	}
 }
 
@@ -540,24 +540,24 @@ export function Dynamic_Append(Parent: HTMLDivElement, Child: object | any) {
  * Retrieves a specific element from a given object.
  *
  * This function checks the provided object for specific properties
- * (`Frame` or `Button`) and returns the corresponding element if found.
+ * (`frame` or `button`) and returns the corresponding element if found.
  * If neither property is present, it returns the object itself.
  *
- * @param {Object} Child - The object containing potential elements.
- * @returns {HTMLElement | Object} The element associated with the `Frame` or `Button`
+ * @param {Object} child - The object containing potential elements.
+ * @returns {HTMLElement | Object} The element associated with the `frame` or `button`
  * property, or the object itself if neither property is found.
  */
 
-export function Dynamic_Get_Element(Child: object | any) {
-	if (Child.Frame) {
-		return Child.Frame;
+export function dynamic_get_element(child: object | any) {
+	if (child.frame) {
+		return child.frame;
 	}
 
-	if (Child.Button) {
-		return Child.Button;
+	if (child.button) {
+		return child.button;
 	}
 
-	return Child;
+	return child;
 }
 
 /**
@@ -567,10 +567,10 @@ export function Dynamic_Get_Element(Child: object | any) {
  * window.open with the URL of the settings page.
  *
  * @example
- * Open_Setting_Page();
+ * open_setting_page();
  */
-export function Open_Setting_Page() {
-	window.open(chrome.runtime.getURL(`setting/styleshift.html?domain=${Get_Current_Domain()}`), "_blank");
+export function open_setting_page() {
+	window.open(chrome.runtime.getURL(`setting/styleshift.html?domain=${get_current_domain()}`), "_blank");
 }
 
 /*
@@ -582,75 +582,75 @@ Danger Zone !!!
 /**
  * Enables the extension.
  * @example
- * Enable_Extension_Function();
+ * enable_extension_function();
  */
-export async function Enable_Extension_Function() {
-	Show_StyleSheet();
+export async function enable_extension_function() {
+	show_stylesheet();
 }
 
 /**
  * Disables the extension.
  * @example
- * Disable_Extension_Function();
+ * disable_extension_function();
  */
-export async function Disable_Extension_Function() {
-	Hide_StyleSheet();
+export async function disable_extension_function() {
+	hide_stylesheet();
 }
 
 /**
  * Retrieves the StyleShift value associated with a given ID.
  *
- * This function takes an ID, uses the Load function to retrieve the associated
+ * This function takes an ID, uses the load function to retrieve the associated
  * data, and returns the data as a JSON string.
  *
  * @param {string} id - The unique identifier for the data to be retrieved.
  * @returns {Promise<string>} The JSON string representation of the retrieved data.
  */
-export async function Load_StyleShift_Value(id) {
-	return JSON.stringify(await Load(id));
+export async function load_styleshift_value(id) {
+	return JSON.stringify(await load(id));
 }
 
 /**
- * Saves the StyleShift value associated with a given ID.
+ * saves the StyleShift value associated with a given ID.
  *
  * This function takes an ID and a JSON string value, parses the JSON string,
- * and saves the resulting data under the specified ID using the Save function.
+ * and saves the resulting data under the specified ID using the save function.
  *
  * @param {string} id - The unique identifier for the data to be saved.
  * @param {string} value - The JSON string representing the data to be saved.
  * @returns {Promise<any>} The result of the save operation.
  */
 
-export async function Save_StyleShift_Value(id, value: string) {
-	return await Save(id, JSON.parse(value));
+export async function save_styleshift_value(id, value: string) {
+	return await save(id, JSON.parse(value));
 }
 
 /**
- * Creates a setting UI element from the given type and setting.
+ * Creates a setting ui element from the given type and setting.
  *
- * This function will create a UI element using the provided type and setting.
- * The UI element will be appended to the `StyleShift_Station` element and
+ * This function will create a ui element using the provided type and setting.
+ * The ui element will be appended to the `styleshift_station` element and
  * assigned a unique "styleshift-ui-id" attribute.
  *
- * @param {string} type - The type of the setting UI element.
- * @param {Setting | any} This_Setting - The setting associated with the UI element.
- * @param {...any} args - Additional arguments to pass to the UI element function.
- * @returns {Promise<string>} The value of the "styleshift-ui-id" attribute assigned to the UI element.
+ * @param {string} type - The type of the setting ui element.
+ * @param {Setting | any} this_setting - The setting associated with the ui element.
+ * @param {...any} args - Additional arguments to pass to the ui element function.
+ * @returns {Promise<string>} The value of the "styleshift-ui-id" attribute assigned to the ui element.
  */
-export async function _Create_StyleShift_Setting_UI(type, This_Setting: Setting | any, ...args) {
-	const UI = await Settings_UI[type](This_Setting, ...args);
+export async function create_styleshift_setting_ui(type, this_setting: Setting | any, ...args) {
+	const ui = await settings_ui[type](this_setting, ...args);
 
-	let UI_ELement;
-	if (typeof UI === "object") {
-		UI_ELement = Dynamic_Get_Element(UI);
+	let ui_element;
+	if (typeof ui === "object") {
+		ui_element = dynamic_get_element(ui);
 	} else {
-		UI_ELement = UI;
+		ui_element = ui;
 	}
 
-	const id = Create_UniqueID(10);
-	UI_ELement.setAttribute("styleshift-ui-id", id);
+	const id = create_unique_id(10);
+	ui_element.setAttribute("styleshift-ui-id", id);
 
-	StyleShift_Station.append(UI_ELement);
+	styleshift_station.append(ui_element);
 
 	return id;
 }

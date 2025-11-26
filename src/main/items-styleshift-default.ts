@@ -1,7 +1,7 @@
-import { Open_Setting_Page } from "../styleshift/build-in-functions/extension";
+import { open_setting_page } from "../styleshift/build-in-functions/extension";
 import { Category } from "../styleshift/types/store";
 
-const Default_StyleShift_Items: Category[] = [
+const default_styleshift_items: Category[] = [
 	{
 		category: "☕ Buy me a coffee!",
 		rainbow: true,
@@ -13,7 +13,7 @@ const Default_StyleShift_Items: Category[] = [
 				icon: "https://cdn.prod.website-files.com/5c14e387dab576fe667689cf/670f5a01229bf8a18f97a3c1_favion-p-500.png",
 				name: "Ko-fi",
 				text_align: "left",
-				type: "Button",
+				type: "button",
 			},
 		],
 		selector: "",
@@ -29,7 +29,7 @@ const Default_StyleShift_Items: Category[] = [
 				icon: "https://brandlogos.net/wp-content/uploads/2021/11/discord-logo.png",
 				name: "NEWTUBE",
 				text_align: "left",
-				type: "Button",
+				type: "button",
 			},
 		],
 	},
@@ -39,20 +39,20 @@ const Default_StyleShift_Items: Category[] = [
 			{
 				id: "Enable_Extension",
 				name: "Enable",
-				type: "Checkbox",
+				type: "checkbox",
 				value: true,
-				disable_function: "Disable_Extension_Function()",
-				enable_function: "Enable_Extension_Function()",
+				disable_function: "disable_extension_function()",
+				enable_function: "enable_extension_function()",
 				// enable_css: main_css,
 			},
 			{
 				id: "Realtime_Extension",
 				name: "Realtime Changing",
-				type: "Checkbox",
+				type: "checkbox",
 				value: false,
 			},
 			{
-				type: "Checkbox",
+				type: "checkbox",
 				id: "Setting_BG_Transparent",
 				name: "Enable Blur Background",
 				description: "Makes the settings menu background transparent and blurred.",
@@ -72,7 +72,7 @@ const Default_StyleShift_Items: Category[] = [
 			    `,
 			},
 			{
-				type: "Number_Slide",
+				type: "number_slide",
 				id: "Setting_BG_Blur_Amount",
 				name: "Background Blur Amount",
 				description: "Adjusts the blur amount for the settings menu background.",
@@ -83,36 +83,36 @@ const Default_StyleShift_Items: Category[] = [
 				var_css: "--setting-bg-blur-amount",
 			},
 			{
-				click_function: Open_Setting_Page,
+				click_function: open_setting_page,
 				color: "#646464ff",
-				description: "Description of this Button",
+				description: "Description of this button",
 				font_size: 15,
 				icon: "",
-				id: "Test_Button",
+				id: "Test_button",
 				name: "Open settings page!",
 				text_align: "center",
-				type: "Button",
+				type: "button",
 			},
 			{
 				click_function: 'window.open("https://github.com/AzPepoze/Newtube");',
 				color: "#2e16feff",
-				description: "Description of this Button",
+				description: "Description of this button",
 				font_size: 15,
 				icon: "https://pbs.twimg.com/profile_images/1372304699601285121/5yBS6_3F_400x400.jpg",
-				id: "Test_Button",
+				id: "Test_button",
 				name: "Github",
 				text_align: "left",
-				type: "Button",
+				type: "button",
 			},
 			{
 				click_function: 'window.open("https://discord.gg/BgxvVqap4G");',
 				color: "#e60005ff",
-				description: "Description of this Button",
+				description: "Description of this button",
 				font_size: 15,
-				id: "Test_Button",
+				id: "Test_button",
 				name: "❗Report bugs / Issues❗\n",
 				text_align: "center",
-				type: "Button",
+				type: "button",
 			},
 		],
 	},
@@ -121,7 +121,7 @@ const Default_StyleShift_Items: Category[] = [
 		settings: [
 			{
 				click_function:
-					'await Copy_to_clipboard(await Export_StyleShift_JSON_Text());\n\nCreate_Notification({\nIcon : "✅",\nTitle : "StyleShift",\nContent : "Copied to clipboard!"\n})',
+					'await copy_to_clipboard(await export_styleshift_json_text());\n\ncreate_notification({\nicon : "✅",\ntitle : "StyleShift",\ncontent : "Copied to clipboard!"\n})',
 				color: "#1932ffff",
 				description: "",
 				font_size: 15,
@@ -129,11 +129,11 @@ const Default_StyleShift_Items: Category[] = [
 				id: "",
 				name: 'Export "StyleShift Data" (Clipboard)',
 				text_align: "center",
-				type: "Button",
+				type: "button",
 			},
 			{
-				click_function: `const Data = await Enter_Text_Prompt({ Title : 'Import_StyleShift Data', Placeholder : 'Paste StyleShift data text here.'});
-                    await Import_StyleShift_JSON_Text(Data);
+				click_function: `const Data = await enter_text_prompt({ title : 'Import_StyleShift Data', placeholder : 'Paste StyleShift data text here.'});
+                    await import_styleshift_json_text(Data);
                     `,
 				color: "#1932ffff",
 				description: "",
@@ -142,12 +142,12 @@ const Default_StyleShift_Items: Category[] = [
 				id: "",
 				name: 'Import "StyleShift Data"',
 				text_align: "center",
-				type: "Button",
+				type: "button",
 			},
 		],
 	},
 ];
 
-export function Get_StyleShift_Default_Items() {
-	return Default_StyleShift_Items;
+export function get_styleshift_default_items() {
+	return default_styleshift_items;
 }

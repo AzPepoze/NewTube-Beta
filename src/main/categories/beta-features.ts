@@ -1,43 +1,43 @@
 import { Category } from "../../styleshift/types/store";
-import { enableNewYoutubeLayout, disableNewYoutubeLayout } from "../features/beta";
+import { enable_new_youtube_layout, disable_new_youtube_layout } from "../features/beta";
 
-export const BetaFeaturesCategory: Category = {
+export const beta_features_category: Category = {
 	category: "🌠 Beta features!",
 	settings: [
 		{
-			type: "Text",
+			type: "text",
 			html: "Warning: These features are experimental and may not work as expected. A page reload is often required.",
 		},
 		{
-			type: "Checkbox",
+			type: "checkbox",
 			id: "NewYoutubeLayout",
 			name: "Force Enable New YouTube Layout",
-			description: "Tries to force YouTube to use its newer, experimental UI layout. Requires a page reload.",
+			description: "Tries to force YouTube to use its newer, experimental ui layout. Requires a page reload.",
 			value: false,
-			enable_function: enableNewYoutubeLayout,
-			disable_function: disableNewYoutubeLayout,
+			enable_function: enable_new_youtube_layout,
+			disable_function: disable_new_youtube_layout,
 		},
 		{
-			type: "Checkbox",
+			type: "checkbox",
 			id: "Theme_by_video",
-			name: "Theme By Video (UI Only)",
+			name: "Theme By Video (ui Only)",
 			description:
-				"UI placeholder. Changes theme colors based on the video thumbnail. (Functionality not implemented)",
+				"ui placeholder. Changes theme colors based on the video thumbnail. (Functionality not implemented)",
 			value: false,
 		},
 		{
-			type: "Checkbox",
+			type: "checkbox",
 			id: "Visualizer",
-			name: "Audio Visualizer (UI Only)",
-			description: "UI placeholder. Shows an audio visualizer on the video. (Functionality not implemented)",
+			name: "Audio Visualizer (ui Only)",
+			description: "ui placeholder. shows an audio visualizer on the video. (Functionality not implemented)",
 			value: false,
 		},
 		{
-			type: "Checkbox",
+			type: "checkbox",
 			id: "NewVDOanima",
-			name: "New Video Animations (UI Only)",
+			name: "New Video Animations (ui Only)",
 			description:
-				"UI placeholder. Adds new animations for play, pause, volume changes, etc. (Functionality not implemented)",
+				"ui placeholder. Adds new animations for play, pause, volume changes, etc. (Functionality not implemented)",
 			value: false,
 		},
 	],

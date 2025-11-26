@@ -6,9 +6,10 @@ export default defineConfig([
 	tseslint.configs.recommended,
 	{
 		files: ["**/*.{js,mjs,cjs,ts,mts,cts}"],
-		languageOptions: { globals: globals.browser },
+		ignores: ["node_modules"],
+		languageOptions: { globals: { ...globals.browser, ...globals.node } },
 		rules: {
-			"prefer-const": "error",
+			"prefer-const": "warn",
 			"no-unused-vars": "off",
 			"@typescript-eslint/no-unused-vars": "warn",
 			"@typescript-eslint/no-explicit-any": "warn",
@@ -18,9 +19,17 @@ export default defineConfig([
 				{
 					selector: "variableLike",
 					format: ["snake_case"],
+					leadingUnderscore: "allow",
+				},
+				{
+					selector: "parameter",
+					format: ["snake_case"],
+					leadingUnderscore: "allow",
 				},
 			],
 			"@typescript-eslint/no-unused-expressions": "warn",
+			"@typescript-eslint/ban-ts-comment": "off",
+			"@typescript-eslint/no-require-imports": "off",
 		},
 	},
 ]);

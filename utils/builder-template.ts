@@ -1,25 +1,25 @@
-import { Convert_To_Export_Setting } from "../src/styleshift/core/export-converter";
-import { UI_Preset } from "../src/styleshift/settings/default-items";
+import { convert_to_export_setting } from "../src/styleshift/core/export-converter";
+import { ui_preset } from "../src/styleshift/settings/default-items";
 
 const fs = require("fs");
 const path = require("path");
 
-async function Create_Setting_Folder(Category_Folder_Path, This_Setting, Setting_Folder_Name) {
-	const Settings_Folder_Path = path.join(Category_Folder_Path, Setting_Folder_Name);
+async function create_setting_folder(category_folder_path, this_setting, setting_folder_name) {
+	const settings_folder_path = path.join(category_folder_path, setting_folder_name);
 
-	fs.mkdirSync(Settings_Folder_Path, { recursive: true });
+	fs.mkdirSync(settings_folder_path, { recursive: true });
 
-	await Convert_To_Export_Setting(This_Setting, async (File_Name, File_Data) => {
-		fs.writeFileSync(path.join(Settings_Folder_Path, `${File_Name}`), File_Data);
+	await convert_to_export_setting(this_setting, async (file_name, file_data) => {
+		fs.writeFileSync(path.join(settings_folder_path, `${file_name}`), file_data);
 	});
 
-	fs.writeFileSync(path.join(Settings_Folder_Path, "config.json"), JSON.stringify(This_Setting, null, 2));
+	fs.writeFileSync(path.join(settings_folder_path, "config.json"), JSON.stringify(this_setting, null, 2));
 }
 
-const Template_Folder = path.join(__dirname, "../devs/templates");
+const template_folder = path.join(__dirname, "../devs/templates");
 
 (async () => {
-	for (const This_Preset of UI_Preset) {
-		await Create_Setting_Folder(Template_Folder, This_Preset, This_Preset.type);
+	for (const this_preset of ui_preset) {
+		await create_setting_folder(template_folder, this_preset, this_preset.type);
 	}
 })();

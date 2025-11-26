@@ -9,16 +9,16 @@ Configuration
 -------------------------------------------------------
 */
 const args = process.argv.slice(2);
-const isProduction = args.includes("--production");
-const isOnce = args.includes("--once");
+const is_production = args.includes("--production");
+const is_once = args.includes("--once");
 
 /*
 -------------------------------------------------------
 Utils Functions
 -------------------------------------------------------
 */
-function getFileNameFromPath(filePath) {
-	const parts = filePath.split("/");
+function get_file_name_from_path(file_path) {
+	const parts = file_path.split("/");
 	return parts[parts.length - 1];
 }
 
@@ -27,7 +27,7 @@ function getFileNameFromPath(filePath) {
 Firefox Compatibility Functions
 -------------------------------------------------------
 */
-async function replaceForFirefoxText(data) {
+async function replace_for_firefox_text(content: string): Promise<string> {
 	const replacements = [
 		{ from: /webkit-fill/g, to: "moz" },
 		{ from: /-webkit-mask-box/g, to: "mask" },
@@ -37,21 +37,21 @@ async function replaceForFirefoxText(data) {
 		{ from: /nowrap/g, to: "pre" },
 	];
 
-	return replacements.reduce((text, { from, to }) => text.replace(from, to), data);
+	return replacements.reduce((text, { from, to }) => text.replace(from, to), content);
 }
 
-async function replaceForFirefox(filePath) {
+async function replace_for_firefox(file_path) {
 	try {
-		const data = await fs.readFile(filePath, "utf8");
+		const data = await fs.readFile(file_path, "utf8");
 
-		if (!filePath.endsWith(".css") && !filePath.endsWith(".js")) {
-			console.log(`Skipping file '${filePath}'`);
+		if (!file_path.endsWith(".css") && !file_path.endsWith(".js")) {
+			console.log(`Skipping file '${file_path}'`);
 			return;
 		}
 
-		const modifiedContent = await replaceForFirefoxText(data);
-		await fs.writeFile(filePath, modifiedContent, "utf8");
-		console.log(`File '${getFileNameFromPath(filePath)}' updated successfully!`);
+		const modified_content = await replace_for_firefox_text(data);
+		await fs.writeFile(file_path, modified_content, "utf8");
+		console.log(`File '${get_file_name_from_path(file_path)}' updated successfully!`);
 	} catch (err: any) {
 		console.error("Error:", err.message);
 	}
@@ -62,53 +62,53 @@ async function replaceForFirefox(filePath) {
 Build Functions
 -------------------------------------------------------
 */
-async function processFunctions(codePath) {
-	let code = await fs.readFile(codePath, "utf8");
-	const functionNames = [];
+async function process_functions(code_path) {
+	let code = await fs.readFile(code_path, "utf8");
+	const function_names = [];
 
-	code = code.replace(/\bexport\s+(async\s+)?function\s+([\w$]+)\s*\(/g, (_, asyncKeyword, name) => {
-		functionNames.push(name);
-		return `${asyncKeyword || ""}function ${name}(`;
+	code = code.replace(/\bexport\s+(async\s+)?function\s+([\w$]+)\s*\(/g, (_, async_keyword, name) => {
+		function_names.push(name);
+		return `${async_keyword || ""}function ${name}(`;
 	});
 
-	functionNames.forEach((name) => {
-		const wrapRegex = new RegExp(`\\b(async\\s+)?function\\s+${name}\\s*\\(`, "g");
-		const callRegex = new RegExp(`\\b${name}\\s*\\(`, "g");
+	function_names.forEach((name) => {
+		const wrap_regex = new RegExp(`\\b(async\\s+)?function\\s+${name}\\s*\\(`, "g");
+		const call_regex = new RegExp(`\\b${name}\\s*\\(`, "g");
 		code = code
 			.replace(
-				wrapRegex,
-				(_, asyncKeyword) => `StyleShift["Build-in"]["${name}"] = ${asyncKeyword || ""}function (`
+				wrap_regex,
+				(_, async_keyword) => `StyleShift["Build-in"]["${name}"] = ${async_keyword || ""}function (`
 			)
-			.replace(callRegex, `StyleShift["Build-in"]["${name}"](`);
+			.replace(call_regex, `StyleShift["Build-in"]["${name}"](`);
 	});
 
 	return code;
 }
 
-async function generateBuildInFunctions(buildPath) {
-	const functionsList = fs.readFileSync(
+async function generate_build_in_functions(build_path) {
+	const functions_list = fs.readFileSync(
 		path.join(__dirname, "../src/styleshift/build-in-functions/extension.ts"),
 		"utf-8"
 	);
 
-	const functionNames = [
-		...new Set([...functionsList.matchAll(/\bexport (async\s*function|function)?\s*(\w+)\(/g)].map((x) => x[2])),
+	const function_names = [
+		...new Set([...functions_list.matchAll(/\bexport (async\s*function|function)?\s*(\w+)\(/g)].map((x) => x[2])),
 	];
 
-	const functionsListData = functionNames
+	const functions_list_data = function_names
 		.map(
 			(name) =>
 				`StyleShift["Build-in"]["${name}"] = async function(...args){return await StyleShift["Build-in"]["_Call_Function"]("${name}",...args)};`
 		)
 		.join("");
 
-	const normalFunctions = await fs.readFile(path.join(__dirname, "../temp/normal.js"), "utf8");
-	const buildInFunctions = await fs.readFile(path.join(buildPath, "build-in.js"), "utf8");
+	const normal_functions = await fs.readFile(path.join(__dirname, "../temp/normal.js"), "utf8");
+	const build_in_functions = await fs.readFile(path.join(build_path, "build-in.js"), "utf8");
 
-	return `StyleShift = {"Build-in":{},"Custom":{}};${normalFunctions}${buildInFunctions.replace(
+	return `StyleShift = {"Build-in":{},"Custom":{}};${normal_functions}${build_in_functions.replace(
 		/\n/g,
 		""
-	)}${functionsListData}window['StyleShift'] = StyleShift;`;
+	)}${functions_list_data}window['StyleShift'] = StyleShift;`;
 }
 
 /*
@@ -116,22 +116,22 @@ async function generateBuildInFunctions(buildPath) {
 Main Build Process
 -------------------------------------------------------
 */
-let isBuilding = false;
+let is_building = false;
 
 async function build() {
-	if (isBuilding) return;
-	isBuilding = true;
+	if (is_building) return;
+	is_building = true;
 
 	try {
 		console.log("Building");
-		const buildPath = path.join(__dirname, "../out/build");
-		const tempPath = path.join(__dirname, "../temp");
+		const build_path = path.join(__dirname, "../out/build");
+		const temp_path = path.join(__dirname, "../temp");
 
 		// Copy extension files
-		fs.copySync(path.join(__dirname, "../src/extension"), buildPath, {
+		fs.copySync(path.join(__dirname, "../src/extension"), build_path, {
 			filter: (src) => {
-				const relativePath = path.relative(path.join(__dirname, "../src/extension"), src);
-				return !relativePath.startsWith("modules");
+				const relative_path = path.relative(path.join(__dirname, "../src/extension"), src);
+				return !relative_path.startsWith("modules");
 			},
 		});
 
@@ -139,9 +139,9 @@ async function build() {
 		await esbuild.build({
 			entryPoints: [path.join(__dirname, "../src/styleshift/run.ts")],
 			bundle: true,
-			outfile: path.join(buildPath, "styleshift.js"),
+			outfile: path.join(build_path, "styleshift.js"),
 			platform: "browser",
-			minify: isProduction,
+			minify: is_production,
 			loader: {
 				".ttf": "file",
 			},
@@ -150,45 +150,45 @@ async function build() {
 		// Process functions
 		fs.copySync(
 			path.join(__dirname, "../src/styleshift/build-in-functions/normal.ts"),
-			path.join(tempPath, "normal.ts")
+			path.join(temp_path, "normal.ts")
 		);
 
-		const codePath = path.join(tempPath, "normal.ts");
-		const processedCode = await processFunctions(codePath);
-		fs.writeFileSync(codePath, processedCode);
+		const code_path = path.join(temp_path, "normal.ts");
+		const processed_code = await process_functions(code_path);
+		fs.writeFileSync(code_path, processed_code);
 
 		// Build processed functions
 		await esbuild.build({
-			entryPoints: [path.join(tempPath, "normal.ts")],
-			outfile: path.join(tempPath, "normal.js"),
+			entryPoints: [path.join(temp_path, "normal.ts")],
+			outfile: path.join(temp_path, "normal.js"),
 			platform: "browser",
-			minify: isProduction,
+			minify: is_production,
 			keepNames: true,
 		});
 
 		await esbuild.build({
 			entryPoints: [path.join(__dirname, "../src/styleshift/communication/web-page.ts")],
-			outfile: path.join(buildPath, "build-in.js"),
+			outfile: path.join(build_path, "build-in.js"),
 			platform: "browser",
 		});
 
 		// Generate and write build-in functions
-		const buildInFunctionsData = await generateBuildInFunctions(buildPath);
-		await fs.writeFile(path.join(buildPath, "build-in.js"), buildInFunctionsData, "utf8");
+		const build_in_functions_data = await generate_build_in_functions(build_path);
+		await fs.writeFile(path.join(build_path, "build-in.js"), build_in_functions_data, "utf8");
 
 		// Create distribution builds
-		const chromiumPath = path.join(__dirname, "../out/dist/chromium");
-		const firefoxPath = path.join(__dirname, "../out/dist/firefox");
+		const chromium_path = path.join(__dirname, "../out/dist/chromium");
+		const firefox_path = path.join(__dirname, "../out/dist/firefox");
 
-		// fs.removeSync(chromiumPath);
-		// fs.removeSync(firefoxPath);
+		// fs.removeSync(chromium_path);
+		// fs.removeSync(firefox_path);
 
-		fs.copySync(buildPath, chromiumPath);
-		fs.copySync(buildPath, firefoxPath);
+		fs.copySync(build_path, chromium_path);
+		fs.copySync(build_path, firefox_path);
 
 		// Process Firefox-specific files
-		await replaceForFirefox(path.join(firefoxPath, "style.css"));
-		await replaceForFirefox(path.join(firefoxPath, "styleshift.js"));
+		await replace_for_firefox(path.join(firefox_path, "style.css"));
+		await replace_for_firefox(path.join(firefox_path, "styleshift.js"));
 
 		console.log("Built!");
 		console.log("--------------------------------");
@@ -197,7 +197,7 @@ async function build() {
 		console.log("Retrying build in 500ms...");
 		setTimeout(build, 500);
 	} finally {
-		isBuilding = false;
+		is_building = false;
 		try {
 			fs.removeSync(path.join(__dirname, "../temp"));
 		} catch (error) {
@@ -212,11 +212,11 @@ async function build() {
 Build Process Initialization
 -------------------------------------------------------
 */
-if (isOnce) {
+if (is_once) {
 	build();
 } else {
 	chokidar.watch(path.join(__dirname, "../src")).on("all", async (event, path: string) => {
-		console.log(event, getFileNameFromPath(path));
+		console.log(event, get_file_name_from_path(path));
 		await build();
 	});
 }

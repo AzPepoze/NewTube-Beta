@@ -1,20 +1,20 @@
 import { Category } from "../../styleshift/types/store";
-import { setupRemoveBlackBars, destroyRemoveBlackBars } from "../features/remove-black-bars";
+import { setup_remove_black_bars, destroy_remove_black_bars } from "../features/remove-black-bars";
 
-export const RemoveBlackBarsCategory: Category = {
+export const remove_black_bars_category: Category = {
 	category: "🔳 Remove black bars on video",
 	settings: [
 		{
-			type: "Checkbox",
+			type: "checkbox",
 			id: "DelBar",
 			name: "Remove black bars top-bottom",
 			description: "Analyzes the video to automatically crop out horizontal black bars.",
 			value: false,
-			enable_function: setupRemoveBlackBars,
-			disable_function: destroyRemoveBlackBars,
+			enable_function: setup_remove_black_bars,
+			disable_function: destroy_remove_black_bars,
 		},
 		{
-			type: "Checkbox",
+			type: "checkbox",
 			id: "UltraWide",
 			name: "Fit ultrawide video (Not Implemented)",
 			description:
@@ -22,14 +22,14 @@ export const RemoveBlackBarsCategory: Category = {
 			value: true,
 		},
 		{
-			type: "Checkbox",
-			id: "DropFrame",
+			type: "checkbox",
+			id: "Dropframe",
 			name: "Lazy Check (Not Implemented)",
 			description: "A performance-saving option. This specific sub-feature is not yet implemented.",
 			value: false,
 		},
 		{
-			type: "Number_Slide",
+			type: "number_slide",
 			id: "LazyAmount",
 			name: "Lazy Check Cooldown (Not Implemented)",
 			description:

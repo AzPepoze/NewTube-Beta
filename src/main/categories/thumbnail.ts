@@ -1,12 +1,12 @@
 import { Category } from "../../styleshift/types/store";
 
-export const ThumbnailCategory: Category = {
+export const thumbnail_category: Category = {
 	category: "📰 Thumbnail/Clip cover",
 	settings: [
 		{
-			type: "Number_Slide",
+			type: "number_slide",
 			id: "TimeEdge",
-			name: "Timestamp Corner Radius",
+			name: "timestamp Corner Radius",
 			description: "Adjusts the corner roundness of the video duration timestamp on thumbnails.",
 			value: 10,
 			min: 0,
@@ -16,18 +16,18 @@ export const ThumbnailCategory: Category = {
 			constant_css: `ytd-thumbnail-overlay-time-status-renderer { border-radius: var(--thumb-time-radius, 10px) !important; }`,
 		},
 		{
-			type: "Color",
+			type: "color",
 			id: "TimeBG",
-			name: "Timestamp Background Color",
+			name: "timestamp Background color",
 			description: "Sets the background color of the video duration timestamp.",
 			value: "#00000080",
 			var_css: "--thumb-time-bg",
 			constant_css: `ytd-thumbnail-overlay-time-status-renderer { background-color: var(--thumb-time-bg, #00000080) !important; }`,
 		},
 		{
-			type: "Dropdown",
-			id: "ThumbHover",
-			name: "Hover Animation Style",
+			type: "dropdown",
+			id: "Thumbhover",
+			name: "hover Animation Style",
 			description: "The animation effect when hovering over a video thumbnail.",
 			value: "Slide",
 			options: {
@@ -79,7 +79,7 @@ export const ThumbnailCategory: Category = {
 			},
 		},
 		{
-			type: "Number_Slide",
+			type: "number_slide",
 			id: "Zoom",
 			name: "Zoom Amount",
 			description: "Adjusts the zoom scale for the 'Zoom' hover animation.",
@@ -90,10 +90,10 @@ export const ThumbnailCategory: Category = {
 			var_css: "--thumb-zoom-scale",
 		},
 		{
-			type: "Checkbox",
+			type: "checkbox",
 			id: "TimeAni",
-			name: "Hide Timestamp on Hover",
-			description: "Hides the video duration timestamp when you hover over a thumbnail.",
+			name: "hide timestamp on hover",
+			description: "hides the video duration timestamp when you hover over a thumbnail.",
 			value: true,
 			enable_css: `
                 ytd-thumbnail-overlay-time-status-renderer {
@@ -105,9 +105,9 @@ export const ThumbnailCategory: Category = {
             `,
 		},
 		{
-			type: "Checkbox",
+			type: "checkbox",
 			id: "ThumbAnim",
-			name: "Thumbnail Load Animation",
+			name: "Thumbnail load Animation",
 			description: "Adds a fade-in and slide-up animation when thumbnails load.",
 			value: true,
 			enable_css: `

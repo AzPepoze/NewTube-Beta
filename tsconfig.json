@@ -13,6 +13,6 @@
 		"strictNullChecks": false,
 		"noImplicitAny": false
 	},
-	"include": ["src/**/*.ts", "utils/**/*.ts", "utils/builder-template.ts"],
+	"include": ["src/**/*.ts", "utils/**/*.ts", "eslint.config.mts"],
 	"exclude": ["node_modules"]
 }

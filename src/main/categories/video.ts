@@ -1,11 +1,11 @@
 import { Category } from "../../styleshift/types/store";
-import { setup_AutoTheater, setup_RemoveAmbient } from "../features/video";
+import { setup_auto_theater, setup_remove_ambient } from "../features/video";
 
-export const VideoCategory: Category = {
+export const video_category: Category = {
 	category: "📺 Video",
 	settings: [
 		{
-			type: "Number_Slide",
+			type: "number_slide",
 			id: "PlayerEdge",
 			name: "Player Round Edges",
 			description: "Controls the roundness of the video player's corners.",
@@ -21,7 +21,7 @@ export const VideoCategory: Category = {
     `,
 		},
 		{
-			type: "Checkbox",
+			type: "checkbox",
 			id: "VdoAnim",
 			name: "Video Transition",
 			description: "Enable transition animation when the video starts.",
@@ -39,9 +39,9 @@ export const VideoCategory: Category = {
 		},
 
 		{
-			type: "Color",
+			type: "color",
 			id: "EndBG",
-			name: "End-of-Video Hover Color",
+			name: "End-of-Video hover color",
 			description: "Background color when hovering over suggested videos at the end.",
 			value: "#00000050",
 			var_css: "--end-bg-hover-color",
@@ -52,9 +52,9 @@ export const VideoCategory: Category = {
     `,
 		},
 		{
-			type: "Checkbox",
+			type: "checkbox",
 			id: "CenterUD",
-			name: "Center Title (Under Video)",
+			name: "Center title (Under Video)",
 			description: "Moves the video title to the center when in normal view.",
 			value: true,
 			enable_css: `
@@ -74,9 +74,9 @@ export const VideoCategory: Category = {
     `,
 		},
 		{
-			type: "Checkbox",
+			type: "checkbox",
 			id: "CenterUDF",
-			name: "Center Title (Fullscreen)",
+			name: "Center title (Fullscreen)",
 			description: "Moves the video title to the center when in fullscreen/theater mode.",
 			value: true,
 			enable_css: `
@@ -86,18 +86,18 @@ export const VideoCategory: Category = {
     `,
 		},
 		{
-			type: "Checkbox",
+			type: "checkbox",
 			id: "AutoTheater",
-			name: "Auto Theater Mode",
+			name: "Auto Theater mode",
 			description:
 				"Automatically enters theater mode when you open a video. (May require a page reload to take effect)",
 			value: false,
-			enable_function: setup_AutoTheater,
+			enable_function: setup_auto_theater,
 		},
 		{
-			type: "Checkbox",
+			type: "checkbox",
 			id: "FullTheater",
-			name: "Full Bleed Theater Mode",
+			name: "Full Bleed Theater mode",
 			description: "Makes the video player take up the full height of the screen in theater mode.",
 			value: false,
 			enable_css: `
@@ -108,9 +108,9 @@ export const VideoCategory: Category = {
     `,
 		},
 		{
-			type: "Number_Slide",
-			id: "BelowSpace",
-			name: "Space Below Video",
+			type: "number_slide",
+			id: "Belowspace",
+			name: "space Below Video",
 			description: "Adds extra space below the video player.",
 			value: 0,
 			min: 0,
@@ -124,12 +124,12 @@ export const VideoCategory: Category = {
     `,
 		},
 		{
-			type: "Checkbox",
+			type: "checkbox",
 			id: "RemoveAmbient",
-			name: "Remove YouTube's Ambient Mode",
+			name: "Remove YouTube's Ambient mode",
 			description: "Automatically turns off YouTube's built-in ambient mode feature.",
 			value: true,
-			enable_function: setup_RemoveAmbient,
+			enable_function: setup_remove_ambient,
 		},
 	],
 };

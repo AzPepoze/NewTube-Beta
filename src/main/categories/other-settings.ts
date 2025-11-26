@@ -1,12 +1,12 @@
 import { Category } from "../../styleshift/types/store";
 
-export const OtherSettingsCategory: Category = {
+export const other_settings_category: Category = {
 	category: "⚛️ Other settings",
 	settings: [
 		{
-			type: "Dropdown",
-			id: "ScWidthNew",
-			name: "Scrollbar Width",
+			type: "dropdown",
+			id: "ScwidthNew",
+			name: "Scrollbar width",
 			description: "Changes the width of the browser scrollbar on YouTube.",
 			value: "thin",
 			options: {
@@ -16,7 +16,7 @@ export const OtherSettingsCategory: Category = {
 			},
 		},
 		{
-			type: "Checkbox",
+			type: "checkbox",
 			id: "VBG",
 			name: "Remove Theater Background",
 			description: "Removes the black background behind the video in theater mode.",
@@ -28,10 +28,10 @@ export const OtherSettingsCategory: Category = {
             `,
 		},
 		{
-			type: "Checkbox",
-			id: "HideYourChannel",
-			name: "Hide 'Your channel' Link",
-			description: "Hides the 'Your channel' link from the left sidebar.",
+			type: "checkbox",
+			id: "hideYourChannel",
+			name: "hide 'Your channel' Link",
+			description: "hides the 'Your channel' link from the left sidebar.",
 			value: false,
 			enable_css: `
                 #section-items > ytd-guide-entry-renderer:nth-child(2) {
@@ -40,10 +40,10 @@ export const OtherSettingsCategory: Category = {
             `,
 		},
 		{
-			type: "Checkbox",
-			id: "HideYourVID",
-			name: "Hide 'Your videos' Link",
-			description: "Hides the 'Your videos' link from the left sidebar.",
+			type: "checkbox",
+			id: "hideYourVID",
+			name: "hide 'Your videos' Link",
+			description: "hides the 'Your videos' link from the left sidebar.",
 			value: false,
 			enable_css: `
                 #section-items > ytd-guide-entry-renderer:nth-child(4) {

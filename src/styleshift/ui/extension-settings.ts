@@ -1,10 +1,10 @@
-import { Get_ALL_StyleShift_Items } from "../settings/items";
-import { Create_Main_Settings_UI } from "./settings/settings";
+import { get_all_styleshift_items } from "../settings/items";
+import { create_main_settings_ui } from "./settings/settings";
 
-export let Extension_Settings_UI: Awaited<ReturnType<typeof Create_Main_Settings_UI>>;
+export let extension_settings_ui: Awaited<ReturnType<typeof create_main_settings_ui>>;
 
 (async () => {
-	Extension_Settings_UI = await Create_Main_Settings_UI({
-		Get_Category: Get_ALL_StyleShift_Items,
+	extension_settings_ui = await create_main_settings_ui({
+		get_category: get_all_styleshift_items,
 	});
 })();

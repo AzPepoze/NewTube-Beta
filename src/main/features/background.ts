@@ -1,6 +1,6 @@
-import { GetDocumentBody } from "../../styleshift/build-in-functions/normal";
-import { Load_Setting } from "../../styleshift/core/save";
-import { On_Setting_Update } from "../../styleshift/settings/functions";
+import { get_document_body } from "../../styleshift/build-in-functions/normal";
+import { load_setting } from "../../styleshift/core/save";
+import { on_setting_update } from "../../styleshift/settings/functions";
 
 const bg_tint_id = "newtube-bg-tint";
 const bg_image_id = "newtube-bg-image";
@@ -51,8 +51,8 @@ export async function enable_bg() {
 		bg_image_element.id = bg_image_id;
 	}
 
-	(await GetDocumentBody()).appendChild(bg_tint_element);
-	(await GetDocumentBody()).appendChild(bg_image_element);
+	(await get_document_body()).appendChild(bg_tint_element);
+	(await get_document_body()).appendChild(bg_image_element);
 }
 
 export async function disable_bg() {
@@ -70,19 +70,19 @@ export async function disable_bg() {
 
 export async function update_bg_img() {
 	console.log("BG updated");
-	const url = await Load_Setting("BGIMG");
+	const url = await load_setting("BGIMG");
 	bg_image.src = url;
 }
 
 export async function update_bg_img_size() {
 	const bg_bound = bg_image_element.getBoundingClientRect();
-	const Imagine_Background_Height = (bg_image.height / bg_image.width) * window.innerWidth;
-	const zoomValue = await Load_Setting("BackgroundS");
+	const imagine_background_height = (bg_image.height / bg_image.width) * window.innerWidth;
+	const zoom_value = await load_setting("BackgroundS");
 
-	if (Imagine_Background_Height < bg_bound.height) {
-		bg_image_element.style.backgroundSize = `${(bg_bound.height / Imagine_Background_Height) * zoomValue}%`;
+	if (imagine_background_height < bg_bound.height) {
+		bg_image_element.style.backgroundSize = `${(bg_bound.height / imagine_background_height) * zoom_value}%`;
 	} else {
-		bg_image_element.style.backgroundSize = `${zoomValue}%`;
+		bg_image_element.style.backgroundSize = `${zoom_value}%`;
 	}
 }
 
@@ -91,4 +91,4 @@ bg_image.onload = function () {
 	update_bg_img_size();
 };
 
-On_Setting_Update("BGIMG", update_bg_img, true);
+on_setting_update("BGIMG", update_bg_img, true);

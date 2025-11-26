@@ -1,150 +1,150 @@
-import { Dynamic_Append, Create_Error } from "../../build-in-functions/extension";
-import { Scroll_On_Click, sleep, insert_after } from "../../build-in-functions/normal";
-import { Loaded_Developer_Modules } from "../../core/extension";
-import { Load, Save_All } from "../../core/save";
-import { Get_StyleShift_Dev_Only_Items } from "../../../main/items-styleshift-dev";
-import { in_setting_page, Update_All } from "../../run";
+import { dynamic_append, create_error } from "../../build-in-functions/extension";
+import { scroll_on_click, sleep, insert_after } from "../../build-in-functions/normal";
+import { loaded_developer_modules } from "../../core/extension";
+import { load, save_all } from "../../core/save";
+import { get_styleshift_dev_only_items } from "../../../main/items-styleshift-dev";
+import { in_setting_page, update_all } from "../../run";
 import {
-	Add_Category,
-	Remove_Setting,
-	Get_Setting_Category,
-	Remove_Category,
-	Get_StyleShift_Data_Type,
+	add_category,
+	remove_setting,
+	get_setting_category,
+	remove_category,
+	get_styleshift_data_type,
 } from "../../settings/items";
 import { Category } from "../../types/store";
-import { Show_Config_UI } from "../config";
-import { Create_StyleShift_Window, Animation_Time } from "../extension";
-import { Settings_UI } from "./setting-components";
+import { show_config_ui } from "../config";
+import { create_styleshift_window, animation_time } from "../extension";
+import { settings_ui } from "./setting-components";
 
-export function Setup_Left_Title_Animation(Title) {
-	Title.style.transform = "translateY(40px)";
-	Title.style.opacity = "0";
+export function setup_left_title_animation(title) {
+	title.style.transform = "translateY(40px)";
+	title.style.opacity = "0";
 }
 
-export async function Create_Main_Settings_UI({
-	Show_Category_List = true,
-	On_Create = null as (StyleShift_Window: Awaited<ReturnType<typeof Create_StyleShift_Window>>) => void,
-	On_Remove = null as () => void,
-	Get_Category = null as () => Category[] | Promise<Category[]>,
+export async function create_main_settings_ui({
+	show_category_list = true,
+	on_create = null as (styleshift_window: Awaited<ReturnType<typeof create_styleshift_window>>) => void,
+	on_remove = null as () => void,
+	get_category = null as () => Category[] | Promise<Category[]>,
 }) {
-	let Settings_Window, Update_Setting_Interval, Scroll_Category, Settings_Container;
+	let settings_window, update_setting_interval, scroll_category, settings_container;
 
-	const Return_OBJ = {
-		Create_UI: async function (Skip_Animation = false) {
-			console.log(Settings_Window);
-			if (Settings_Window) {
-				Return_OBJ.Recreate_UI();
+	const return_obj = {
+		create_ui: async function (skip_animation = false) {
+			console.log(settings_window);
+			if (settings_window) {
+				return_obj.recreate_ui();
 				return;
 			}
 
-			Settings_Window = await Create_StyleShift_Window({
-				Skip_Animation,
+			settings_window = await create_styleshift_window({
+				skip_animation,
 			});
 
-			console.log("Created_StyleShift_Window");
-			const Window = Settings_Window.Window;
+			console.log("Created_styleshift_window");
+			const window_element = settings_window.window_element;
 
-			Window.style.width = "47%";
-			Window.style.height = "80%";
-			Window.style.minWidth = "600px";
-			Window.style.minHeight = "250px";
+			window_element.style.width = "47%";
+			window_element.style.height = "80%";
+			window_element.style.minwidth = "600px";
+			window_element.style.minheight = "250px";
 
 			if (in_setting_page) {
-				Window.style.width = "100%";
-				Window.style.height = "100%";
-				Window.style.resize = "none";
+				window_element.style.width = "100%";
+				window_element.style.height = "100%";
+				window_element.style.resize = "none";
 			}
 
 			//------------------------------------------------
 
-			const Main_Frame = await Settings_UI["Setting_Frame"](false, false, { x: false, y: false }, true);
+			const main_frame = await settings_ui["setting_frame"](false, false, { x: false, y: false }, true);
 
-			Main_Frame.style.width = "calc(100% - 5px)";
-			Main_Frame.style.height = "-webkit-fill-available";
-			Main_Frame.style.gap = "10px";
-			Main_Frame.style.overflow = "hidden";
-			Window.append(Main_Frame);
+			main_frame.style.width = "calc(100% - 5px)";
+			main_frame.style.height = "-webkit-fill-available";
+			main_frame.style.gap = "10px";
+			main_frame.style.overflow = "hidden";
+			window_element.append(main_frame);
 
 			//------------------------------------------------
 
-			if (Show_Category_List) {
-				Scroll_Category = document.createElement("div");
-				Scroll_Category.className = "STYLESHIFT-Scrollable";
-				Scroll_Category.style.minWidth = "100px";
-				Scroll_Category.style.width = "250px";
-				Scroll_Category.setAttribute("Left", "true");
-				Main_Frame.append(Scroll_Category);
+			if (show_category_list) {
+				scroll_category = document.createElement("div");
+				scroll_category.className = "STYLESHIFT-Scrollable";
+				scroll_category.style.minwidth = "100px";
+				scroll_category.style.width = "250px";
+				scroll_category.setAttribute("Left", "true");
+				main_frame.append(scroll_category);
 			}
 
 			//------------------------------------------------
 
-			const Settings_Frame = await Settings_UI["Setting_Frame"](false, true, { x: false, y: false }, true);
-			Settings_Frame.style.width = "-webkit-fill-available";
-			Settings_Frame.style.height = "100%";
-			Settings_Frame.style.gap = "10px";
-			Main_Frame.append(Settings_Frame);
+			const settings_frame = await settings_ui["setting_frame"](false, true, { x: false, y: false }, true);
+			settings_frame.style.width = "-webkit-fill-available";
+			settings_frame.style.height = "100%";
+			settings_frame.style.gap = "10px";
+			main_frame.append(settings_frame);
 
-			const Search_Input = document.createElement("input");
-			Search_Input.className = "STYLESHIFT-Search";
-			Search_Input.placeholder = "🔍 Search";
-			Settings_Frame.append(Search_Input);
+			const search_input = document.createElement("input");
+			search_input.className = "STYLESHIFT-Search";
+			search_input.placeholder = "🔍 Search";
+			settings_frame.append(search_input);
 
-			Settings_Container = document.createElement("div");
-			Settings_Container.className = "STYLESHIFT-Scrollable";
-			Settings_Frame.append(Settings_Container);
+			settings_container = document.createElement("div");
+			settings_container.className = "STYLESHIFT-Scrollable";
+			settings_frame.append(settings_container);
 
 			//---------------------------------------------------
 
-			Settings_Window.Close.addEventListener(
+			settings_window.close.addEventListener(
 				"click",
 				() => {
-					Return_OBJ.Remove_UI();
+					return_obj.remove_ui();
 				},
 				{ once: true }
 			);
 
 			//---------------------------------------------------
 
-			const Left_UI = [];
-			const Right_UI = [];
+			const left_ui = [];
+			const right_ui = [];
 
-			const Created_Dev_Only_Category = [];
+			const created_dev_only_category = [];
 
-			for (const This_Category of await Get_Category()) {
-				const { Category_Title, Category_Frame } = await Create_Category_UI(
-					Settings_Container,
-					This_Category
+			for (const this_category of await get_category()) {
+				const { category_title, category_frame } = await create_category_ui(
+					settings_container,
+					this_category
 				);
 
-				const Left_Category_Title = await Settings_UI["Left-Title"](This_Category.category, Skip_Animation);
+				const left_category_title = await settings_ui["Left-title"](this_category.category, skip_animation);
 
-				Scroll_On_Click(Left_Category_Title, Category_Title);
+				scroll_on_click(left_category_title, category_title);
 
-				if (Show_Category_List) {
-					Left_UI.push(Left_Category_Title);
-					Scroll_Category.append(Left_Category_Title);
+				if (show_category_list) {
+					left_ui.push(left_category_title);
+					scroll_category.append(left_category_title);
 				}
 
-				Right_UI.push(Category_Title);
+				right_ui.push(category_title);
 
 				//------------------------------
 
-				console.log(Loaded_Developer_Modules);
+				console.log(loaded_developer_modules);
 
-				if (Loaded_Developer_Modules) {
-					const Get_Dev_Only_Category = Get_StyleShift_Dev_Only_Items().find(
-						(x) => x.category == This_Category.category
+				if (loaded_developer_modules) {
+					const get_dev_only_category = get_styleshift_dev_only_items().find(
+						(x) => x.category == this_category.category
 					);
 
-					console.log("Test", Get_Dev_Only_Category);
+					console.log("Test", get_dev_only_category);
 
-					if (Get_Dev_Only_Category) {
-						Created_Dev_Only_Category.push(Get_Dev_Only_Category.category);
+					if (get_dev_only_category) {
+						created_dev_only_category.push(get_dev_only_category.category);
 
-						for (const This_Setting_Only of Get_Dev_Only_Category.settings) {
-							await Create_Setting_UI_Element_With_Able_Developer_Mode(
-								Category_Frame,
-								This_Setting_Only
+						for (const this_setting_only of get_dev_only_category.settings) {
+							await create_setting_ui_element_with_able_developer_mode(
+								category_frame,
+								this_setting_only
 							);
 						}
 					}
@@ -152,474 +152,477 @@ export async function Create_Main_Settings_UI({
 
 				//------------------------------
 
-				if (This_Category.editable && (await Load("Developer_Mode"))) {
-					Dynamic_Append(
-						Category_Frame,
-						await Settings_UI["Add_Setting_Button"](This_Category.settings)
+				if (this_category.editable && (await load("Developer_mode"))) {
+					dynamic_append(
+						category_frame,
+						await settings_ui["add_setting_button"](this_category.settings)
 					);
 				}
 
-				await Settings_UI["Space"](Settings_Container);
+				await settings_ui["space"](settings_container);
 
 				//------------------------------------------------------
 			}
 
-			if (await Load("Developer_Mode")) {
-				for (const Category of Get_StyleShift_Dev_Only_Items()) {
-					if (!Created_Dev_Only_Category.includes(Category.category)) {
-						await Create_Category_UI(Settings_Container, Category);
+			if (await load("Developer_mode")) {
+				for (const this_category of get_styleshift_dev_only_items()) {
+					if (!created_dev_only_category.includes(this_category.category)) {
+						await create_category_ui(settings_container, this_category);
 					}
 				}
 			}
 
-			if (Show_Category_List && (await Load("Developer_Mode"))) {
-				const Add_Button = (
-					await Settings_UI["Button"]({
+			if (show_category_list && (await load("Developer_mode"))) {
+				const add_button = (
+					await settings_ui["button"]({
 						name: "+",
 						color: "#FFFFFF",
 						text_align: "center",
 						click_function: function () {
-							Add_Category("🥳 New_Category");
+							add_category("🥳 new_category");
 						},
 					})
-				).Button;
-				Add_Button.className += " STYLESHIFT-Add-Category-Button";
+				).button;
+				add_button.className += " STYLESHIFT-Add-Category-button";
 
-				Add_Button.style.padding = "5px";
-				Add_Button.style.marginInline = "10px";
-				Add_Button.style.marginTop = "3px";
+				add_button.style.padding = "5px";
+				add_button.style.marginInline = "10px";
+				add_button.style.marginTop = "3px";
 
-				Left_UI.push(Add_Button);
-				Scroll_Category.append(Add_Button);
+				left_ui.push(add_button);
+				scroll_category.append(add_button);
 
-				if (!Skip_Animation) {
-					Setup_Left_Title_Animation(Add_Button);
+				if (!skip_animation) {
+					setup_left_title_animation(add_button);
 				}
 			}
 
 			//------------------------------------------------------
 
-			if (Show_Category_List && !Skip_Animation) {
+			if (show_category_list && !skip_animation) {
 				requestAnimationFrame(function () {
-					for (let Left_Order = 0; Left_Order < Left_UI.length; Left_Order++) {
-						const Left_Category_Title = Left_UI[Left_Order];
+					for (let left_order = 0; left_order < left_ui.length; left_order++) {
+						const left_category_title = left_ui[left_order];
 						setTimeout(() => {
-							Left_Category_Title.style.transform = "";
-							Left_Category_Title.style.opacity = "";
-						}, 50 * Left_Order);
+							left_category_title.style.transform = "";
+							left_category_title.style.opacity = "";
+						}, 50 * left_order);
 					}
 				});
 			}
 
 			//------------------------------------------------------
 
-			let Current_Selected: HTMLElement;
+			let current_selected: HTMLElement;
 
-			if (Show_Category_List) {
-				Update_Setting_Interval = setInterval(async function () {
-					const Last_Index = Right_UI.length - 1;
+			if (show_category_list) {
+				update_setting_interval = setInterval(async function () {
+					const last_index = right_ui.length - 1;
 
-					for (let index = 0; index <= Last_Index; index++) {
-						const Settings_Container_Box = Settings_Container.getBoundingClientRect();
+					for (let index = 0; index <= last_index; index++) {
+						const settings_container_box = settings_container.getBoundingClientRect();
 						if (
-							index == Last_Index ||
-							(Right_UI[index].getBoundingClientRect().top - 10 <= Settings_Container_Box.top &&
-								Right_UI[index + 1].getBoundingClientRect().top - 10 >=
-									Settings_Container_Box.top) ||
+							index == last_index ||
+							(right_ui[index].getBoundingClientRect().top - 10 <= settings_container_box.top &&
+								right_ui[index + 1].getBoundingClientRect().top - 10 >=
+									settings_container_box.top) ||
 							(index == 0 &&
-								Right_UI[index].getBoundingClientRect().top >= Settings_Container_Box.top)
+								right_ui[index].getBoundingClientRect().top >= settings_container_box.top)
 						) {
-							if (Current_Selected == Left_UI[index]) {
+							if (current_selected == left_ui[index]) {
 								break;
 							}
-							if (Current_Selected) {
-								Current_Selected.removeAttribute("Selected");
+							if (current_selected) {
+								current_selected.removeAttribute("selected");
 							}
-							Current_Selected = Left_UI[index];
-							Current_Selected.setAttribute("Selected", "");
+							current_selected = left_ui[index];
+							current_selected.setAttribute("selected", "");
 							break;
 						}
 					}
 				}, 100);
 			}
 
-			if (On_Create) {
-				On_Create(Settings_Window);
+			if (on_create) {
+				on_create(settings_window);
 			}
 		},
-		Remove_UI: function (Skip_Animation = false, delay = false) {
-			if (Settings_Window) {
-				clearInterval(Update_Setting_Interval);
-				if (Skip_Animation) {
-					const BG_FRAME = Settings_Window.BG_Frame;
+		remove_ui: function (skip_animation = false, delay = false) {
+			if (settings_window) {
+				clearInterval(update_setting_interval);
+				if (skip_animation) {
+					const bg_frame = settings_window.bg_frame;
 					requestAnimationFrame(() => {
-						BG_FRAME.remove();
+						bg_frame.remove();
 					});
 				} else {
-					Settings_Window.Run_Close();
+					settings_window.run_close();
 				}
-				Settings_Window = null;
+				settings_window = null;
 			}
 		},
-		Recreate_UI: async function () {
-			if (Settings_Window) {
-				const Last_Scroll = [0, 0];
+		recreate_ui: async function () {
+			if (settings_window) {
+				const last_scroll = [0, 0];
 
-				if (Show_Category_List) {
-					Last_Scroll[0] = Scroll_Category.scrollTop;
+				if (show_category_list) {
+					last_scroll[0] = scroll_category.scrollTop;
 				}
-				Last_Scroll[1] = Settings_Container.scrollTop;
+				last_scroll[1] = settings_container.scrollTop;
 
-				Settings_Window.Window.style.animation = "";
-				const Last_Style = Settings_Window.Window.style.cssText;
-				console.log(Last_Style);
-				Return_OBJ.Remove_UI(true, true);
+				settings_window.window_element.style.animation = "";
+				const last_style = settings_window.window_element.style.csstext;
+				console.log(last_style);
+				return_obj.remove_ui(true, true);
 
 				//----------------------------------------
 
-				await Return_OBJ.Create_UI(true);
+				await return_obj.create_ui(true);
 
-				Settings_Window.Window.style.cssText = Last_Style;
+				settings_window.window_element.style.csstext = last_style;
 
 				requestAnimationFrame(function () {
-					if (Show_Category_List) {
-						Scroll_Category.scrollTo(0, Last_Scroll[0]);
+					if (show_category_list) {
+						scroll_category.scrollTo(0, last_scroll[0]);
 					}
 
-					Settings_Container.scrollTo(0, Last_Scroll[1]);
+					settings_container.scrollTo(0, last_scroll[1]);
 				});
 			}
 		},
-		Toggle: function () {
-			if (Settings_Window) {
-				Return_OBJ.Remove_UI();
+		toggle: function () {
+			if (settings_window) {
+				return_obj.remove_ui();
 			} else {
-				Return_OBJ.Create_UI();
+				return_obj.create_ui();
 			}
 		},
 
-		Set_Get_Category: function (New_Function: () => Category[] | Promise<Category[]> | null) {
-			Get_Category = New_Function;
-			if (Settings_Window) {
-				Return_OBJ.Recreate_UI();
+		set_get_category: function (new_function: () => Category[] | Promise<Category[]> | null) {
+			get_category = new_function;
+			if (settings_window) {
+				return_obj.recreate_ui();
 			}
 		},
 	};
 
-	return Return_OBJ;
+	return return_obj;
 }
 
 //------------------------------
 
-export async function Create_Config_UI_Function(Editable = false, Config_Function: Function): Promise<Function> {
-	if (Editable && (await Load("Developer_Mode"))) {
-		return Config_Function;
+export async function create_config_ui_function(editable = false, config_function: Function): Promise<Function> {
+	if (editable && (await load("Developer_mode"))) {
+		return config_function;
 	}
 }
 
-function Create_Setting_Space(Size = 20, Gap = 0) {
-	const Space = document.createElement("div");
-	Space.style.height = Size + "px";
-	Space.style.transition = `all ${Animation_Time}s`;
+function create_setting_space(size = 20, gap = 0) {
+	const space = document.createElement("div");
+	space.style.height = size + "px";
+	space.style.transition = `all ${animation_time}s`;
 
-	async function Show() {
-		Space.style.height = Size + Gap + "px";
-		await sleep(Animation_Time * 1000);
+	async function show() {
+		space.style.height = size + gap + "px";
+		await sleep(animation_time * 1000);
 	}
 
-	async function Hide() {
-		Space.style.height = Gap + "px";
-		await sleep(Animation_Time * 1000);
+	async function hide() {
+		space.style.height = gap + "px";
+		await sleep(animation_time * 1000);
 	}
 
-	function Set_Size(Value) {
-		Space.style.height = Value + "px";
+	function set_size(value) {
+		space.style.height = value + "px";
 	}
 
-	function Set_Gap(Value) {
-		Gap = Value;
-		Space.style.marginTop = -Gap + "px";
-		Space.style.marginBottom = -Gap + "px";
+	function set_gap(value) {
+		gap = value;
+		space.style.marginTop = -gap + "px";
+		space.style.marginBottom = -gap + "px";
 	}
-	Set_Gap(Gap);
+	set_gap(gap);
 
 	return {
-		Show,
-		Hide,
-		Set_Size,
-		Set_Gap,
-		Element: Space,
+		show,
+		hide,
+		set_size,
+		set_gap,
+		element: space,
 	};
 }
 
-let Draging_Setting;
+let draging_setting;
 
-async function Create_Base_UI_Element(UI_Type, This_Data) {
+async function create_base_ui_element(ui_type, this_data) {
 	try {
-		return await Settings_UI[UI_Type](This_Data);
+		console.log(ui_type);
+		return await settings_ui[ui_type](this_data);
 	} catch (error) {
-		Create_Error(`${error}\n\n${JSON.stringify(This_Data, null, 2)}`);
+		create_error(`${error}\n\n${JSON.stringify(this_data, null, 2)}`);
 		return null; // Return null or handle the error appropriately
 	}
 }
 
-async function Add_Drag(Frame, Parent, This_Data) {
-	const Move_Button = (
-		await Settings_UI["Button"]({
+async function add_drag(frame, parent, this_data) {
+	const move_button = (
+		await settings_ui["button"]({
 			name: "☰",
 			text_align: "center",
 		})
-	).Button;
-	Move_Button.className += " STYLESHIFT-Config-Button";
-	Frame.append(Move_Button);
+	).button;
+	move_button.className += " STYLESHIFT-Config-button";
+	frame.append(move_button);
 
-	Move_Button.addEventListener("mousedown", async function (event) {
+	move_button.addEventListener("mousedown", async function (event) {
 		event.preventDefault();
 
-		const Frame_Bound = Frame.getBoundingClientRect();
-		const Offset = event.clientY - Frame_Bound.top;
+		const frame_bound = frame.getBoundingClientRect();
+		const offset = event.clientY - frame_bound.top;
 
-		Draging_Setting = {
-			Size: Frame_Bound.height,
-			Data: This_Data,
+		draging_setting = {
+			size: frame_bound.height,
+			Data: this_data,
 		};
 
-		Frame.style.width = `${Frame_Bound.width}px`;
-		Frame.style.height = `${Frame_Bound.height}px`;
-		Frame.style.position = "absolute";
-		Frame.style.pointerEvents = "none";
-		Frame.style.zIndex = "1";
+		frame.style.width = `${frame_bound.width}px`;
+		frame.style.height = `${frame_bound.height}px`;
+		frame.style.position = "absolute";
+		frame.style.pointerEvents = "none";
+		frame.style.zIndex = "1";
 
-		const Space = Create_Setting_Space(
-			Frame_Bound.height,
-			Number(getComputedStyle(Parent).gap.replace("px", ""))
+		const space = create_setting_space(
+			frame_bound.height,
+			Number(getComputedStyle(parent).gap.replace("px", ""))
 		);
-		Space.Show();
-		Parent.insertBefore(Space.Element, Frame);
+
+		space.show();
+		parent.insertBefore(space.element, frame);
 
 		requestAnimationFrame(() => {
-			Space.Hide();
+			space.hide();
 		});
 
-		const Scroller = Parent.parentElement;
-		let Current_Mouse_Event = event;
+		const scroller = parent.parentElement;
+		let current_mouse_event = event;
 
-		Scroller.setAttribute("Draging", "");
+		scroller.setAttribute("draging", "");
 
 		//---------------------------------
 
-		let Render_Drag = true;
+		let render_drag = true;
 
-		function Update_Drag_Function() {
-			if (!Render_Drag) return;
+		function update_drag_function() {
+			if (!render_drag) return;
 
-			Frame.style.top = `${
-				Current_Mouse_Event.clientY - Scroller.getBoundingClientRect().top + Scroller.scrollTop - Offset
+			frame.style.top = `${
+				current_mouse_event.clientY - scroller.getBoundingClientRect().top + scroller.scrollTop - offset
 			}px`;
 
-			requestAnimationFrame(Update_Drag_Function);
+			requestAnimationFrame(update_drag_function);
 		}
-		Update_Drag_Function();
+		update_drag_function();
 
 		//---------------------------------
 
-		function On_Drag(event) {
-			Current_Mouse_Event = event;
+		function on_drag(event) {
+			current_mouse_event = event;
 		}
 
-		document.addEventListener("mousemove", On_Drag);
+		document.addEventListener("mousemove", on_drag);
 
 		document.addEventListener(
 			"mouseup",
 			function () {
-				document.removeEventListener("mousemove", On_Drag);
-				Render_Drag = false;
+				document.removeEventListener("mousemove", on_drag);
+				render_drag = false;
 
-				Frame.style.width = "";
-				Frame.style.height = "";
-				Frame.style.position = "";
-				Frame.style.pointerEvents = "";
-				Frame.style.zIndex = "";
+				frame.style.width = "";
+				frame.style.height = "";
+				frame.style.position = "";
+				frame.style.pointerEvents = "";
+				frame.style.zIndex = "";
 
-				Scroller.removeAttribute("Draging");
+				scroller.removeAttribute("draging");
 
-				Draging_Setting = null;
-				Space.Element.remove();
+				draging_setting = null;
+				space.element.remove();
 			},
 			{ once: true }
 		);
 	});
 }
 
-async function Add_Drop_Target(Frame, Parent, This_Data, Data_Type) {
-	// await Wait_One_Frame();
-	const Space = Create_Setting_Space(0, 5);
+async function add_drop_target(frame, parent, this_data, data_type) {
+	// await Wait_One_frame();
+	const space = create_setting_space(0, 5);
 	requestAnimationFrame(() => {
-		Space.Set_Gap(Number(getComputedStyle(Parent).gap.replace("px", "")));
-		Space.Hide();
+		space.set_gap(Number(getComputedStyle(parent).gap.replace("px", "")));
+		space.hide();
 	});
-	Space.Element.className = "STYLESHIFT-Drag-Hint";
+	space.element.className = "STYLESHIFT-drag-Hint";
 
-	insert_after(Space.Element, Frame, Parent);
+	insert_after(space.element, frame, parent);
 
-	let Current_Hover = 0;
-	function Space_Update_Hover(Hover) {
-		Current_Hover += Hover;
+	let current_hover = 0;
+	function space_update_hover(hover) {
+		current_hover += hover;
 
-		if (Draging_Setting) {
-			if (Current_Hover != 0) {
-				Space.Set_Size(Draging_Setting.Size);
-				Space.Show();
+		if (draging_setting) {
+			if (current_hover != 0) {
+				space.set_size(draging_setting.size);
+				space.show();
 			}
 		}
 
-		if (Current_Hover == 0) {
-			Space.Hide();
+		if (current_hover == 0) {
+			space.hide();
 		}
 	}
 
-	Frame.addEventListener("mouseenter", () => {
-		Space_Update_Hover(1);
+	frame.addEventListener("mouseenter", () => {
+		space_update_hover(1);
 	});
-	Space.Element.addEventListener("mouseenter", () => {
-		Space_Update_Hover(1);
-	});
-
-	Frame.addEventListener("mouseleave", () => {
-		Space_Update_Hover(-1);
-	});
-	Space.Element.addEventListener("mouseleave", function () {
-		Space_Update_Hover(-1);
+	space.element.addEventListener("mouseenter", () => {
+		space_update_hover(1);
 	});
 
-	Space.Element.addEventListener("mouseup", () => {
-		if (Draging_Setting) {
-			Remove_Setting(Draging_Setting.Data);
+	frame.addEventListener("mouseleave", () => {
+		space_update_hover(-1);
+	});
+	space.element.addEventListener("mouseleave", function () {
+		space_update_hover(-1);
+	});
 
-			const This_Category: Category | 0 =
-				Data_Type == "Category" ? This_Data : Get_Setting_Category(This_Data);
-			let This_Setting_Index = 0;
+	space.element.addEventListener("mouseup", () => {
+		if (draging_setting) {
+			remove_setting(draging_setting.Data);
 
-			if (This_Category == 0) {
-				Create_Error(`Category of ${This_Data} not found`);
+			const this_category: Category | 0 =
+				data_type == "Category" ? this_data : get_setting_category(this_data);
+			let this_setting_index = 0;
+
+			if (this_category == 0) {
+				create_error(`Category of ${this_data} not found`);
 				return;
 			}
 
-			if (Data_Type != "Category") {
-				This_Setting_Index = This_Category.settings.findIndex((Setting) => Setting == This_Data) + 1;
+			if (data_type != "Category") {
+				this_setting_index =
+					this_category.settings.findIndex((setting_item) => setting_item == this_data) + 1;
 			}
 
 			try {
-				This_Category.settings.splice(This_Setting_Index, 0, Draging_Setting.Data);
+				this_category.settings.splice(this_setting_index, 0, draging_setting.Data);
 			} catch (error) {
-				Create_Error(error);
+				create_error(error);
 				return;
 			}
 
-			Save_All();
-			Update_All();
+			save_all();
+			update_all();
 		}
 	});
 }
 
-async function Add_Edit_Delete_Buttons(Frame, Main_Element, This_Data, Data_Type) {
-	const Edit_Button = (
-		await Settings_UI["Button"]({
+async function add_edit_delete_buttons(frame, main_element, this_data, data_type) {
+	const edit_button = (
+		await settings_ui["button"]({
 			name: "✏️",
 			text_align: "center",
 			color: "#3399ff",
 			click_function: function () {
-				Show_Config_UI(Main_Element.Config_UI_Function);
+				show_config_ui(main_element.config_ui_function);
 			},
 		})
-	).Button;
-	Edit_Button.className += " STYLESHIFT-Config-Button";
-	Frame.append(Edit_Button);
+	).button;
+	edit_button.className += " STYLESHIFT-Config-button";
+	frame.append(edit_button);
 
-	const Delete_Button = (
-		await Settings_UI["Button"]({
+	const delete_button = (
+		await settings_ui["button"]({
 			name: "🗑️",
 			text_align: "center",
 			color: "#FF0000",
 			click_function:
-				Data_Type == "Category"
+				data_type == "Category"
 					? async function () {
-							Remove_Category(This_Data);
+							remove_category(this_data);
 					  }
 					: async function () {
-							Remove_Setting(This_Data);
+							remove_setting(this_data);
 					  },
 		})
-	).Button;
-	Delete_Button.className += " STYLESHIFT-Config-Button";
-	Frame.append(Delete_Button);
+	).button;
+	delete_button.className += " STYLESHIFT-Config-button";
+	frame.append(delete_button);
 }
 
-async function Setup_Developer_Mode_Wrapper(Parent, This_Data, Main_Element, Data_Type) {
-	const Frame = Settings_UI["Setting_Frame"](false, false, { x: true, y: true }, true);
-	Frame.className += " STYLESHIFT-Config-Frame";
+async function setup_developer_mode_wrapper(parent, this_data, main_element, data_type) {
+	const frame = settings_ui["setting_frame"](false, false, { x: true, y: true }, true);
+	frame.className += " STYLESHIFT-Config-Frame";
 
-	if (Data_Type != "Category") {
-		await Add_Drag(Frame, Parent, This_Data);
+	if (data_type != "Category") {
+		await add_drag(frame, parent, this_data);
 	}
 
-	//--------------------------- Main Content Frame
-	const Main_Frame = Settings_UI["Setting_Frame"](
+	//--------------------------- Main content frame
+	const main_frame = settings_ui["setting_frame"](
 		false,
 		false,
 		{ x: true, y: true },
-		This_Data.type == "Button" || Data_Type == "Category"
+		this_data.type == "button" || data_type == "Category"
 	);
-	Main_Frame.className += " STYLESHIFT-Main-Setting-Frame";
-	Frame.append(Main_Frame);
+	main_frame.className += " STYLESHIFT-Main-Setting-Frame";
+	frame.append(main_frame);
 
-	Dynamic_Append(Main_Frame, Main_Element);
+	dynamic_append(main_frame, main_element);
 
-	//--------------------------- Edit & Delete Buttons
-	await Add_Edit_Delete_Buttons(Frame, Main_Element, This_Data, Data_Type);
+	//--------------------------- Edit & Delete buttons
+	await add_edit_delete_buttons(frame, main_element, this_data, data_type);
 
-	//--------------------------- Append Final Frame
-	Parent.append(Frame);
+	//--------------------------- Append Final frame
+	parent.append(frame);
 
-	//--------------------------- Drop Target
-	Add_Drop_Target(Frame, Parent, This_Data, Data_Type);
+	//--------------------------- Drop target
+	add_drop_target(frame, parent, this_data, data_type);
 }
 
-export async function Create_Setting_UI_Element_With_Able_Developer_Mode(Parent: HTMLDivElement, This_Data) {
-	const Data_Type = Get_StyleShift_Data_Type(This_Data);
-	const UI_Type = Data_Type == "Category" ? "Title" : This_Data.type;
+export async function create_setting_ui_element_with_able_developer_mode(parent: HTMLDivElement, this_data) {
+	const data_type = get_styleshift_data_type(this_data);
+	const ui_type = data_type == "category" ? "title" : this_data.type;
 
-	const Main_Element = await Create_Base_UI_Element(UI_Type, This_Data);
-	if (!Main_Element) return null; // Handle case where element creation failed
+	const main_element = await create_base_ui_element(ui_type, this_data);
+	if (!main_element) return null; // Handle case where element creation failed
 
-	if ((await Load("Developer_Mode")) && This_Data.Editable) {
-		await Setup_Developer_Mode_Wrapper(Parent, This_Data, Main_Element, Data_Type);
+	if ((await load("Developer_mode")) && this_data.editable) {
+		await setup_developer_mode_wrapper(parent, this_data, main_element, data_type);
 	} else {
-		Dynamic_Append(Parent, Main_Element);
+		dynamic_append(parent, main_element);
 	}
 
-	return Main_Element;
+	return main_element;
 }
 
-export async function Create_Category_UI(Parent, This_Category: Category) {
-	const Category_Frame = await Settings_UI["Setting_Frame"](true, true);
-	Category_Frame.className += " STYLESHIFT-Category-Frame";
-	Parent.append(Category_Frame);
+export async function create_category_ui(parent, this_category: Category) {
+	const category_frame = await settings_ui["setting_frame"](true, true);
+	category_frame.className += " STYLESHIFT-Category-Frame";
+	parent.append(category_frame);
 
-	const Category_Title = (await Create_Setting_UI_Element_With_Able_Developer_Mode(Category_Frame, This_Category))
-		.Frame;
+	const category_title = (await create_setting_ui_element_with_able_developer_mode(category_frame, this_category))
+		.frame;
 
-	for (const This_Setting of This_Category.settings) {
+	for (const this_setting of this_category.settings) {
 		try {
-			await Create_Setting_UI_Element_With_Able_Developer_Mode(Category_Frame, This_Setting);
+			await create_setting_ui_element_with_able_developer_mode(category_frame, this_setting);
 		} catch (error) {
-			Create_Error(`At ${This_Category.category} - ${JSON.stringify(This_Setting, null, 2)}\n${error}`).then(
-				(Notification) => {
-					Notification.Set_Title("StyleShift - Create UI error");
+			create_error(`At ${this_category.category} - ${JSON.stringify(this_setting, null, 2)}\n${error}`).then(
+				(notification) => {
+					notification.set_title("StyleShift - Create ui error");
 				}
 			);
 		}
 	}
 
-	return { Category_Title, Category_Frame };
+	return { category_title, category_frame };
 }

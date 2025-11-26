@@ -1,10 +1,10 @@
 import { Category } from "../../styleshift/types/store";
 
-export const TopbarSearchCategory: Category = {
+export const topbar_search_category: Category = {
 	category: "🔎 Topbar & Search",
 	settings: [
 		{
-			type: "Checkbox",
+			type: "checkbox",
 			id: "Scroll",
 			name: "Auto-Transparent Topbar",
 			description: "Makes the topbar transparent when scrolled down.",
@@ -13,7 +13,7 @@ export const TopbarSearchCategory: Category = {
 				const masthead = document.querySelector("#masthead") as HTMLElement;
 				if (!masthead) return;
 
-				const handleScroll = () => {
+				const handle_scroll = () => {
 					if (window.scrollY > 0) {
 						masthead.classList.add("scrolled");
 					} else {
@@ -21,7 +21,7 @@ export const TopbarSearchCategory: Category = {
 					}
 				};
 
-				window.addEventListener("scroll", handleScroll);
+				window.addEventListener("scroll", handle_scroll);
 				// Also remove listener when disabled if we add a disable_function
 			},
 			enable_css: `
@@ -34,17 +34,17 @@ export const TopbarSearchCategory: Category = {
             `,
 		},
 		{
-			type: "Color",
+			type: "color",
 			id: "ThemeSnd",
-			name: "Topbar Color",
+			name: "Topbar color",
 			description: "The background color of the topbar when scrolled.",
 			value: "#00000080",
 			var_css: "--topbar-color",
 		},
 		{
-			type: "Color",
+			type: "color",
 			id: "ThemeChips",
-			name: "Chips Bar Color",
+			name: "Chips Bar color",
 			description: "Background color for the topic chips bar below the topbar.",
 			value: "#00000080",
 			var_css: "--chips-color",
@@ -55,7 +55,7 @@ export const TopbarSearchCategory: Category = {
             `,
 		},
 		{
-			type: "Checkbox",
+			type: "checkbox",
 			id: "SearchAnim",
 			name: "Enable Search Animation",
 			description: "Adds a slide-in animation to the search suggestion box.",

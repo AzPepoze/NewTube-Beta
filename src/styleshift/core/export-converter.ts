@@ -1,26 +1,26 @@
-import { StyleShift_Property_List, Type_Convert_Table } from "../settings/default-items";
+import { styleshift_property_list, type_convert_table } from "../settings/default-items";
 import { Setting } from "../types/store";
 
-export async function Convert_To_Export_Setting(
-	This_Setting: Setting,
-	Create_File_Function: (File_Name: string, File_Data: string) => Promise<void>
+export async function convert_to_export_setting(
+	this_setting: Setting,
+	create_file_function: (file_name: string, file_data: string) => Promise<void>
 ) {
-	for (const this_property of StyleShift_Property_List[This_Setting.type]) {
+	for (const this_property of styleshift_property_list[this_setting.type]) {
 		if (
 			(this_property.includes("_css") || this_property.includes("_function")) &&
-			!(this_property in This_Setting)
+			!(this_property in this_setting)
 		) {
-			This_Setting[this_property] = "";
+			this_setting[this_property] = "";
 		}
 	}
 
 	//-----------------------------------
 
-	for (const This_Key of Object.keys(This_Setting)) {
-		for (const [StyleShift_Type, Converted_Type] of Object.entries(Type_Convert_Table)) {
-			if (This_Key.endsWith(StyleShift_Type)) {
-				await Create_File_Function(`${This_Key}.${Converted_Type}`, This_Setting[This_Key]);
-				delete This_Setting[This_Key];
+	for (const this_key of Object.keys(this_setting)) {
+		for (const [styleshift_type, converted_type] of Object.entries(type_convert_table)) {
+			if (this_key.endsWith(styleshift_type)) {
+				await create_file_function(`${this_key}.${converted_type}`, this_setting[this_key]);
+				delete this_setting[this_key];
 			}
 		}
 	}

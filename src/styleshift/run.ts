@@ -1,20 +1,20 @@
-import { Create_Error, Create_Notification } from "./build-in-functions/extension";
+import { create_error, create_notification } from "./build-in-functions/extension";
 import {
-	Get_Current_Domain,
-	Get_Current_URL_Parameters,
-	GetDocumentBody,
-	ReArrange_Selector,
+	get_current_domain,
+	get_current_url_parameters,
+	get_document_body,
+	rearrange_selector,
 	sleep,
 } from "./build-in-functions/normal";
-import { Run_Text_Script, Update_StyleShift_Functions_List } from "./core/extension";
-import { Clear_Unused_Save, Load, Load_ThisWeb_Save, Save, Save_All, Update_Save_Default } from "./core/save";
-import { Run_All_Setting_Init, SetUp_Setting_Function } from "./settings/functions";
-import { Create_StyleSheet_Holder } from "./settings/style-sheet";
-import { Get_ALL_StyleShift_Items, Get_ALL_StyleShift_Settings, Update_StyleShift_Items } from "./settings/items";
+import { run_text_script, update_styleshift_functions_list } from "./core/extension";
+import { clear_unused_save, load, load_thisweb_save, save, save_all, update_save_default } from "./core/save";
+import { run_all_setting_init, setup_setting_function } from "./settings/functions";
+import { create_stylesheet_holder } from "./settings/style-sheet";
+import { get_all_styleshift_items, get_all_styleshift_settings, update_styleshift_items } from "./settings/items";
 import * as global from "./communication/extension";
-import { Update_All_UI } from "./ui/extension";
-import { Extension_Settings_UI } from "./ui/extension-settings";
-import { Toggle_Customize } from "./ui/highlight";
+import { update_all_ui } from "./ui/extension";
+import { extension_settings_ui } from "./ui/extension-settings";
+import { toggle_customize } from "./ui/highlight";
 
 //-------------------------------------------------------
 // Global Variables & Constants
@@ -29,7 +29,7 @@ export const is_firefox = navigator.userAgent.toLowerCase().includes("firefox");
 let is_in_iframe;
 try {
 	is_in_iframe = window.self !== window.top;
-} catch (e) {
+} catch (e: any) {
 	is_in_iframe = true;
 }
 
@@ -49,14 +49,14 @@ if (window.location.origin == extension_location) {
 
 export let save_name;
 if (in_setting_page) {
-	const URL_Parameters = Get_Current_URL_Parameters();
-	if (URL_Parameters.domain) {
-		save_name = URL_Parameters.domain;
+	const url_parameters = get_current_url_parameters();
+	if (url_parameters.domain) {
+		save_name = url_parameters.domain;
 	} else {
 		save_name = "youtube.com";
 	}
 } else {
-	save_name = Get_Current_Domain();
+	save_name = get_current_domain();
 }
 
 global; // This important don't delete
@@ -66,76 +66,76 @@ global; // This important don't delete
  Global Variables & Constants
 -------------------------------------------------------
 */
-export const StyleShift_Station: HTMLElement = document.createElement("div");
-StyleShift_Station.className = "StyleShift-Station";
-StyleShift_Station.style.display = "none";
+export const styleshift_station: HTMLElement = document.createElement("div");
+styleshift_station.className = "StyleShift-Station";
+styleshift_station.style.display = "none";
 
 /*
 -------------------------------------------------------
  Core Functions
 -------------------------------------------------------
 */
-export function Update_All() {
-	Update_StyleShift_Functions_List();
-	Update_StyleShift_Items();
-	Update_All_UI();
+export function update_all() {
+	update_styleshift_functions_list();
+	update_styleshift_items();
+	update_all_ui();
 }
 
-async function Main_Run() {
+async function main_run() {
 	// Append StyleShift Station to the body
 	setTimeout(async () => {
-		(await GetDocumentBody()).append(StyleShift_Station);
+		(await get_document_body()).append(styleshift_station);
 	}, 1);
 
 	// Inject build-in functions if not in the settings page
 	if (!in_setting_page) {
-		const Build_in_Functions = await (await fetch(chrome.runtime.getURL("build-in.js"))).text();
-		Run_Text_Script({
-			Text: Build_in_Functions,
-			Replace: false,
+		const build_in_functions = await (await fetch(chrome.runtime.getURL("build-in.js"))).text();
+		run_text_script({
+			text: build_in_functions,
+			replace: false,
 		});
 	}
 
 	//------------------------------------------
 	// Initialization Steps
 	//------------------------------------------
-	await Load_ThisWeb_Save();
+	await load_thisweb_save();
 
 	// Test
-	// Saved_Data["Custom_StyleShift_Items"] = Test_Editable_Items;
-	// console.log("Test", Saved_Data);
-	// await Save_All();
+	// saved_data["custom_styleshift_items"] = Test_editable_items;
+	// console.log("Test", saved_data);
+	// await save_all();
 
-	await Update_StyleShift_Functions_List();
-	await Create_StyleSheet_Holder();
-	await Update_StyleShift_Items();
-	await Update_Save_Default();
-	// console.log("Test", Get_ALL_StyleShift_Items());
+	await update_styleshift_functions_list();
+	await create_stylesheet_holder();
+	await update_styleshift_items();
+	await update_save_default();
+	// console.log("Test", get_all_styleshift_items());
 
 	//------------------------------------------
-	// Apply Settings & Save
+	// Apply settings & save
 	//------------------------------------------
-	for (const This_Setting of await Get_ALL_StyleShift_Settings()) {
-		if (This_Setting.id == "Themes") {
+	for (const this_setting of await get_all_styleshift_settings()) {
+		if (this_setting.id == "Themes") {
 			continue;
 		}
-		SetUp_Setting_Function(This_Setting);
+		setup_setting_function(this_setting);
 	}
-	Run_All_Setting_Init();
-	await Clear_Unused_Save();
+	run_all_setting_init();
+	await clear_unused_save();
 
 	// ReArrange Selectors
-	for (const This_Category of Get_ALL_StyleShift_Items()) {
-		if (This_Category.selector == null) continue;
-		This_Category.selector = ReArrange_Selector(This_Category.selector);
+	for (const this_category of get_all_styleshift_items()) {
+		if (this_category.selector == null) continue;
+		this_category.selector = rearrange_selector(this_category.selector);
 	}
-	await Save_All();
+	await save_all();
 
 	//------------------------------------------
-	// Settings Page Specific UI
+	// settings Page Specific ui
 	//------------------------------------------
 	if (in_setting_page) {
-		Extension_Settings_UI.Create_UI();
+		extension_settings_ui.create_ui();
 	}
 
 	styleshift_ready = true;
@@ -147,10 +147,10 @@ async function Main_Run() {
 -------------------------------------------------------
 */
 try {
-	Main_Run();
+	main_run();
 } catch (error) {
-	Create_Error(error).then((Notification) => {
-		Notification.Set_Title("StyleShift - Main run error");
+	create_error(error).then((notification) => {
+		notification.set_title("StyleShift - Main run error");
 	});
 }
 
@@ -163,21 +163,21 @@ chrome.runtime.onMessage.addListener(async function (message) {
 	try {
 		console.log("Message", message);
 		if (message == "Developer") {
-			await Save("Developer_Mode", !(await Load("Developer_Mode")));
-			if (await Load("Developer_Mode")) {
-				await Create_Notification({
-					Icon: "🔨",
-					Title: "Enabled Developer Mode",
-					Timeout: 4000,
+			await save("Developer_mode", !(await load("Developer_mode")));
+			if (await load("Developer_mode")) {
+				await create_notification({
+					icon: "🔨",
+					title: "Enabled Developer mode",
+					timeout: 4000,
 				});
 			} else {
-				await Create_Notification({
-					Icon: "✨",
-					Title: "Disabled Developer Mode",
-					Timeout: 4000,
+				await create_notification({
+					icon: "✨",
+					title: "Disabled Developer mode",
+					timeout: 4000,
 				});
 			}
-			Update_All_UI();
+			update_all_ui();
 		}
 
 		//----------------------------------------------
@@ -186,27 +186,27 @@ chrome.runtime.onMessage.addListener(async function (message) {
 		if (in_setting_page) return;
 
 		if (message == "Customize") {
-			Toggle_Customize();
+			toggle_customize();
 		}
 
 		if (message == "Setting") {
 			if (!styleshift_ready) {
-				const loading_notification = await Create_Notification({
-					Icon: "⏳",
-					Title: "StyleShift is loading! please wait...",
-					Timeout: -1,
+				const loading_notification = await create_notification({
+					icon: "⏳",
+					title: "StyleShift is loading! please wait...",
+					timeout: -1,
 				});
 
 				while (!styleshift_ready) {
 					await sleep(100);
 				}
 
-				loading_notification.Close();
+				loading_notification.close();
 			}
 
-			Extension_Settings_UI.Toggle();
+			extension_settings_ui.toggle();
 		}
 	} catch (error) {
-		Create_Error(error);
+		create_error(error);
 	}
 });

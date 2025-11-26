@@ -1,10 +1,10 @@
 import { Category, Setting } from "../types/store";
 
-export const StyleShift_Property_List: { [key: string]: string[] } = {
-	Text: ["type", "id", "html", "text_align", "color", "font_size", "Editable"],
-	Setting_Sub_Title: ["type", "id", "text", "text_align", "color", "font_size", "Editable"],
-	Button: ["type", "id", "description", "icon", "text_align", "color", "font_size", "click_function", "Editable"],
-	Checkbox: [
+export const styleshift_property_list: { [key: string]: string[] } = {
+	text: ["type", "id", "html", "text_align", "color", "font_size", "editable"],
+	Setting_Sub_title: ["type", "id", "text", "text_align", "color", "font_size", "editable"],
+	button: ["type", "id", "description", "icon", "text_align", "color", "font_size", "click_function", "editable"],
+	checkbox: [
 		"type",
 		"id",
 		"name",
@@ -16,9 +16,9 @@ export const StyleShift_Property_List: { [key: string]: string[] } = {
 		"enable_function",
 		"disable_css",
 		"disable_function",
-		"Editable",
+		"editable",
 	],
-	Number_Slide: [
+	number_slide: [
 		"type",
 		"id",
 		"name",
@@ -31,10 +31,10 @@ export const StyleShift_Property_List: { [key: string]: string[] } = {
 		"setup_function",
 		"constant_css",
 		"update_function",
-		"Editable",
+		"editable",
 	],
-	Dropdown: ["type", "id", "name", "description", "value", "constant_css", "setup_function", "options", "Editable"],
-	Color: [
+	dropdown: ["type", "id", "name", "description", "value", "constant_css", "setup_function", "options", "editable"],
+	color: [
 		"type",
 		"id",
 		"name",
@@ -45,36 +45,36 @@ export const StyleShift_Property_List: { [key: string]: string[] } = {
 		"setup_function",
 		"constant_css",
 		"update_function",
-		"Editable",
+		"editable",
 	],
-	Image_Input: ["type", "id", "name", "description", "value", "MaxFileSize", "Editable"],
-	Preview_Image: ["type", "id", "Editable"],
+	image_Input: ["type", "id", "name", "description", "value", "Maxfilesize", "editable"],
+	Preview_image: ["type", "id", "editable"],
 	Custom: ["type", "id", "setup_function", "constant_css", "ui_function"],
-	Combine_Settings: ["type", "id", "name", "description", "sync_id", "update_function", "Editable"],
+	Combine_settings: ["type", "id", "name", "description", "sync_id", "update_function", "editable"],
 };
 
-export const StyleShift_Category_List: Category = { category: "Category", selector: "", rainbow: false, settings: [] };
+export const styleshift_category_list: Category = { category: "Category", selector: "", rainbow: false, settings: [] };
 
-export const UI_Preset: Setting[] = [
+export const ui_preset: Setting[] = [
 	{
-		type: "Text",
-		id: "Test_Text",
-		html: "Test Text",
+		type: "text",
+		id: "Test_text",
+		html: "Test text",
 		text_align: "left",
 		font_size: 14,
 	},
 	{
-		type: "Setting_Sub_Title",
-		id: "Test_Sub_Title",
-		text: "Test Setting Sub Title",
+		type: "Setting_Sub_title",
+		id: "Test_Sub_title",
+		text: "Test Setting Sub title",
 		text_align: "left",
 		color: "#ffffff",
 		font_size: 14,
 	},
 	{
-		type: "Button",
-		id: "Test_Button",
-		name: "Button",
+		type: "button",
+		id: "Test_button",
+		name: "button",
 		description: "",
 		icon: "",
 		text_align: "center",
@@ -82,15 +82,15 @@ export const UI_Preset: Setting[] = [
 		font_size: 15,
 	},
 	{
-		type: "Checkbox",
-		id: "Test_Checkbox",
-		name: "Some Checkbox",
+		type: "checkbox",
+		id: "Test_checkbox",
+		name: "Some checkbox",
 		description: "",
 		value: false,
 	},
 	{
-		type: "Number_Slide",
-		id: "Test_Number_Slide",
+		type: "number_slide",
+		id: "Test_number_slide",
 		name: "Just Number Slide",
 		description: "",
 		min: 0,
@@ -99,31 +99,31 @@ export const UI_Preset: Setting[] = [
 		value: 50,
 	},
 	{
-		type: "Dropdown",
-		id: "Test_Dropdown",
-		name: "Just Dropdown",
+		type: "dropdown",
+		id: "Test_dropdown",
+		name: "Just dropdown",
 		description: "",
 		value: "Item_1",
 		options: { Item_1: {}, Item_2: {}, Item_3: {} },
 	},
 	{
-		type: "Color",
-		id: "Test_Color",
-		name: "Just Color Selector",
+		type: "color",
+		id: "Test_color",
+		name: "Just color Selector",
 		description: "",
 		show_alpha_slider: true,
 		value: "#FF0000FF",
 	},
 	{
-		type: "Image_Input",
-		id: "Test_Image_Input",
-		name: "Just Image Input",
+		type: "image_Input",
+		id: "Test_image_Input",
+		name: "Just image Input",
 		description: "",
 		value: "",
-		MaxFileSize: 1000000,
+		Maxfilesize: 1000000,
 	},
 	{
-		type: "Preview_Image",
+		type: "Preview_image",
 		id: "",
 	},
 	{
@@ -135,7 +135,7 @@ export const UI_Preset: Setting[] = [
 	},
 ];
 
-export const Type_Convert_Table = {
+export const type_convert_table = {
 	function: "js",
 	css: "css",
 };

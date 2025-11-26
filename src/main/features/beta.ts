@@ -1,9 +1,9 @@
-function setYoutubeLayout(useNew: boolean) {}
+function set_youtube_layout(use_new: boolean) {}
 
-export function enableNewYoutubeLayout() {
-	setYoutubeLayout(true);
+export function enable_new_youtube_layout() {
+	set_youtube_layout(true);
 }
 
-export function disableNewYoutubeLayout() {
-	setYoutubeLayout(false);
+export function disable_new_youtube_layout() {
+	set_youtube_layout(false);
 }

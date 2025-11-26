@@ -1,449 +1,449 @@
-import { Apply_Drag } from "../../../build-in-functions/normal";
-import { Monaco, Is_Safe_Code } from "../../../core/extension";
-import { Save_All } from "../../../core/save";
+import { apply_drag } from "../../../build-in-functions/normal";
+import { monaco, is_safe_code } from "../../../core/extension";
+import { save_all } from "../../../core/save";
 import { is_firefox, in_setting_page } from "../../../run";
-import { Update_Setting_Function } from "../../../settings/functions";
+import { update_setting_function } from "../../../settings/functions";
 import { Category } from "../../../types/store";
-import { Show_Window_Animation, Hide_Window_Animation, Animation_Time } from "../../extension";
-import { Settings_UI } from "../setting-components";
-import { Create_Config_UI_Function, Setup_Left_Title_Animation } from "../settings";
+import { show_window_animation, hide_window_animation, animation_time } from "../../extension";
+import { settings_ui } from "../setting-components";
+import { create_config_ui_function, setup_left_title_animation } from "../settings";
 
-export const Advance_Setting_UI = {
-	["Fill_Screen"]: function (fill_bg: boolean = true) {
-		const Fill_Screen = document.createElement("div");
-		Fill_Screen.className = "STYLESHIFT-FillScreen";
+export const advance_setting_ui = {
+	["fill_screen"]: function (fill_bg: boolean = true) {
+		const fill_screen = document.createElement("div");
+		fill_screen.className = "STYLESHIFT-FillScreen";
 
 		if (fill_bg == false) {
-			Fill_Screen.style.background = "transparent";
-			Fill_Screen.style.pointerEvents = "none";
+			fill_screen.style.background = "transparent";
+			fill_screen.style.pointerEvents = "none";
 		}
 
-		return Fill_Screen;
+		return fill_screen;
 	},
 
-	["Setting_Frame"]: function (
+	["setting_frame"]: function (
 		padding: boolean = true,
 		vertical: boolean = true,
 		center: { x: boolean; y: boolean } = { x: false, y: false },
 		transparent = false
 	) {
-		const Frame = document.createElement("div");
-		Frame.className = "STYLESHIFT-Setting-Frame";
+		const frame = document.createElement("div");
+		frame.className = "STYLESHIFT-Setting-Frame";
 
 		if (!padding) {
-			Frame.style.padding = "0px";
+			frame.style.padding = "0px";
 		}
 
 		if (vertical) {
-			Frame.style.flexDirection = "column";
+			frame.style.flexDirection = "column";
 		} else {
-			Frame.style.flexDirection = "row";
+			frame.style.flexDirection = "row";
 		}
 
 		if (center.x) {
-			Frame.style.justifyContent = "center";
+			frame.style.justifyContent = "center";
 		}
 
 		if (center.y) {
-			Frame.style.alignItems = "center";
+			frame.style.alignItems = "center";
 		}
 
 		if (transparent) {
-			Frame.style.background = "transparent";
+			frame.style.background = "transparent";
 		}
-		return Frame;
+		return frame;
 	},
 
-	["File_Input"]: function (callback: Function, Type = null) {
-		const File_Input = document.createElement("input");
-		File_Input.type = "file";
-		File_Input.className = "STYLESHIFT-File_Input";
+	["file_input"]: function (callback: Function, type = null) {
+		const file_input = document.createElement("input");
+		file_input.type = "file";
+		file_input.className = "STYLESHIFT-file_input";
 
-		if (Type) {
-			File_Input.accept = Type;
+		if (type) {
+			file_input.accept = type;
 		}
 
-		File_Input.addEventListener("change", function (event: any) {
+		file_input.addEventListener("change", function (event: any) {
 			const file = event.target.files[0];
 			if (file) {
 				callback(file);
-				File_Input.value = "";
+				file_input.value = "";
 			}
 		});
 
-		return File_Input;
+		return file_input;
 	},
 
-	["Text_Editor"]: function (OBJ = {}, key: any = "") {
-		const Text_Editor = document.createElement("textarea");
-		Text_Editor.className = "STYLESHIFT-Text-Editor";
-		Text_Editor.value = OBJ[key] || "";
+	["text_editor"]: function (obj = {}, key: any = "") {
+		const text_editor = document.createElement("textarea");
+		text_editor.className = "STYLESHIFT-text-Editor";
+		text_editor.value = obj[key] || "";
 
-		let Additinal_OnChange: Function = null;
-		let ReArrange_Value: Function = null;
+		let additinal_onchange: Function = null;
+		let rearrange_value: Function = null;
 
-		let OnChange = async function (Value) {
-			OBJ[key] = Value;
-			Save_All();
-			if (Additinal_OnChange) {
-				Additinal_OnChange(Value);
+		let on_change = async function (value) {
+			obj[key] = value;
+			save_all();
+			if (additinal_onchange) {
+				additinal_onchange(value);
 			}
 		};
 
-		Text_Editor.addEventListener("input", function () {
-			OnChange(Text_Editor.value);
+		text_editor.addEventListener("input", function () {
+			on_change(text_editor.value);
 		});
 
-		Text_Editor.addEventListener("blur", async function () {
-			let Value = Text_Editor.value;
-			if (ReArrange_Value) {
-				Value = await ReArrange_Value(Value);
-				Text_Editor.value = Value;
+		text_editor.addEventListener("blur", async function () {
+			let value = text_editor.value;
+			if (rearrange_value) {
+				value = await rearrange_value(value);
+				text_editor.value = value;
 			}
-			OnChange(Text_Editor.value);
+			on_change(text_editor.value);
 		});
 
 		return {
-			Text_Editor: Text_Editor,
-			OnChange: function (callback) {
-				OnChange = callback;
+			text_editor: text_editor,
+			on_change: function (callback) {
+				on_change = callback;
 			},
-			Additinal_OnChange: function (callback) {
-				Additinal_OnChange = callback;
+			additinal_onchange: function (callback) {
+				additinal_onchange = callback;
 			},
-			ReArrange_Value: function (callback) {
-				ReArrange_Value = callback;
+			rearrange_value: function (callback) {
+				rearrange_value = callback;
 			},
 		};
 	},
 
-	["Code_Editor"]: async function (Parent: HTMLDivElement, OBJ, key, language, height = 400) {
-		let Code_Editor;
-		let Additinal_OnChange: Function = null;
-		let ReArrange_Value: Function = null;
+	["code_editor"]: async function (parent: HTMLDivElement, obj, key, language, height = 400) {
+		let code_editor;
+		let additinal_onchange: Function = null;
+		let rearrange_value: Function = null;
 
-		let OnChange = async function (Value: string) {
-			OBJ[key] = Value;
-			Save_All();
+		let on_change = async function (value: string) {
+			obj[key] = value;
+			save_all();
 
-			console.log("OBJ", OBJ);
-			if (OBJ["id"]) {
-				Update_Setting_Function(OBJ["id"]);
+			console.log("obj", obj);
+			if (obj["id"]) {
+				update_setting_function(obj["id"]);
 			}
 
-			if (Additinal_OnChange) {
-				console.log(Additinal_OnChange);
-				Additinal_OnChange(Value);
+			if (additinal_onchange) {
+				console.log(additinal_onchange);
+				additinal_onchange(value);
 			}
 		};
 
 		if (!is_firefox || in_setting_page) {
-			const Editor_Model = Monaco.editor.createModel(OBJ[key], language);
+			const editor_model = monaco.editor.createModel(obj[key], language);
 
-			const Frame = document.createElement("div");
-			Frame.style.width = "-webkit-fill-available";
-			Frame.style.height = height + "px";
-			Frame.style.position = "relative";
-			Frame.className += " STYLESHIFT-Code-Editor";
-			Parent.append(Frame);
+			const frame = document.createElement("div");
+			frame.style.width = "-webkit-fill-available";
+			frame.style.height = height + "px";
+			frame.style.position = "relative";
+			frame.className += " STYLESHIFT-Code-Editor";
+			parent.append(frame);
 
-			Code_Editor = Monaco.editor.create(Frame, {
-				model: Editor_Model,
+			code_editor = monaco.editor.create(frame, {
+				model: editor_model,
 				automaticLayout: true,
 			});
 
-			Code_Editor.onKeyDown(function () {
-				OnChange(Code_Editor.getValue());
+			code_editor.onKeyDown(function () {
+				on_change(code_editor.getvalue());
 			});
 
-			Code_Editor.onDidBlurEditorWidget(async function () {
-				let Value = Code_Editor.getValue();
-				if (ReArrange_Value) {
-					Value = await ReArrange_Value(Value);
-					Code_Editor.setValue(Value);
+			code_editor.onDidBlurEditorWidget(async function () {
+				let value = code_editor.getvalue();
+				if (rearrange_value) {
+					value = await rearrange_value(value);
+					code_editor.setvalue(value);
 				}
-				OnChange(Value);
+				on_change(value);
 			});
 		} else {
-			Code_Editor = Settings_UI["Text_Editor"](OBJ, key);
-			Code_Editor.Text_Editor.style.height = height + "px";
-			Parent.append(Code_Editor.Text_Editor);
+			code_editor = settings_ui["text_editor"](obj, key);
+			code_editor.text_editor.style.height = height + "px";
+			parent.append(code_editor.text_editor);
 
-			Code_Editor.OnChange(async function (Value) {
-				OnChange(Value);
+			code_editor.on_change(async function (value) {
+				on_change(value);
 			});
 		}
 
 		return {
-			OnChange: function (callback) {
-				OnChange = callback;
+			on_change: function (callback) {
+				on_change = callback;
 			},
-			Additinal_OnChange: function (callback) {
-				Additinal_OnChange = callback;
+			additinal_onchange: function (callback) {
+				additinal_onchange = callback;
 			},
-			ReArrange_Value: function (callback) {
-				ReArrange_Value = callback;
+			rearrange_value: function (callback) {
+				rearrange_value = callback;
 			},
 		};
 	},
 
-	["Setting_Name"]: function (text, position: "left" | "center" | "right" = "left") {
-		const Name = document.createElement("div");
-		Name.className = "STYLESHIFT-Text-Main-Description";
-		Name.textContent = text;
+	["setting_name"]: function (text, position: "left" | "center" | "right" = "left") {
+		const name = document.createElement("div");
+		name.className = "STYLESHIFT-text-Main-Description";
+		name.textContent = text;
 
 		switch (position) {
 			case "left":
-				Name.style.textAlign = "start";
+				name.style.textAlign = "start";
 				break;
 
 			case "center":
-				Name.style.textAlign = "center";
+				name.style.textAlign = "center";
 				break;
 
 			case "right":
-				Name.style.textAlign = "end";
+				name.style.textAlign = "end";
 				break;
 
 			default:
 				break;
 		}
 
-		return Name;
+		return name;
 	},
 
-	["Drag"]: function (Target) {
-		const Drag = document.createElement("div");
-		Drag.className = "STYLESHIFT-Drag-Top STYLESHIFT-Glow-Hover";
-		Drag.innerHTML = "=";
+	["drag"]: function (target) {
+		const drag = document.createElement("div");
+		drag.className = "STYLESHIFT-Drag-Top STYLESHIFT-Glow-Hover";
+		drag.innerHTML = "=";
 
-		Apply_Drag(Drag, Target);
+		apply_drag(drag, target);
 
-		return Drag;
+		return drag;
 	},
 
-	["Close"]: function () {
-		const Close = document.createElement("div");
-		Close.className = "STYLESHIFT-Close STYLESHIFT-Glow-Hover";
-		Close.innerHTML = "X";
+	["close"]: function () {
+		const close = document.createElement("div");
+		close.className = "STYLESHIFT-Close STYLESHIFT-Glow-Hover";
+		close.innerHTML = "X";
 
-		return Close;
+		return close;
 	},
 
-	["Title"]: async function (This_Category: Category) {
-		const Frame = document.createElement("div");
-		const Base_Class = "STYLESHIFT-Category-Title";
-		Frame.className = Base_Class;
+	["title"]: async function (this_category: Category) {
+		const frame = document.createElement("div");
+		const base_class = "STYLESHIFT-Category-title";
+		frame.className = base_class;
 
-		function Update_UI() {
-			Frame.className = This_Category.rainbow ? Base_Class + " STYLESHIFT-Category-Title-Rainbow" : Base_Class;
-			Frame.innerHTML = This_Category.category;
+		function update_ui() {
+			frame.className = this_category.rainbow ? base_class + " STYLESHIFT-Category-title-Rainbow" : base_class;
+			frame.innerHTML = this_category.category;
 		}
-		Update_UI();
+		update_ui();
 
-		const Config_UI_Function = await Create_Config_UI_Function(This_Category.editable, async function (Parent) {
-			await Settings_UI["Config_Main_Section"](
-				Parent,
-				This_Category,
+		const config_ui_function = await create_config_ui_function(this_category.editable, async function (parent) {
+			await settings_ui["Config_Main_Section"](
+				parent,
+				this_category,
 				{
-					Name: ["Category", Frame],
+					name: ["Category", frame],
 					Selector: "Selector",
 					Rainbow: "Rainbow",
 				},
-				Update_UI
+				update_ui
 			);
 		});
 
-		return { Frame, Config_UI_Function };
+		return { frame, config_ui_function };
 	},
 
-	["Left-Title"]: function (Category, Skip_Animation) {
-		const Title = document.createElement("div");
-		Title.className = "STYLESHIFT-Left-Category-Title";
+	["Left-title"]: function (category, skip_animation) {
+		const title = document.createElement("div");
+		title.className = "STYLESHIFT-Left-Category-Title";
 
-		const Text = document.createElement("div");
-		Text.className = "STYLESHIFT-Left-Category-Text";
-		Text.textContent = Category;
+		const text = document.createElement("div");
+		text.className = "STYLESHIFT-Left-Category-Text";
+		text.textContent = category;
 
-		if (!Skip_Animation) {
-			Setup_Left_Title_Animation(Title);
+		if (!skip_animation) {
+			setup_left_title_animation(title);
 		}
 
-		Title.append(Text);
+		title.append(text);
 
-		return Title;
+		return title;
 	},
 
-	["Sub_Title"]: function (Text) {
-		const Title = document.createElement("div");
-		Title.className = "STYLESHIFT-Sub-Title";
+	["Sub_title"]: function (text) {
+		const title = document.createElement("div");
+		title.className = "STYLESHIFT-Sub-title";
 
-		if (Is_Safe_Code(Text, "Sub_Title")) {
-			Title.innerHTML = Text;
+		if (is_safe_code(text, "Sub_title")) {
+			title.innerHTML = text;
 		}
 
-		return Title;
+		return title;
 	},
 
-	["Collapsed_Button"]: async function (ButtonName, color: string, TargetElement: HTMLElement) {
-		TargetElement.setAttribute("STYLESHIFT-All-Transition", "");
-		TargetElement.className += " STYLESHIFT-Collapse";
+	["collapsed_button"]: async function (button_name, color: string, target_element: HTMLElement) {
+		target_element.setAttribute("STYLESHIFT-All-Transition", "");
+		target_element.className += " STYLESHIFT-Collapse";
 
-		TargetElement.style.maxHeight = "100%";
-		const Save_Style = TargetElement.getAttribute("style");
+		target_element.style.maxHeight = "100%";
+		const save_style = target_element.getAttribute("style");
 
-		function Hide_Function() {
-			TargetElement.style.maxHeight = "0px";
-			TargetElement.style.padding = "0px";
-			TargetElement.style.opacity = "0";
-			TargetElement.style.marginTop = "-10px";
-			TargetElement.style.pointerEvents = "none";
+		function hide_function() {
+			target_element.style.maxHeight = "0px";
+			target_element.style.padding = "0px";
+			target_element.style.opacity = "0";
+			target_element.style.marginTop = "-10px";
+			target_element.style.pointerEvents = "none";
 		}
-		function Show_Function() {
-			TargetElement.setAttribute("style", Save_Style);
+		function show_function() {
+			target_element.setAttribute("style", save_style);
 		}
 
-		let Collapsed = true;
-		Hide_Function();
+		let collapsed = true;
+		hide_function();
 
-		const Button = await Settings_UI["Button"]({
-			name: ButtonName,
+		const button = await settings_ui["button"]({
+			name: button_name,
 			color: color,
 			click_function: function () {
-				if (Collapsed) {
-					Show_Function();
+				if (collapsed) {
+					show_function();
 				} else {
-					Hide_Function();
+					hide_function();
 				}
-				Collapsed = !Collapsed;
+				collapsed = !collapsed;
 			},
 		});
 
-		return Button;
+		return button;
 	},
 
-	["Show_Dropdown"]: function (options, target) {
-		const dropdownContainer = Settings_UI["Setting_Frame"](false, true);
-		dropdownContainer.className += " STYLESHIFT-DropDown-Container STYLESHIFT-Main";
-		Show_Window_Animation(dropdownContainer);
+	["show_dropdown"]: function (options, target) {
+		const dropdown_container = settings_ui["setting_frame"](false, true);
+		dropdown_container.className += " STYLESHIFT-DropDown-Container STYLESHIFT-Main";
+		show_window_animation(dropdown_container);
 
 		// Populate dropdown with options
 
 		// Add elements to the DOM
-		document.body.appendChild(dropdownContainer);
+		document.body.appendChild(dropdown_container);
 
-		let Updating_Position = true;
-		const Update_Position_Function = function () {
-			if (!Updating_Position) return;
-			const targetRect = target.getBoundingClientRect();
-			dropdownContainer.style.width = `${targetRect.width}px`;
+		let updating_position = true;
+		const update_position_function = function () {
+			if (!updating_position) return;
+			const target_rect = target.getBoundingClientRect();
+			dropdown_container.style.width = `${target_rect.width}px`;
 
-			const spaceBelow = window.innerHeight - targetRect.bottom;
-			const spaceAbove = targetRect.top;
+			const space_below = window.innerHeight - target_rect.bottom;
+			const space_above = target_rect.top;
 
-			const Container_Margin = 5;
+			const container_margin = 5;
 
-			if (spaceBelow >= dropdownContainer.offsetHeight) {
-				dropdownContainer.style.top = `${targetRect.bottom + Container_Margin}px`;
-			} else if (spaceAbove >= dropdownContainer.offsetHeight) {
-				dropdownContainer.style.top = `${
-					targetRect.top - dropdownContainer.offsetHeight - Container_Margin
+			if (space_below >= dropdown_container.offsetHeight) {
+				dropdown_container.style.top = `${target_rect.bottom + container_margin}px`;
+			} else if (space_above >= dropdown_container.offsetHeight) {
+				dropdown_container.style.top = `${
+					target_rect.top - dropdown_container.offsetHeight - container_margin
 				}px`;
 			} else {
 				// Default to positioning below if neither space is sufficient
-				dropdownContainer.style.top = `${targetRect.bottom}px`;
+				dropdown_container.style.top = `${target_rect.bottom}px`;
 			}
-			dropdownContainer.style.left = `${targetRect.left}px`;
-			requestAnimationFrame(Update_Position_Function);
+			dropdown_container.style.left = `${target_rect.left}px`;
+			requestAnimationFrame(update_position_function);
 		};
-		Update_Position_Function();
+		update_position_function();
 
-		async function Remove_DropDown() {
-			Updating_Position = false;
-			dropdownContainer.dispatchEvent(new Event("Remove_DropDown"));
-			await Hide_Window_Animation(dropdownContainer);
-			dropdownContainer.remove();
+		async function remove_dropdown() {
+			updating_position = false;
+			dropdown_container.dispatchEvent(new Event("remove_dropdown"));
+			await hide_window_animation(dropdown_container);
+			dropdown_container.remove();
 		}
 
 		// Auto remove when mouse moves far away
 		let timeout;
 
-		dropdownContainer.addEventListener("mouseenter", () => {
+		dropdown_container.addEventListener("mouseenter", () => {
 			clearTimeout(timeout);
 		});
 		return {
 			Selection: new Promise((resolve) => {
 				timeout = setTimeout(() => {
-					Remove_DropDown();
+					remove_dropdown();
 				}, 2000);
 
-				dropdownContainer.addEventListener("mouseleave", () => {
+				dropdown_container.addEventListener("mouseleave", () => {
 					timeout = setTimeout(() => {
-						Remove_DropDown();
+						remove_dropdown();
 					}, 1000);
 				});
 
-				dropdownContainer.addEventListener("Remove_DropDown", function () {
+				dropdown_container.addEventListener("remove_dropdown", function () {
 					resolve(null);
 				});
 
-				let Index = 0;
+				let index = 0;
 
 				for (const option of options as string[]) {
-					const listItem = document.createElement("div");
-					listItem.className = "STYLESHIFT-DropDown-Items STYLESHIFT-Glow-Hover";
-					listItem.textContent = option.replaceAll("_", " ");
-					listItem.addEventListener("click", () => {
+					const list_item = document.createElement("div");
+					list_item.className = "STYLESHIFT-DropDown-Items STYLESHIFT-Glow-Hover";
+					list_item.textContent = option.replaceAll("_", " ");
+					list_item.addEventListener("click", () => {
 						resolve(option); // Return the selected option
-						Remove_DropDown();
+						remove_dropdown();
 					});
-					dropdownContainer.appendChild(listItem);
+					dropdown_container.appendChild(list_item);
 
 					//--------------------------------------
 
-					listItem.style.opacity = "0";
-					listItem.style.width = "50%";
+					list_item.style.opacity = "0";
+					list_item.style.width = "50%";
 
 					setTimeout(() => {
-						listItem.style.opacity = "1";
-						listItem.style.width = "";
-					}, Animation_Time * 100 * Index);
+						list_item.style.opacity = "1";
+						list_item.style.width = "";
+					}, animation_time * 100 * index);
 
-					Index++;
+					index++;
 				}
 			}),
-			Cancel: Remove_DropDown,
+			Cancel: remove_dropdown,
 		};
 	},
 
-	["Number_Slide_UI"]: function (Parent) {
-		const Number_Slide_UI = document.createElement("input");
-		Number_Slide_UI.type = "range";
-		Number_Slide_UI.className = "STYLESHIFT-Number_Slide";
-		Parent.appendChild(Number_Slide_UI);
+	["number_slide_ui"]: function (parent) {
+		const number_slide_ui = document.createElement("input");
+		number_slide_ui.type = "range";
+		number_slide_ui.className = "STYLESHIFT-number_slide";
+		parent.appendChild(number_slide_ui);
 
-		function Update_Number_Slide(min: any = 0, max: any = 100, step: any = 1) {
-			Number_Slide_UI.min = min;
-			Number_Slide_UI.max = max;
-			Number_Slide_UI.step = step;
+		function update_number_slide(min: any = 0, max: any = 100, step: any = 1) {
+			number_slide_ui.min = min;
+			number_slide_ui.max = max;
+			number_slide_ui.step = step;
 		}
 
-		return { Number_Slide_UI, Update_Number_Slide };
+		return { number_slide_ui, update_number_slide };
 	},
 
-	["Number_Input_UI"]: function (Parent) {
-		const Number_Input_UI = document.createElement("input");
-		Number_Input_UI.type = "number";
-		Number_Input_UI.className = "STYLESHIFT-Number_Input";
-		Parent.appendChild(Number_Input_UI);
-		return Number_Input_UI;
+	["number_input_ui"]: function (parent) {
+		const number_input_ui = document.createElement("input");
+		number_input_ui.type = "number";
+		number_input_ui.className = "STYLESHIFT-number_input";
+		parent.appendChild(number_input_ui);
+		return number_input_ui;
 	},
 
-	["Space"]: async function (Parent: HTMLElement, Size = 20) {
-		const Space = document.createElement("div");
-		Space.className = "STYLESHIFT-Space";
-		Space.style.minHeight = `${Size}px`;
+	["space"]: async function (parent: HTMLElement, size = 20) {
+		const space = document.createElement("div");
+		space.className = "STYLESHIFT-space";
+		space.style.minHeight = `${size}px`;
 
-		Parent.append(Space);
+		parent.append(space);
 	},
 };

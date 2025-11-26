@@ -1,26 +1,26 @@
 import { Category } from "../../styleshift/types/store";
 
-export const ColorThemeCategory: Category = {
-	category: "🌈 Color/Theme",
+export const color_theme_category: Category = {
+	category: "🌈 color/Theme",
 	settings: [
 		{
-			type: "Color",
+			type: "color",
 			id: "Theme",
-			name: "Main Theme Color",
-			description: "The primary accent color used throughout the UI.",
+			name: "Main Theme color",
+			description: "The primary accent color used throughout the ui.",
 			value: "#659affff",
 			var_css: "--theme-color",
 		},
 		{
-			type: "Color",
+			type: "color",
 			id: "ThemeThr",
-			name: "Transparent Theme Color",
+			name: "Transparent Theme color",
 			description: "A transparent version of the theme color, used for backgrounds and highlights.",
 			value: "#659aff33",
 			var_css: "--theme-transparent-color",
 		},
 		{
-			type: "Color",
+			type: "color",
 			id: "LeftBar",
 			name: "Left Sidebar Background",
 			description: "Background color of the main left-hand sidebar.",
@@ -33,10 +33,10 @@ export const ColorThemeCategory: Category = {
             `,
 		},
 		{
-			type: "Color",
-			id: "Text",
-			name: "Main Text Color",
-			description: "The primary text color for general UI text.",
+			type: "color",
+			id: "text",
+			name: "Main text color",
+			description: "The primary text color for general ui text.",
 			value: "#ffffffff",
 			var_css: "--main-text-color",
 			constant_css: `
@@ -46,9 +46,9 @@ export const ColorThemeCategory: Category = {
             `,
 		},
 		{
-			type: "Color",
-			id: "NdText",
-			name: "Secondary Text Color",
+			type: "color",
+			id: "Ndtext",
+			name: "Secondary text color",
 			description: "The secondary text color, used for metadata, descriptions, and less important text.",
 			value: "#c4c4c4ff",
 			var_css: "--secondary-text-color",
@@ -59,9 +59,9 @@ export const ColorThemeCategory: Category = {
             `,
 		},
 		{
-			type: "Color",
-			id: "LinkColor",
-			name: "Link Color",
+			type: "color",
+			id: "Linkcolor",
+			name: "Link color",
 			description: "The color for hyperlinks in descriptions and comments.",
 			value: "#5797ffff",
 			var_css: "--link-color",
@@ -72,9 +72,9 @@ export const ColorThemeCategory: Category = {
             `,
 		},
 		{
-			type: "Color",
+			type: "color",
 			id: "TIMETEXT",
-			name: "Timestamp Text Color",
+			name: "timestamp text color",
 			description: "The color of the text for video timestamps (e.g., on thumbnails).",
 			value: "#ffffffff",
 			var_css: "--timestamp-text-color",
@@ -85,9 +85,9 @@ export const ColorThemeCategory: Category = {
             `,
 		},
 		{
-			type: "Color",
-			id: "Chanel_Color",
-			name: "Channel Name Color",
+			type: "color",
+			id: "Chanel_color",
+			name: "Channel name color",
 			description: "The color of channel names under video titles.",
 			value: "#ffffffff",
 			var_css: "--channel-name-color",

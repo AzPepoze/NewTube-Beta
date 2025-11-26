@@ -1,12 +1,12 @@
 import { Category } from "../../styleshift/types/store";
 
-export const SubscribeButtonCategory: Category = {
-	category: "▶️ Subscribe Button",
+export const subscribe_button_category: Category = {
+	category: "▶️ Subscribe button",
 	settings: [
 		{
-			type: "Checkbox",
+			type: "checkbox",
 			id: "SPSubScribe",
-			name: "Enable Custom Subscribe Button Colors",
+			name: "Enable Custom Subscribe button colors",
 			description: "Allows you to set separate colors for the subscribe button.",
 			value: false,
 			enable_css: `
@@ -17,17 +17,17 @@ export const SubscribeButtonCategory: Category = {
             `,
 		},
 		{
-			type: "Color",
+			type: "color",
 			id: "SPSubScribeBG",
-			name: "Subscribe Button Background",
+			name: "Subscribe button Background",
 			description: "The background color of the subscribe button.",
 			value: "#ff0000ff",
 			var_css: "--subscribe-bg-color",
 		},
 		{
-			type: "Color",
-			id: "SPSubScribeColor",
-			name: "Subscribe Button Text Color",
+			type: "color",
+			id: "SPSubScribecolor",
+			name: "Subscribe button text color",
 			description: "The text color of the subscribe button.",
 			value: "#ffffffff",
 			var_css: "--subscribe-text-color",

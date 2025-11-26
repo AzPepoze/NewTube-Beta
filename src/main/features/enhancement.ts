@@ -1,27 +1,27 @@
-export function setupFlyoutListener() {
-	const videoPlayer = document.querySelector("#player.ytd-watch-flexy") as HTMLElement;
-	if (!videoPlayer) return;
+export function setup_flyout_listener() {
+	const video_player = document.querySelector("#player.ytd-watch-flexy") as HTMLElement;
+	if (!video_player) return;
 
-	const handleScroll = () => {
-		const playerRect = videoPlayer.getBoundingClientRect();
-		if (playerRect.bottom < 0) {
-			videoPlayer.classList.add("flyout-active");
+	const handle_scroll = () => {
+		const player_rect = video_player.getBoundingClientRect();
+		if (player_rect.bottom < 0) {
+			video_player.classList.add("flyout-active");
 		} else {
-			videoPlayer.classList.remove("flyout-active");
+			video_player.classList.remove("flyout-active");
 		}
 	};
 
-	window.addEventListener("scroll", handleScroll, { passive: true });
+	window.addEventListener("scroll", handle_scroll, { passive: true });
 }
 
-export async function setupChatReplay() {
-	const clickButton = () => {
+export async function setup_chat_replay() {
+	const click_button = () => {
 		const button = document.querySelector("#show-hide-button button") as HTMLElement;
-		if (button && button.textContent?.includes("Show")) {
+		if (button && button.textContent?.includes("show")) {
 			button.click();
 		}
 	};
 
-	setTimeout(clickButton, 2500);
-	window.addEventListener("yt-navigate-finish", () => setTimeout(clickButton, 1500));
+	setTimeout(click_button, 2500);
+	window.addEventListener("yt-navigate-finish", () => setTimeout(click_button, 1500));
 }

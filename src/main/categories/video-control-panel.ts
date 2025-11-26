@@ -1,13 +1,13 @@
 import { Category } from "../../styleshift/types/store";
 
-export const VideoControlPanelCategory: Category = {
+export const video_control_panel_category: Category = {
 	category: "🎚️ Video control panel",
 	settings: [
 		{
-			type: "Color",
+			type: "color",
 			id: "Time-LineBG",
 			name: "Timeline Background",
-			description: "Color of the timeline background.",
+			description: "color of the timeline background.",
 			value: "#ffffff20",
 			var_css: "--timeline-bg-color",
 			constant_css: `
@@ -17,10 +17,10 @@ export const VideoControlPanelCategory: Category = {
     `,
 		},
 		{
-			type: "Color",
-			id: "TimeLoaded",
-			name: "Timeline Loaded Color",
-			description: "Color of the loaded progress on the timeline.",
+			type: "color",
+			id: "Timeloaded",
+			name: "Timeline loaded color",
+			description: "color of the loaded progress on the timeline.",
 			value: "#ffffff50",
 			var_css: "--timeline-load-color",
 			constant_css: `
@@ -30,10 +30,10 @@ export const VideoControlPanelCategory: Category = {
     `,
 		},
 		{
-			type: "Color",
+			type: "color",
 			id: "VDOTEXT",
-			name: "Control Panel Text",
-			description: "Color of the text on the video control panel (time, etc.).",
+			name: "Control Panel text",
+			description: "color of the text on the video control panel (time, etc.).",
 			value: "#ffffffff",
 			var_css: "--control-text-color",
 			constant_css: `
@@ -43,9 +43,9 @@ export const VideoControlPanelCategory: Category = {
     `,
 		},
 		{
-			type: "Color",
+			type: "color",
 			id: "HBT",
-			name: "Control Panel Hover Button",
+			name: "Control Panel hover button",
 			description: "Background color when hovering over buttons on the control panel.",
 			value: "#ffffff20",
 			var_css: "--control-hover-bg-color",
@@ -56,7 +56,7 @@ export const VideoControlPanelCategory: Category = {
     `,
 		},
 		{
-			type: "Checkbox",
+			type: "checkbox",
 			id: "ControlUnderVDO",
 			name: "Move Controls Below Video",
 			description: "Moves the video control panel to appear underneath the video player.",
@@ -78,8 +78,8 @@ export const VideoControlPanelCategory: Category = {
     `,
 		},
 		{
-			type: "Number_Slide",
-			id: "MediaSpace",
+			type: "number_slide",
+			id: "Mediaspace",
 			name: "Controls-Below-Video Distance",
 			description: "Adjusts the distance of the control panel when moved below the video.",
 			value: 70,
@@ -89,9 +89,9 @@ export const VideoControlPanelCategory: Category = {
 			var_css: "--media-space",
 		},
 		{
-			type: "Checkbox",
+			type: "checkbox",
 			id: "CenterMedia",
-			name: "Center Control Buttons",
+			name: "Center Control buttons",
 			description: "Centers the buttons on the video control panel.",
 			value: true,
 			enable_css: `
@@ -106,7 +106,7 @@ export const VideoControlPanelCategory: Category = {
     `,
 		},
 		{
-			type: "Color",
+			type: "color",
 			id: "MediaBG",
 			name: "Control Panel Background",
 			description: "Background color of the video control panel.",
@@ -119,7 +119,7 @@ export const VideoControlPanelCategory: Category = {
     `,
 		},
 		{
-			type: "Checkbox",
+			type: "checkbox",
 			id: "MediaBlur",
 			name: "Blur Control Panel Background",
 			description: "Applies a blur effect to the control panel background.",
@@ -131,7 +131,7 @@ export const VideoControlPanelCategory: Category = {
     `,
 		},
 		{
-			type: "Number_Slide",
+			type: "number_slide",
 			id: "MediaBlurAmount",
 			name: "Control Panel Blur Amount",
 			description: "Adjusts the amount of blur on the control panel.",

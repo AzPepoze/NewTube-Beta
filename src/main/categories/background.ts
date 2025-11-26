@@ -1,11 +1,11 @@
 import { Category } from "../../styleshift/types/store";
 import { enable_bg, enable_background_css, update_bg_img } from "../features/background";
 
-export const BackgroundCategory: Category = {
+export const background_category: Category = {
 	category: "🎴 Background",
 	settings: [
 		{
-			type: "Checkbox",
+			type: "checkbox",
 			id: "bg_enable",
 			name: "Enable Background",
 			value: true,
@@ -13,23 +13,23 @@ export const BackgroundCategory: Category = {
 			enable_css: enable_background_css,
 		},
 		{
-			type: "Color",
+			type: "color",
 			id: "BG",
-			name: "Background / Tint Color",
+			name: "Background / Tint color",
 			description:
 				"Sets the color and opacity of the page background or the tint applied over an image/video.",
 			value: "#f661515e",
 			var_css: "--page-bg-tint-color",
 		},
 		{
-			type: "Text_Input",
+			type: "text_input",
 			id: "BGIMG",
-			name: "Background Image URL",
+			name: "Background image URL",
 			description: "URL of the image to use as the page background.",
 			value: "https://cdn.wallpapersafari.com/74/55/4dgN3G.jpg",
 		},
 		{
-			type: "Number_Slide",
+			type: "number_slide",
 			id: "BlurBGAM",
 			name: "Background Blur Amount",
 			description: "Applies a blur effect to the background image/video.",
@@ -40,9 +40,9 @@ export const BackgroundCategory: Category = {
 			var_css: "--page-bg-blur",
 		},
 		{
-			type: "Number_Slide",
+			type: "number_slide",
 			id: "BackgroundS",
-			name: "Background Size",
+			name: "Background size",
 			description: "Adjusts the size of the background image.",
 			value: 100,
 			min: 50,
@@ -52,19 +52,19 @@ export const BackgroundCategory: Category = {
 			update_function: update_bg_img,
 		},
 		{
-			type: "Checkbox",
+			type: "checkbox",
 			id: "Repeat",
-			name: "Repeat Background Image",
+			name: "Repeat Background image",
 			description: "Repeats the background image instead of stretching it.",
 			value: false,
 			enable_css: `:root { --page-bg-repeat: repeat; }`,
 			disable_css: `:root { --page-bg-repeat: no-repeat; }`,
 		},
 		{
-			type: "Checkbox",
+			type: "checkbox",
 			id: "EnaVDOBG",
-			name: "Enable Video Background (UI Only)",
-			description: "UI Placeholder. Replaces the background with a video. (Functionality not implemented)",
+			name: "Enable Video Background (ui Only)",
+			description: "ui placeholder. replaces the background with a video. (Functionality not implemented)",
 			value: false,
 			constant_css: `
                 body::after {

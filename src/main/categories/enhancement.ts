@@ -1,14 +1,14 @@
 import { Category } from "../../styleshift/types/store";
-import { setupFlyoutListener, setupChatReplay } from "../features/enhancement";
+import { setup_flyout_listener, setup_chat_replay } from "../features/enhancement";
 
-export const EnhancementCategory: Category = {
+export const enhancement_category: Category = {
 	category: "🎇 Enhancement",
 	settings: [
 		{
-			type: "Number_Slide",
+			type: "number_slide",
 			id: "Edge",
-			name: "Round edges amount (Most UI)",
-			description: "Adjusts the corner roundness for most UI elements like buttons and menus.",
+			name: "Round edges amount (Most ui)",
+			description: "Adjusts the corner roundness for most ui elements like buttons and menus.",
 			value: 10,
 			min: 0,
 			max: 30,
@@ -21,7 +21,7 @@ export const EnhancementCategory: Category = {
             `,
 		},
 		{
-			type: "Checkbox",
+			type: "checkbox",
 			id: "SwapRow",
 			name: "Swap left-right row (In watching mode)",
 			description: "Swaps the main video column with the secondary recommendations column.",
@@ -33,7 +33,7 @@ export const EnhancementCategory: Category = {
             `,
 		},
 		{
-			type: "Checkbox",
+			type: "checkbox",
 			id: "ScrollRow",
 			name: "Srollable row",
 			description: "(In normal watching mode only)\nFlyout will not working",
@@ -53,7 +53,7 @@ export const EnhancementCategory: Category = {
             `,
 		},
 		{
-			type: "Checkbox",
+			type: "checkbox",
 			id: "SrollRowFade",
 			name: "Srollable row Top-Bottom Fade",
 			description: "(Medium impact)",
@@ -68,12 +68,12 @@ export const EnhancementCategory: Category = {
             `,
 		},
 		{
-			type: "Checkbox",
+			type: "checkbox",
 			id: "Flyout",
-			name: "Enable Flyout Video (Show video after scroll down)",
+			name: "Enable Flyout Video (show video after scroll down)",
 			description: "Makes the video player stick to the corner of the screen when you scroll down.",
 			value: true,
-			enable_function: setupFlyoutListener,
+			enable_function: setup_flyout_listener,
 			enable_css: `
                 #player.flyout-active {
                     position: fixed !important;
@@ -88,12 +88,12 @@ export const EnhancementCategory: Category = {
             `,
 		},
 		{
-			type: "Checkbox",
+			type: "checkbox",
 			id: "ChatReplay",
 			name: "Auto show chat replay",
 			description: "Automatically opens the chat replay on videos that have one.",
 			value: false,
-			enable_function: setupChatReplay,
+			enable_function: setup_chat_replay,
 		},
 	],
 };

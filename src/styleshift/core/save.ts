@@ -1,327 +1,327 @@
-import { Create_Error } from "../build-in-functions/extension";
+import { create_error } from "../build-in-functions/extension";
 import { sleep } from "../build-in-functions/normal";
 import { save_name } from "../run";
-import { Get_Settings_List, Update_StyleShift_Items } from "../settings/items";
-import { Show_Confirm } from "../ui/extension";
+import { get_settings_list, update_styleshift_items } from "../settings/items";
+import { show_confirm } from "../ui/extension";
 
-//Save
-export let Saved_Data = {};
-let Loaded = false;
+//save
+export let saved_data = {};
+let loaded = false;
 
-export const Save_External = [
-	"Current_Settings",
-	"Default_StyleShift_Items",
-	"Custom_StyleShift_Items",
+export const save_external = [
+	"current_settings",
+	"default_styleshift_items",
+	"custom_styleshift_items",
 	"Themes",
 	"Enabled_Extension",
 	"Realtime_Extension",
-	"Developer_Mode",
+	"Developer_mode",
 ];
 
-export const StyleShift_Allowed_Keys = ["Current_Settings", "Custom_StyleShift_Items"];
+export const styleshift_allowed_keys = ["current_settings", "custom_styleshift_items"];
 
-export async function Load_ThisWeb_Save() {
+export async function load_thisweb_save() {
 	return new Promise((resolve, reject) => {
-		chrome.storage.local.get(null, function (Saved) {
-			console.log("ALL_SAVED", Saved);
+		chrome.storage.local.get(null, function (saved) {
+			console.log("ALL_SAVED", saved);
 		});
 
-		console.log("Loading", save_name);
+		console.log("loading", save_name);
 
-		chrome.storage.local.get(save_name, function (Saved: object) {
-			if (Saved[save_name]) {
+		chrome.storage.local.get(save_name, function (saved: object) {
+			if (saved[save_name]) {
 				try {
-					Saved_Data = Saved[save_name];
-					console.log("Loaded", save_name, JSON.stringify(Saved_Data));
+					saved_data = saved[save_name];
+					console.log("loaded", save_name, JSON.stringify(saved_data));
 				} catch {
-					Create_Error(`Can't load Data : <b>${save_name}</b>`);
-					Saved_Data = {};
+					create_error(`Can't load Data : <b>${save_name}</b>`);
+					saved_data = {};
 				}
 			} else {
-				Saved_Data = {};
+				saved_data = {};
 			}
-			Loaded = true;
+			loaded = true;
 			resolve(true);
 		});
 	});
 }
 
-export async function Save(Name, Value, Pre_Save = false) {
-	if (!Loaded) {
+export async function save(name, value, pre_save = false) {
+	if (!loaded) {
 		await sleep(100);
-		return Save(Name, Value);
+		return save(name, value);
 	}
-	Saved_Data[Name] = Value;
-	console.log("Save", Name, Value);
-	if (!Pre_Save) {
-		return await Save_All();
-	}
-	return true;
-}
-
-export async function Save_Setting(Name, Value, Pre_Save = false) {
-	if (Saved_Data["Current_Settings"] == null) {
-		Saved_Data["Current_Settings"] = {};
-	}
-	Saved_Data["Current_Settings"][Name] = Value;
-	console.log("Save_Setting", Name, Value);
-	if (!Pre_Save) {
-		return await Save_All();
+	saved_data[name] = value;
+	console.log("save", name, value);
+	if (!pre_save) {
+		return await save_all();
 	}
 	return true;
 }
 
-export async function Save_Any(Name, Value, Pre_Save = false) {
-	if (Save_External.includes(Name)) {
-		return await Save(Name, Value, Pre_Save);
+export async function save_setting(name, value, pre_save = false) {
+	if (saved_data["current_settings"] == null) {
+		saved_data["current_settings"] = {};
+	}
+	saved_data["current_settings"][name] = value;
+	console.log("save_setting", name, value);
+	if (!pre_save) {
+		return await save_all();
+	}
+	return true;
+}
+
+export async function save_any(name, value, pre_save = false) {
+	if (save_external.includes(name)) {
+		return await save(name, value, pre_save);
 	} else {
-		return await Save_Setting(Name, Value, Pre_Save);
+		return await save_setting(name, value, pre_save);
 	}
 }
 
-export async function Save_All() {
-	console.log("Saving", save_name, Saved_Data);
-	await chrome.storage.local.set({ [save_name]: Saved_Data });
-	console.log("Saved", save_name, Saved_Data);
+export async function save_all() {
+	console.log("Saving", save_name, saved_data);
+	await chrome.storage.local.set({ [save_name]: saved_data });
+	console.log("saved", save_name, saved_data);
 	return true;
 }
 
-export async function Load(LoadName: string) {
-	if (!Loaded) {
+export async function load(load_name: string) {
+	if (!loaded) {
 		await sleep(100);
-		return await Load(LoadName);
+		return await load(load_name);
 	}
-	if (LoadName == null) {
-		return Saved_Data;
+	if (load_name == null) {
+		return saved_data;
 	} else {
-		return Saved_Data[LoadName];
+		return saved_data[load_name];
 	}
 }
 
-export async function Load_Setting(LoadName: string) {
-	if (!Loaded) {
+export async function load_setting(load_name: string) {
+	if (!loaded) {
 		await sleep(100);
-		return await Load_Setting(LoadName);
+		return await load_setting(load_name);
 	}
-	if (Saved_Data["Current_Settings"] != null) {
-		return Saved_Data["Current_Settings"][LoadName];
+	if (saved_data["current_settings"] != null) {
+		return saved_data["current_settings"][load_name];
 	} else {
 		return null;
 	}
 }
 
-export async function Load_Any(LoadName: string) {
-	const Get_Data = await Load_Setting(LoadName);
-	if (Get_Data == null) {
-		return await Load(LoadName);
+export async function load_any(load_name: string) {
+	const get_data = await load_setting(load_name);
+	if (get_data == null) {
+		return await load(load_name);
 	} else {
-		return Get_Data;
+		return get_data;
 	}
 }
 
-export async function ClearSave() {
+export async function clear_save() {
 	await chrome.storage.local.clear();
 }
 
-export async function Update_Save_Default() {
-	const Can_Settings = await Get_Settings_List(true);
-	let Current_Settings = Saved_Data["Current_Settings"];
+export async function update_save_default() {
+	const can_settings = await get_settings_list(true);
+	let current_settings = saved_data["current_settings"];
 
-	// console.log(Can_Settings);
+	// console.log(can_settings);
 
-	if (Current_Settings == null) {
-		Current_Settings = {};
+	if (current_settings == null) {
+		current_settings = {};
 	}
 
-	for (const id in Can_Settings) {
-		const setting = Can_Settings[id];
-		if ("value" in setting && Current_Settings[id] == null) {
-			Current_Settings[id] = setting.value;
+	for (const id in can_settings) {
+		const setting = can_settings[id];
+		if ("value" in setting && current_settings[id] == null) {
+			current_settings[id] = setting.value;
 			console.log("Added New Default Setting:", id, setting.value);
 		}
 	}
 
-	Saved_Data["Current_Settings"] = Current_Settings;
+	saved_data["current_settings"] = current_settings;
 }
 
-export async function Clear_Unused_Save() {
-	if (!Loaded) {
+export async function clear_unused_save() {
+	if (!loaded) {
 		await sleep(100);
-		return await Clear_Unused_Save();
+		return await clear_unused_save();
 	}
 
-	if (Saved_Data["Current_Settings"] == null) {
-		Saved_Data["Current_Settings"] = {};
+	if (saved_data["current_settings"] == null) {
+		saved_data["current_settings"] = {};
 	}
 
-	console.log("Clearing Unnessary Save");
+	console.log("Clearing Unnessary save");
 
-	const Can_Settings_Keys = Object.keys(await Get_Settings_List(true));
-	const Current_Settings = Saved_Data["Current_Settings"];
+	const can_settings_keys = Object.keys(await get_settings_list(true));
+	const current_settings = saved_data["current_settings"];
 
-	for (const key of Object.keys(Current_Settings)) {
-		if (!Can_Settings_Keys.includes(key)) {
+	for (const key of Object.keys(current_settings)) {
+		if (!can_settings_keys.includes(key)) {
 			console.log("Removed", key);
-			delete Current_Settings[key];
+			delete current_settings[key];
 		}
 	}
 
-	for (const key of Object.keys(Saved_Data)) {
-		if (!Save_External.includes(key)) {
+	for (const key of Object.keys(saved_data)) {
+		if (!save_external.includes(key)) {
 			console.log("Removed", key);
-			delete Saved_Data[key];
+			delete saved_data[key];
 		}
 	}
 
-	console.log("Clearing Unnessary Save", "Saving");
+	console.log("Clearing Unnessary save", "Saving");
 
-	await Save_All();
+	await save_all();
 
-	console.log("Cleared Unnessary Save");
+	console.log("Cleared Unnessary save");
 }
 
-export async function LoadRgba(Text) {
-	let HEX = await Load(Text + "C");
-	HEX = HEX.replace("#", "");
-	const aRgbHex = HEX.match(/.{1,2}/g);
-	const aRgb = [parseInt(aRgbHex[0], 16) + "," + parseInt(aRgbHex[1], 16) + "," + parseInt(aRgbHex[2], 16)];
+export async function load_rgba(text) {
+	let hex = await load(text + "C");
+	hex = hex.replace("#", "");
+	const argb_hex = hex.match(/.{1,2}/g);
+	const argb = [parseInt(argb_hex[0], 16) + "," + parseInt(argb_hex[1], 16) + "," + parseInt(argb_hex[2], 16)];
 
-	return `rgba(` + aRgb + `,` + (await Load(Text + "O")) / 100 + `)`;
+	return `rgba(` + argb + `,` + (await load(text + "O")) / 100 + `)`;
 }
 
-export async function LoadNTubeCode(Preset) {
-	const array = Preset;
-	let changesMade = false;
+export async function load_ntube_code(preset) {
+	const array = preset;
+	let changes_made = false;
 
 	if (Object.prototype.toString.call(array) == "[object Object]") {
 		for (const key of Object.keys(array)) {
 			let value = array[key];
 			if (typeof value === "string" && (value.startsWith("{") || value.startsWith("["))) {
 				try {
-					const TryToParse = JSON.parse(value);
-					if (TryToParse != null) {
-						value = TryToParse;
+					const try_to_parse = JSON.parse(value);
+					if (try_to_parse != null) {
+						value = try_to_parse;
 					}
 				} catch (error) {}
 			}
 
 			if (key == "ADDScript" && typeof value === "string" && value.trim() !== "") {
 				if (
-					await Show_Confirm(
-						`⚠️*WARNING*⚠️\nThis Preset/Theme contains JS code.\nYou could be compromised if you continue.\n(Please make sure this code is from a trusted source!)\n\nDo you want to load the JS code?`
+					await show_confirm(
+						`⚠️*WARNING*⚠️\nThis preset/Theme contains JS code.\nYou could be compromised if you continue.\n(Please make sure this code is from a trusted source!)\n\nDo you want to load the JS code?`
 					)
 				) {
-					await Save_Setting(key, value, true);
-					changesMade = true;
+					await save_setting(key, value, true);
+					changes_made = true;
 				} else {
-					await Save_Setting(key, "", true);
-					changesMade = true;
+					await save_setting(key, "", true);
+					changes_made = true;
 				}
 			} else {
-				await Save_Setting(key, value, true);
-				changesMade = true;
+				await save_setting(key, value, true);
+				changes_made = true;
 			}
 		}
 	} else if (Array.isArray(array)) {
-		for (let i = 0; i < array.length; i += 2) {
+		for (let i = 0; i < Array.length; i += 2) {
 			const key = array[i];
 			let value = array[i + 1];
 			if (typeof value === "string" && (value.startsWith("{") || value.startsWith("["))) {
 				try {
-					const TryToParse = JSON.parse(value);
-					if (TryToParse != null) {
-						value = TryToParse;
+					const try_to_parse = JSON.parse(value);
+					if (try_to_parse != null) {
+						value = try_to_parse;
 					}
 				} catch (error) {}
 			}
-			await Save_Setting(key, value, true);
-			changesMade = true;
+			await save_setting(key, value, true);
+			changes_made = true;
 		}
 	}
 
-	if (changesMade) {
-		await Save_All();
+	if (changes_made) {
+		await save_all();
 	}
 }
 
-export async function LoadNTubeCodeString(string) {
-	console.log(await ConvertStringToPreset(string));
-	return await LoadNTubeCode(await ConvertStringToPreset(string));
+export async function load_ntube_code_string(string) {
+	console.log(await convert_string_to_preset(string));
+	return await load_ntube_code(await convert_string_to_preset(string));
 }
 
-export async function GenNTubeCode() {
-	await Update_StyleShift_Items();
-	await Clear_Unused_Save();
+export async function gen_ntube_code() {
+	await update_styleshift_items();
+	await clear_unused_save();
 
-	return await Load("Current_Settings");
+	return await load("current_settings");
 }
 
-export async function GenNTubeCodeString() {
-	const arr = await GenNTubeCode();
+export async function gen_ntube_code_string() {
+	const arr = await gen_ntube_code();
 	let gentext = JSON.stringify(arr).replace(/,"/g, ',\n"');
 	gentext = gentext.substring(0, 1) + "\n" + gentext.substring(1);
-	const gentextL = gentext.length;
-	gentext = gentext.substring(0, gentextL - 1) + "\n" + gentext.substring(gentextL - 1);
+	const gentext_l = gentext.length;
+	gentext = gentext.substring(0, gentext_l - 1) + "\n" + gentext.substring(gentext_l - 1);
 	return gentext;
 }
 
-export async function ConvertStringToPreset(string) {
+export async function convert_string_to_preset(string) {
 	return JSON.parse(string);
 }
 
-export async function ConvertToNewSave(Save) {
-	const NewSave = { ...Save };
+export async function convert_to_new_save(save) {
+	const new_save = { ...save };
 
 	await Promise.all(
-		Object.keys(NewSave).map(async (id) => {
-			if (NewSave[id] == "true") {
-				NewSave[id] = true;
+		Object.keys(new_save).map(async (id) => {
+			if (new_save[id] == "true") {
+				new_save[id] = true;
 			}
 
-			if (NewSave[id] == "false") {
-				NewSave[id] = false;
+			if (new_save[id] == "false") {
+				new_save[id] = false;
 			}
 
-			if (id.slice(-1) == "T" && (NewSave[id] === true || NewSave[id] === false)) {
-				NewSave[id.slice(0, -1)] = NewSave[id];
-				delete NewSave[id];
+			if (id.slice(-1) == "T" && (new_save[id] === true || new_save[id] === false)) {
+				new_save[id.slice(0, -1)] = new_save[id];
+				delete new_save[id];
 			}
 		})
 	);
 
-	return NewSave;
+	return new_save;
 }
 
-export async function Set_Null_Save() {
-	let settingsChanged = false;
+export async function set_null_save() {
+	let settings_changed = false;
 
-	if ((await Load("Current_Settings")) == null) {
-		await Save("Current_Settings", {}, true);
-		settingsChanged = true;
+	if ((await load("current_settings")) == null) {
+		await save("current_settings", {}, true);
+		settings_changed = true;
 	}
 
-	if ((await Load("Themes")) == null) {
-		await Save("Themes", {}, true);
-		settingsChanged = true;
+	if ((await load("Themes")) == null) {
+		await save("Themes", {}, true);
+		settings_changed = true;
 	}
 
-	let Current_Settings = await Load("Current_Settings");
-	if (Current_Settings == null) Current_Settings = {};
+	let current_settings = await load("current_settings");
+	if (current_settings == null) current_settings = {};
 
-	const allSettingsList = await Get_Settings_List(true);
+	const all_settings_list = await get_settings_list(true);
 
-	for (const [id, args] of Object.entries(allSettingsList) as [string, any]) {
-		if (Save_External.includes(id)) continue;
+	for (const [id, args] of Object.entries(all_settings_list) as [string, any]) {
+		if (save_external.includes(id)) continue;
 
-		if (Current_Settings[id] === undefined || Current_Settings[id] === null) {
+		if (current_settings[id] === undefined || current_settings[id] === null) {
 			console.log("Added New Default Setting:", id, args.value);
-			await Save_Any(id, args.value, true);
-			settingsChanged = true;
+			await save_any(id, args.value, true);
+			settings_changed = true;
 		}
 	}
 
-	if (settingsChanged) {
-		await Save_All();
+	if (settings_changed) {
+		await save_all();
 		console.log("Finished setting null saves.");
 	} else {
 		console.log("No null saves needed setting.");

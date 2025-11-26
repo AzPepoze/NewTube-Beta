@@ -1,50 +1,50 @@
-import { GetDocumentHead, sleep } from "../build-in-functions/normal";
-import { Load_Setting } from "../core/save";
+import { get_document_head, sleep } from "../build-in-functions/normal";
+import { load_setting } from "../core/save";
 
-let StyleSheet_Holder: HTMLElement;
-let StyleSheet_Holder_Constant: HTMLElement;
+let stylesheet_holder: HTMLElement;
+let stylesheet_holder_constant: HTMLElement;
 
-export async function Create_StyleSheet_Holder() {
-	StyleSheet_Holder = document.createElement("fieldset");
-	StyleSheet_Holder.id = "STYLESHIFT_StyleSheet_Holder";
+export async function create_stylesheet_holder() {
+	stylesheet_holder = document.createElement("fieldset");
+	stylesheet_holder.id = "STYLESHIFT_stylesheet_holder";
 
-	if ((await Load_Setting("Enable_Extension")) == true) {
-		Show_StyleSheet();
+	if ((await load_setting("Enable_Extension")) == true) {
+		show_stylesheet();
 	} else {
-		Hide_StyleSheet();
+		hide_stylesheet();
 	}
 
-	StyleSheet_Holder_Constant = document.createElement("fieldset");
-	StyleSheet_Holder_Constant.id = "STYLESHIFT_StyleSheet_Holder_Constant";
+	stylesheet_holder_constant = document.createElement("fieldset");
+	stylesheet_holder_constant.id = "STYLESHIFT_stylesheet_holder_constant";
 	setTimeout(async () => {
-		(await GetDocumentHead()).append(StyleSheet_Holder_Constant);
+		(await get_document_head()).append(stylesheet_holder_constant);
 	}, 1);
 }
 
-export function Create_StyleSheet(id: string, constant: boolean = false) {
-	const StyleSheet = document.createElement("style");
-	StyleSheet.setAttribute("STYLESHIFT_StyleSheet_id", id);
+export function create_stylesheet(id: string, constant: boolean = false) {
+	const style_sheet = document.createElement("style");
+	style_sheet.setAttribute("STYLESHIFT_style_sheet_id", id);
 
 	if (constant) {
-		StyleSheet_Holder_Constant.append(StyleSheet);
+		stylesheet_holder_constant.append(style_sheet);
 	} else {
-		StyleSheet_Holder.append(StyleSheet);
+		stylesheet_holder.append(style_sheet);
 	}
 
-	return StyleSheet;
+	return style_sheet;
 }
 
-export async function Show_StyleSheet() {
+export async function show_stylesheet() {
 	setTimeout(async () => {
-		(await GetDocumentHead()).append(StyleSheet_Holder);
+		(await get_document_head()).append(stylesheet_holder);
 	}, 1);
 }
 
-export async function Hide_StyleSheet() {
-	if (StyleSheet_Holder) {
-		StyleSheet_Holder.remove();
+export async function hide_stylesheet() {
+	if (stylesheet_holder) {
+		stylesheet_holder.remove();
 	} else {
 		await sleep(10);
-		await Hide_StyleSheet();
+		await hide_stylesheet();
 	}
 }

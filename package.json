@@ -5,7 +5,7 @@
 		"dev:js": "ts-node utils/builder-extension.ts",
 		"dev:css": "sass --watch src/styleshift/styles/setting.scss out/build/style.css --style=compressed --no-source-map",
 		"build_module": "ts-node utils/builder-modules.ts",
-		"build:dev": "sass src/styleshift/styles/setting.scss out/build/style.css --style=compressed --no-source-map && node utils/builder-extension.ts --production --once && npm run build_module",
+		"build:dev": "sass src/styleshift/styles/setting.scss out/build/style.css --style=compressed --no-source-map && ts-node utils/builder-extension.ts --production --once && npm run build_module",
 		"build:prod": "ts-node utils/build-release.ts",
 		"build:types": "tsc -p utils/tsconfig-builder-types.json && ts-node utils/builder-types.ts",
 		"build:types_raw": "tsc -p utils/tsconfig-builder-types.json",
@@ -17,6 +17,7 @@
 		"monaco-themes": "^0.4.7"
 	},
 	"devDependencies": {
+		"@eslint/js": "^9.39.1",
 		"@types/chrome": "^0.0.268",
 		"@types/node": "^22.19.1",
 		"archiver": "^7.0.1",

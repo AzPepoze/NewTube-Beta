@@ -1,114 +1,113 @@
-import { Create_UniqueID, Once_Element_Remove, Wait_Document_Loaded } from "../build-in-functions/normal";
-import { Get_StyleShift_Items } from "../settings/items";
-import { Create_Editor_UI, Editor_UI } from "./editor";
-import { Show_Confirm } from "./extension";
+import { create_unique_id, once_element_remove, wait_document_loaded } from "../build-in-functions/normal";
+import { get_styleshift_items } from "../settings/items";
+import { create_editor_ui, editor_ui } from "./editor";
+import { show_confirm } from "./extension";
 
-let Highlight_Elements = {};
-let debounceTimer: NodeJS.Timeout | null = null;
-const DEBOUNCE_DELAY = 150;
+let highlight_elements = {};
+let debounce_timer: NodeJS.Timeout;
+const debounce_delay = 150;
 
 function debounce(callback: Function) {
-	if (debounceTimer) {
-		clearTimeout(debounceTimer);
+	if (debounce_timer) {
+		clearTimeout(debounce_timer);
 	}
-	debounceTimer = setTimeout(() => {
+	debounce_timer = setTimeout(() => {
 		callback();
-		debounceTimer = null;
-	}, DEBOUNCE_DELAY);
+		debounce_timer = null;
+	}, debounce_delay);
 }
 
-function Add_Highlight(targetElement: HTMLElement, Selector_Value) {
-	console.log(Highlight_Elements);
+function add_highlight(target_element: HTMLElement, selector_value) {
+	console.log(highlight_elements);
 
-	const Exist_UniqueID = targetElement.getAttribute("StyleShift-UniqueID");
-	if (Exist_UniqueID) {
-		const OBJ = Highlight_Elements[Exist_UniqueID];
-		console.log(OBJ.targetElement, targetElement);
-		OBJ.Stop();
+	const exist_unique_id = target_element.getAttribute("StyleShift-unique_id");
+	if (exist_unique_id) {
+		const obj = highlight_elements[exist_unique_id];
+		console.log(obj.target_element, target_element);
+		obj.stop();
 	}
 
-	const UniqueID = Create_UniqueID(10);
+	const unique_id = create_unique_id(10);
 
-	targetElement.setAttribute("StyleShift-UniqueID", UniqueID);
+	target_element.setAttribute("StyleShift-unique_id", unique_id);
 
-	const Color = `rgba(${Selector_Value.Highlight_Color}`;
+	const color = `rgba(${selector_value.Highlight_color}`;
 
 	const highlighter = document.createElement("div");
 	highlighter.className = "STYLESHIFT-Highlight";
-	highlighter.setAttribute("Selector", Selector_Value.Selector);
+	highlighter.setAttribute("Selector", selector_value.Selector);
 
-	highlighter.style.background = `${Color},0.3)`;
-	highlighter.style.borderColor = `${Color},0.8)`;
+	highlighter.style.background = `${color},0.3)`;
+	highlighter.style.borderColor = `${color},0.8)`;
 
-	const ComputedStyle = window.getComputedStyle(targetElement, null);
-
+	const computed_style = window.getComputedStyle(target_element);
 	highlighter.style.width = `calc(100% - 
-	${ComputedStyle.getPropertyValue("padding-left")} - 
-	${ComputedStyle.getPropertyValue("padding-right")} - 2px
+	${computed_style.getPropertyValue("padding-left")} - 
+	${computed_style.getPropertyValue("padding-right")} - 2px
 	)`;
 	highlighter.style.height = `calc(100% - 
-	${ComputedStyle.getPropertyValue("padding-top")} - 
-	${ComputedStyle.getPropertyValue("padding-bottom")} - 2px
+	${computed_style.getPropertyValue("padding-top")} - 
+	${computed_style.getPropertyValue("padding-bottom")} - 2px
 	)`;
 
-	targetElement.append(highlighter);
+	target_element.append(highlighter);
 
 	highlighter.onclick = function () {
-		Create_Editor_UI(targetElement, Selector_Value);
-		Stop_Highlighter();
+		create_editor_ui(target_element, selector_value);
+		stop_highlighter();
 	};
 
-	const old_style = targetElement.style.position;
-	targetElement.style.position = "relative";
+	const old_style = target_element.style.position;
+	target_element.style.position = "relative";
 
-	function Stop() {
-		if (targetElement) {
-			targetElement.style.position = old_style;
+	function stop() {
+		if (target_element) {
+			target_element.style.position = old_style;
 		}
 		highlighter.remove();
-		targetElement.removeAttribute("StyleShift-UniqueID");
-		delete Highlight_Elements[UniqueID];
+		target_element.removeAttribute("StyleShift-unique_id");
+		delete highlight_elements[unique_id];
 	}
 
-	Once_Element_Remove(targetElement, function () {
-		Stop();
+	once_element_remove(target_element, function () {
+		stop();
 	});
 
-	const return_OBJ = {
+	const return_obj = {
 		highlighter: highlighter,
-		targetElement: targetElement,
-		Stop: Stop,
+		target_element: target_element,
+		stop: stop,
 	};
 
-	Highlight_Elements[UniqueID] = return_OBJ;
+	highlight_elements[unique_id] = return_obj;
 
-	return return_OBJ;
+	return return_obj;
 }
 
-let Watch_Body: MutationObserver;
+let watch_body: MutationObserver;
 
-export async function Start_Highlighter() {
-	await Wait_Document_Loaded();
-	const Editable_Items = await Get_StyleShift_Items();
-	console.log("Editable_Items", Editable_Items);
-	const Exept_Items = [];
+export async function start_highlighter() {
+	await wait_document_loaded();
+	const editable_items = await get_styleshift_items();
+	console.log("editable_items", editable_items);
+	const exept_items = [];
 
 	const containers = document.querySelectorAll(".dynamic-content, .user-content, main, #content");
 
-	Watch_Body = new MutationObserver((mutationsList) => {
+	watch_body = new MutationObserver((mutations_list) => {
 		debounce(async () => {
-			for (const mutation of mutationsList) {
+			for (const mutation of mutations_list) {
 				if (mutation.type === "childList") {
 					for (const node of mutation.addedNodes as any) {
-						if (node.nodeType === Node.ELEMENT_NODE) {
-							for (const Selector_Value of [...Editable_Items.Default, ...Editable_Items.Custom]) {
+						if (node.nodetype === Node.ELEMENT_NODE) {
+							for (const selector_value of [...editable_items.Default, ...editable_items.Custom]) {
 								if (
-									Selector_Value.selector != "" &&
-									node.matches(Selector_Value.selector) &&
-									!Exept_Items.some((item) => item === Selector_Value.selector)
+									selector_value.selector != "" &&
+									node.matches(selector_value.selector) &&
+									!exept_items.some((item) => item === selector_value.selector)
 								) {
-									console.log("Add New Node", Selector_Value.selector);
-									Add_Highlight(node, Selector_Value);
+									console.log("Add New Node", selector_value.selector);
+									add_highlight(node, selector_value);
 									break;
 								}
 							}
@@ -121,85 +120,85 @@ export async function Start_Highlighter() {
 
 	if (containers.length > 0) {
 		containers.forEach((container) => {
-			Watch_Body.observe(container, {
+			watch_body.observe(container, {
 				childList: true,
 				subtree: true,
 				attributeFilter: ["class", "id"],
 			});
 		});
 	} else {
-		Watch_Body.observe(document.body, {
+		watch_body.observe(document.body, {
 			childList: true,
 			subtree: true,
 			attributeFilter: ["class", "id"],
 		});
 	}
 
-	for (const Selector_Value of [...Editable_Items.Default, ...Editable_Items.Custom]) {
-		if (Selector_Value.selector == "") continue;
+	for (const selector_value of [...editable_items.Default, ...editable_items.Custom]) {
+		if (selector_value.selector == "") continue;
 
-		const Selector_Found = document.querySelectorAll(Selector_Value.selector);
+		const selector_found = document.querySelectorAll(selector_value.selector);
 
 		if (
-			Selector_Found.length >= 1000 &&
-			!(await Show_Confirm(
-				`StyleShift : I found ${Selector_Found.length} elements on selector "${Selector_Value.selector}"\n\nAre you wish to continue??`
+			selector_found.length >= 1000 &&
+			!(await show_confirm(
+				`StyleShift : I found ${selector_found.length} elements on selector "${selector_value.selector}"\n\nAre you wish to continue??`
 			))
 		) {
-			Exept_Items.push(Selector_Value.selector);
+			exept_items.push(selector_value.selector);
 			continue;
 		}
 
-		console.log("Selector_Found", Selector_Value.selector, Selector_Found);
+		console.log("selector_found", selector_value.selector, selector_found);
 
 		// Process elements in chunks to avoid blocking the main thread
-		const CHUNK_SIZE = 50;
-		for (let i = 0; i < Selector_Found.length; i += CHUNK_SIZE) {
-			const chunk = Array.from(Selector_Found).slice(i, i + CHUNK_SIZE);
+		const chunk_size = 50;
+		for (let i = 0; i < selector_found.length; i += chunk_size) {
+			const chunk = Array.from(selector_found).slice(i, i + chunk_size);
 			setTimeout(() => {
 				chunk.forEach((element) => {
-					Add_Highlight(element as HTMLElement, Selector_Value);
+					add_highlight(element as HTMLElement, selector_value);
 				});
 			}, 0);
 		}
 	}
 }
 
-function Stop_Highlighter() {
-	if (Watch_Body) {
-		Watch_Body.disconnect();
+function stop_highlighter() {
+	if (watch_body) {
+		watch_body.disconnect();
 	}
 
-	for (const Highlight_Elements_OBJ of Object.values(Highlight_Elements) as any) {
-		Highlight_Elements_OBJ.Stop();
+	for (const highlight_elements_obj of Object.values(highlight_elements) as any) {
+		highlight_elements_obj.stop();
 	}
 
-	Highlight_Elements = [];
+	highlight_elements = [];
 }
 
-let Running_Cusomize = false;
+let running_customize = false;
 
-export async function Start_Customize() {
-	if (Running_Cusomize) {
+export async function start_customize() {
+	if (running_customize) {
 		return;
 	}
-	Running_Cusomize = true;
-	Start_Highlighter();
+	running_customize = true;
+	start_highlighter();
 }
 
-export function Stop_Customize() {
-	if (!Running_Cusomize) {
+export function stop_customize() {
+	if (!running_customize) {
 		return;
 	}
-	Running_Cusomize = false;
-	Stop_Highlighter();
+	running_customize = false;
+	stop_highlighter();
 }
 
-export async function Toggle_Customize() {
-	if (Running_Cusomize) {
-		Stop_Customize();
-		Editor_UI.Remove_UI(false);
+export async function toggle_customize() {
+	if (running_customize) {
+		stop_customize();
+		editor_ui.remove_ui(false);
 	} else {
-		Start_Customize();
+		start_customize();
 	}
 }

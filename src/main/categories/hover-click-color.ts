@@ -1,12 +1,12 @@
 import { Category } from "../../styleshift/types/store";
 
-export const HoverClickColorCategory: Category = {
-	category: "🖱️ Hover/Click color",
+export const hover_click_color_category: Category = {
+	category: "🖱️ hover/Click color",
 	settings: [
 		{
-			type: "Color",
+			type: "color",
 			id: "Themehover",
-			name: "Main Hover Background Color",
+			name: "Main hover Background color",
 			description:
 				"The background color for most elements when you hover over them (e.g., menu items, buttons).",
 			value: "#659aff80",
@@ -21,9 +21,9 @@ export const HoverClickColorCategory: Category = {
             `,
 		},
 		{
-			type: "Color",
+			type: "color",
 			id: "Playlisthover",
-			name: "Playlist Hover Background Color",
+			name: "Playlist hover Background color",
 			description: "The background color for videos in a playlist when you hover over them.",
 			value: "#659aff80",
 			var_css: "--playlist-hover-bg-color",

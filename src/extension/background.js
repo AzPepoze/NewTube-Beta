@@ -3,7 +3,7 @@ function sleep(delay) {
 }
 
 async function get_now_tab() {
-	let query_options = { active: true, currentWindow: true };
+	let query_options = { active: true, currentwindow_element: true };
 
 	try {
 		let tabs_array = await chrome.tabs.query(query_options);
@@ -34,12 +34,12 @@ chrome.commands.onCommand.addListener(async (command) => {
 	chrome.tabs.sendMessage(tab.id, command);
 });
 
-// let Build_in_Functions_Data;
+// let build_in_functions_Data;
 
-// fetch(chrome.runtime.getURL("Build_in_Functions.js"))
+// fetch(chrome.runtime.getURL("build_in_functions.js"))
 // 	.then((response) => response.text())
 // 	.then((data) => {
-// 		Build_in_Functions_Data = data;
+// 		build_in_functions_Data = data;
 // 	});
 
 async function exec_function(exec_text) {
@@ -50,9 +50,9 @@ chrome.runtime.onMessage.addListener(async (recived_msg, sender) => {
 	console.log(recived_msg);
 
 	switch (recived_msg.Command) {
-		case "RunScript":
-			// while (!Build_in_Functions_Data) {
-			// 	console.log(Build_in_Functions_Data);
+		case "runScript":
+			// while (!build_in_functions_Data) {
+			// 	console.log(build_in_functions_Data);
 			// 	await sleep(10);
 			// }
 
@@ -65,12 +65,12 @@ chrome.runtime.onMessage.addListener(async (recived_msg, sender) => {
 					const setting_id = args["setting_id"];
 					if (setting_id) {
 						// pre_code += `console.log(StyleShift["Build-in"]["_Call_Function"]());\n`;
-						pre_code += `let This_Setting_Frame = document.querySelector(".STYLESHIFT-Window #${setting_id}");\n`;
-						pre_code += `async function Save_Setting_Value(value){
-                                   return await StyleShift["Build-in"]["_Call_Function"]("Save_StyleShift_Value", "${setting_id}", value)
+						pre_code += `let this_setting_frame = document.querySelector(".STYLESHIFT-Window #${setting_id}");\n`;
+						pre_code += `async function save_setting_value(value){
+                                   return await StyleShift["Build-in"]["_Call_Function"]("save_styleshift_value", "${setting_id}", value)
                               }\n`;
-						pre_code += `async function Load_Setting_Value(){
-                                   return await StyleShift["Build-in"]["_Call_Function"]("Load_StyleShift_Value", "${setting_id}")
+						pre_code += `async function load_setting_value(){
+                                   return await StyleShift["Build-in"]["_Call_Function"]("load_styleshift_value", "${setting_id}")
                               }\n`;
 					}
 					for (const [key, value] of Object.entries(args)) {

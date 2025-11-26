@@ -1,3 +1,3 @@
-export function setupRemoveBlackBars() {}
+export function setup_remove_black_bars() {}
 
-export function destroyRemoveBlackBars() {}
+export function destroy_remove_black_bars() {}

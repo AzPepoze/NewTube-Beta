@@ -4,7 +4,7 @@ export const animation_category: Category = {
 	category: "🚶 Animations",
 	settings: [
 		{
-			type: "Checkbox",
+			type: "checkbox",
 			id: "Ptran",
 			name: "Enable Page Transition",
 			description: "Adds a fade-in and slide-in animation when navigating between video pages.",

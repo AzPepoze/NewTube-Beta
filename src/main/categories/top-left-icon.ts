@@ -1,13 +1,13 @@
 import { Category } from "../../styleshift/types/store";
 
-export const TopLeftIconCategory: Category = {
-	category: "💠 Top-Left Icon",
+export const top_left_icon_category: Category = {
+	category: "💠 Top-Left icon",
 	settings: [
 		{
-			type: "Checkbox",
-			id: "ReplaceYT",
-			name: "Enable Custom Top-Left Icon",
-			description: "Replaces the YouTube logo with a custom image.",
+			type: "checkbox",
+			id: "replaceYT",
+			name: "Enable Custom Top-Left icon",
+			description: "replaces the YouTube logo with a custom image.",
 			value: false,
 			enable_css: `
                 ytd-topbar-logo-renderer #logo-icon {
@@ -23,9 +23,9 @@ export const TopLeftIconCategory: Category = {
             `,
 		},
 		{
-			type: "Text_Input",
-			id: "ReplaceYTURL",
-			name: "Icon Image URL",
+			type: "text_input",
+			id: "replaceYTURL",
+			name: "icon image URL",
 			description: "URL for the custom icon image.",
 			value: "https://i.gifer.com/17xo.gif",
 			update_function: function (value) {
@@ -33,9 +33,9 @@ export const TopLeftIconCategory: Category = {
 			},
 		},
 		{
-			type: "Number_Slide",
-			id: "TopIconX",
-			name: "Image Position X",
+			type: "number_slide",
+			id: "TopiconX",
+			name: "image Position X",
 			description: "Horizontal position of the custom icon.",
 			value: 50,
 			min: 0,
@@ -44,9 +44,9 @@ export const TopLeftIconCategory: Category = {
 			var_css: "--top-icon-x",
 		},
 		{
-			type: "Number_Slide",
-			id: "TopIconY",
-			name: "Image Position Y",
+			type: "number_slide",
+			id: "TopiconY",
+			name: "image Position Y",
 			description: "Vertical position of the custom icon.",
 			value: 50,
 			min: 0,
@@ -55,10 +55,10 @@ export const TopLeftIconCategory: Category = {
 			var_css: "--top-icon-y",
 		},
 		{
-			type: "Number_Slide",
-			id: "YTSize",
-			name: "Image Size",
-			description: "Size of the custom icon.",
+			type: "number_slide",
+			id: "YTsize",
+			name: "image size",
+			description: "size of the custom icon.",
 			value: 100,
 			min: 10,
 			max: 300,
@@ -66,27 +66,27 @@ export const TopLeftIconCategory: Category = {
 			var_css: "--top-icon-size",
 		},
 		{
-			type: "Checkbox",
-			id: "TopIconFlip",
-			name: "Flip Image",
+			type: "checkbox",
+			id: "TopiconFlip",
+			name: "Flip image",
 			description: "Flips the custom icon horizontally.",
 			value: false,
 			enable_css: `ytd-topbar-logo-renderer { --top-icon-flip: scaleX(-1); }`,
 			disable_css: `ytd-topbar-logo-renderer { --top-icon-flip: scaleX(1); }`,
 		},
 		{
-			type: "Checkbox",
-			id: "TopIconRepeat",
-			name: "Repeat Image",
+			type: "checkbox",
+			id: "TopiconRepeat",
+			name: "Repeat image",
 			description: "Repeats the custom icon image.",
 			value: false,
 			enable_css: `ytd-topbar-logo-renderer { --top-icon-repeat: repeat; }`,
 			disable_css: `ytd-topbar-logo-renderer { --top-icon-repeat: no-repeat; }`,
 		},
 		{
-			type: "Checkbox",
-			id: "IconFill",
-			name: "Sync Icon Color with Theme",
+			type: "checkbox",
+			id: "iconFill",
+			name: "Sync icon color with Theme",
 			description:
 				"Makes the default YouTube icon color match the main theme color. Does not work if custom icon is enabled.",
 			value: true,

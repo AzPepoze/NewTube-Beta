@@ -1,12 +1,12 @@
 import { Category } from "../../styleshift/types/store";
 
-export const BordersShadowsCategory: Category = {
+export const borders_shadows_category: Category = {
 	category: "🔳 Borders / Shadows",
 	settings: [
 		{
-			type: "Dropdown",
+			type: "dropdown",
 			id: "OutOrSha",
-			name: "Style Type",
+			name: "Style type",
 			description: "Choose between outlines (borders), shadows, or none for applicable elements.",
 			value: "Shadows",
 			options: {
@@ -37,9 +37,9 @@ export const BordersShadowsCategory: Category = {
 			},
 		},
 		{
-			type: "Number_Slide",
+			type: "number_slide",
 			id: "Border",
-			name: "Width / Size",
+			name: "width / size",
 			description: "Adjusts the width of the border or the size of the shadow.",
 			value: 8,
 			min: 1,
@@ -48,9 +48,9 @@ export const BordersShadowsCategory: Category = {
 			var_css: "--global-border-width",
 		},
 		{
-			type: "Color",
+			type: "color",
 			id: "OutSha",
-			name: "Color",
+			name: "color",
 			description: "The color of the border or shadow.",
 			value: "#099DFF80",
 			var_css: "--global-border-color",

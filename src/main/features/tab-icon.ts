@@ -1,12 +1,12 @@
-import { Load } from "../../styleshift/core/save";
+import { load } from "../../styleshift/core/save";
 
-let originalFavicon: string | null = null;
+let original_favicon: string | null = null;
 
-function changeFavicon(url: string) {
+function change_favicon(url: string) {
 	let favicon = document.querySelector('link[rel*="icon"]') as HTMLLinkElement;
 	if (favicon) {
-		if (!originalFavicon) {
-			originalFavicon = favicon.href;
+		if (!original_favicon) {
+			original_favicon = favicon.href;
 		}
 		favicon.href = url;
 	} else {
@@ -18,32 +18,32 @@ function changeFavicon(url: string) {
 	}
 }
 
-function revertFavicon() {
-	if (originalFavicon) {
+function revert_favicon() {
+	if (original_favicon) {
 		const favicon = document.querySelector('link[rel*="icon"]') as HTMLLinkElement;
 		if (favicon) {
-			favicon.href = originalFavicon;
+			favicon.href = original_favicon;
 		}
 	}
 }
 
-async function updateIcon() {
-	const useCustomIcon = await Load("CustomIcon");
-	if (!useCustomIcon) {
-		revertFavicon();
+async function update_icon() {
+	const use_custom_icon = await load("Customicon");
+	if (!use_custom_icon) {
+		revert_favicon();
 		return;
 	}
-	const iconURL = (await Load("IconURL")) as string;
-	if (iconURL) {
-		changeFavicon(iconURL);
+	const icon_url = (await load("iconURL")) as string;
+	if (icon_url) {
+		change_favicon(icon_url);
 	}
 }
 
-export function setupTabIconChanger() {
-	updateIcon();
-	window.addEventListener("yt-navigate-finish", updateIcon);
+export function setup_tab_icon_changer() {
+	update_icon();
+	window.addEventListener("yt-navigate-finish", update_icon);
 }
 
-export function disableTabIconChanger() {
-	revertFavicon();
+export function disable_tab_icon_changer() {
+	revert_favicon();
 }

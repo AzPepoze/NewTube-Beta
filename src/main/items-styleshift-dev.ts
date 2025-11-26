@@ -1,51 +1,51 @@
-import * as StyleShift_Functions from "../styleshift/build-in-functions/extension";
+import * as styleshift_functions from "../styleshift/build-in-functions/extension";
 import { sleep } from "../styleshift/build-in-functions/normal";
 import { Category } from "../styleshift/types/store";
 
-const Dev_Only_Items: Category[] = [
+const dev_only_items: Category[] = [
 	{
 		category: "↕️ Import / Export Theme",
 		settings: [
 			{
-				type: "Setting_Sub_Title",
+				type: "Setting_Sub_title",
 				color: "#1a34ffff",
 				font_size: 15,
 				text_align: "center",
-				text: "File (.StyleShift.zip)",
+				text: "file (.StyleShift.zip)",
 			},
 			{
-				type: "Button",
-				id: "Export_ZIP_File",
-				name: "Export File",
-				description: "Description of this Button",
+				type: "button",
+				id: "Export_ZIP_file",
+				name: "Export file",
+				description: "Description of this button",
 				color: "#1a34ffff",
 				font_size: 15,
 				click_function: async function () {
-					const Notification = await StyleShift_Functions["Create_Notification"]({
-						Icon: "🔄️",
-						Title: "StyleShift - Exporting File",
-						Content: "Please wait...",
-						Timeout: -1,
+					const notification = await styleshift_functions["create_notification"]({
+						icon: "🔄️",
+						title: "StyleShift - Exporting file",
+						content: "Please wait...",
+						timeout: -1,
 					});
 
 					try {
-						await StyleShift_Functions["Export_StyleShift_Zip"](
-							JSON.parse(await StyleShift_Functions["Export_StyleShift_JSON_Text"]())
-								.Custom_StyleShift_Items,
+						await styleshift_functions["export_styleshift_zip"](
+							JSON.parse(await styleshift_functions["export_styleshift_json_text"]())
+								.custom_styleshift_items,
 							"Test.StyleShift.zip"
 						);
 
-						Notification.Set_Icon("✅");
-						Notification.Set_Title("StyleShift - Exported File");
-						Notification.Set_Content("Exported successfully!");
+						notification.set_icon("✅");
+						notification.set_title("StyleShift - Exported file");
+						notification.set_content("Exported successfully!");
 
 						await sleep(3000);
 
-						Notification.Close();
+						notification.close();
 					} catch (error) {
-						Notification.Close();
-						StyleShift_Functions["Create_Error"](error).then((Notification) => {
-							Notification.Set_Title("StyleShift - Error exporting file");
+						notification.close();
+						styleshift_functions["create_error"](error).then((notification) => {
+							notification.set_title("StyleShift - Error exporting file");
 						});
 					}
 				},
@@ -53,35 +53,35 @@ const Dev_Only_Items: Category[] = [
 				icon: "",
 			},
 			{
-				type: "Button",
-				id: "Import_ZIP_File",
-				name: "Import File",
-				description: "Description of this Button",
+				type: "button",
+				id: "Import_ZIP_file",
+				name: "Import file",
+				description: "Description of this button",
 				color: "#1a34ffff",
 				font_size: 15,
 				click_function: async function () {
-					const Notification = await StyleShift_Functions["Create_Notification"]({
-						Icon: "🔄️",
-						Title: "StyleShift - Choosing file",
-						Content: "Please choose file...",
-						Timeout: -1,
+					const notification = await styleshift_functions["create_notification"]({
+						icon: "🔄️",
+						title: "StyleShift - Choosing file",
+						content: "Please choose file...",
+						timeout: -1,
 					});
 					try {
-						const File = await StyleShift_Functions["Get_File"](".StyleShift.zip");
-						console.log("File:", File);
-						await StyleShift_Functions["Import_StyleShift_Zip"](File);
+						const file = await styleshift_functions["get_file"](".StyleShift.zip");
+						console.log("file:", file);
+						await styleshift_functions["import_styleshift_zip"](file);
 
-						Notification.Set_Icon("✅");
-						Notification.Set_Title("StyleShift - Imported File");
-						Notification.Set_Content("Imported successfully!");
+						notification.set_icon("✅");
+						notification.set_title("StyleShift - Imported file");
+						notification.set_content("Imported successfully!");
 
 						await sleep(3000);
 
-						Notification.Close();
+						notification.close();
 					} catch (error) {
-						Notification.Close();
-						StyleShift_Functions["Create_Error"](error).then((Notification) => {
-							Notification.Set_Title("StyleShift - Error importing file");
+						notification.close();
+						styleshift_functions["create_error"](error).then((notification) => {
+							notification.set_title("StyleShift - Error importing file");
 						});
 					}
 				},
@@ -92,6 +92,6 @@ const Dev_Only_Items: Category[] = [
 	},
 ];
 
-export function Get_StyleShift_Dev_Only_Items() {
-	return Dev_Only_Items;
+export function get_styleshift_dev_only_items() {
+	return dev_only_items;
 }

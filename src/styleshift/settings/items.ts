@@ -1,226 +1,228 @@
-import { Get_Default_Items } from "../../main/items-default";
-import { Get_StyleShift_Default_Items } from "../../main/items-styleshift-default";
-import { Random } from "../build-in-functions/normal";
-import { Save_And_Update_ALL } from "../core/extension";
-import { Load, Save_Any } from "../core/save";
-import { Update_All } from "../run";
-import { Category, Setting } from "../types/store";
-import { SetUp_Setting_Function } from "./functions";
+import { get_default_items } from "../../main/items-default";
+import { get_styleshift_default_items } from "../../main/items-styleshift-default";
+import { random_number_in_range } from "../build-in-functions/normal";
+import { save_and_update_all } from "../core/extension";
+import { load, save_any } from "../core/save";
+import { update_all } from "../run";
+import { setup_setting_function } from "./functions";
+import { Category, type Setting } from "../types/store";
 
-const Highlight_Colors = [`255, 109, 109`, `167, 242, 255`, `255, 167, 248`, `188, 167, 255`, `255, 241, 167`];
+const highlight_colors = [`255, 109, 109`, `167, 242, 255`, `255, 167, 248`, `188, 167, 255`, `255, 241, 167`];
 
-const StyleShift_Items: { Default: Category[]; Custom: Category[] } = {
+const styleshift_items: { Default: Category[]; Custom: Category[] } = {
 	Default: [],
 	Custom: [],
 };
 
-export function Get_StyleShift_Items() {
-	return StyleShift_Items;
+export function get_styleshift_items() {
+	return styleshift_items;
 }
 
-export function Get_Custom_Items() {
-	return StyleShift_Items.Custom;
+export function get_custom_items() {
+	return styleshift_items.Custom;
 }
 
-export function Get_Custom_Settings() {
-	return StyleShift_Items.Custom.map((item) => item.settings).flat();
+export function get_custom_settings() {
+	return styleshift_items.Custom.map((item) => item.settings).flat();
 }
 
-export function Get_ALL_StyleShift_Items() {
-	return [...StyleShift_Items.Default, ...StyleShift_Items.Custom];
+export function get_all_styleshift_items() {
+	return [...styleshift_items.Default, ...styleshift_items.Custom];
 }
 
-export function Get_ALL_StyleShift_Settings() {
-	return Get_ALL_StyleShift_Items()
+export function get_all_styleshift_settings() {
+	return get_all_styleshift_items()
 		.map((item) => item.settings)
 		.flat();
 }
 
-export function Find_Exist_Settings(Setting: Setting) {
-	return Get_ALL_StyleShift_Settings().some(
-		(This_Setting) =>
-			This_Setting.id === Setting.id &&
+export function find_exist_settings(setting: Setting) {
+	return get_all_styleshift_settings().some(
+		(this_setting) =>
+			this_setting.id === setting.id &&
 			//@ts-ignore
-			(This_Setting.name == null || This_Setting.name === Setting.name)
+			(this_setting.name == null || this_setting.name === Setting.name)
 	);
 }
 
-export function Get_Setting_Category(Setting: Setting) {
-	for (const This_Category of Get_ALL_StyleShift_Items()) {
-		for (const This_Setting of This_Category.settings) {
-			if (This_Setting === Setting) {
-				return This_Category;
+export function get_setting_category(setting: Setting) {
+	for (const this_category of get_all_styleshift_items()) {
+		for (const this_setting of this_category.settings) {
+			if (this_setting === setting) {
+				return this_category;
 			}
 		}
 	}
 	return 0;
 }
 
-export function Find_Exist_Category(Category: Category) {
-	return Get_ALL_StyleShift_Items().some((This_Category) => This_Category.category === Category.category);
+export function find_exist_category(category: Category) {
+	return get_all_styleshift_items().some((this_category) => this_category.category === category.category);
 }
 
-function Auto_Add_HightLight(Array) {
-	for (const Category_OBJ of Array) {
-		if (Category_OBJ.Highlight_Color == null) {
-			const GetColorID = Random(0, Highlight_Colors.length - 1, Category_OBJ.Category);
-			console.log("Random id", Category_OBJ.Category, GetColorID);
-			Category_OBJ.Highlight_Color = Highlight_Colors[GetColorID];
+function auto_add_hightlight(array) {
+	for (const category_obj of array) {
+		if (category_obj.Highlight_color == null) {
+			const get_color_id = random_number_in_range(0, highlight_colors.length - 1, category_obj.Category);
+			console.log("random id", category_obj.Category, get_color_id);
+			category_obj.Highlight_color = highlight_colors[get_color_id];
 		}
 	}
 }
 
-function Save_Custom_Items_And_Update_All(Custom_Items) {
-	Save_Any("Custom_StyleShift_Items", Custom_Items);
-	Update_All();
+function save_custom_items_and_update_all(custom_items) {
+	save_any("custom_styleshift_items", custom_items);
+	update_all();
 }
 
-export async function Update_StyleShift_Items() {
-	StyleShift_Items.Default = [...Get_StyleShift_Default_Items(), ...Get_Default_Items()];
-	StyleShift_Items.Custom = (await Load("Custom_StyleShift_Items")) || [];
+export async function update_styleshift_items() {
+	styleshift_items.Default = [...get_styleshift_default_items(), ...get_default_items()];
+	styleshift_items.Custom = (await load("custom_styleshift_items")) || [];
 
-	Auto_Add_HightLight(Get_ALL_StyleShift_Items());
+	auto_add_hightlight(get_all_styleshift_items());
 
 	// Default
 
-	for (const This_Category of StyleShift_Items.Default) {
-		This_Category.editable = false;
+	for (const this_category of styleshift_items.Default) {
+		this_category.editable = false;
 	}
 
-	for (const This_Setting of StyleShift_Items.Default.flatMap(function (This_Setting) {
-		return This_Setting.settings;
+	for (const this_setting of styleshift_items.Default.flatMap(function (this_setting) {
+		return this_setting.settings;
 	})) {
-		This_Setting.Editable = false;
+		this_setting.editable = false;
 	}
 
 	// Custom
 
-	for (const This_Category of StyleShift_Items.Custom) {
-		This_Category.editable = true;
+	for (const this_category of styleshift_items.Custom) {
+		this_category.editable = true;
 	}
 
-	for (const This_Setting of StyleShift_Items.Custom.flatMap(function (This_Setting) {
-		return This_Setting.settings;
+	for (const this_setting of styleshift_items.Custom.flatMap(function (this_setting) {
+		return this_setting.settings;
 	})) {
-		This_Setting.Editable = true;
+		this_setting.editable = true;
 	}
 
-	console.log("Updated Editable Items", StyleShift_Items);
+	console.log("updated editable Items", styleshift_items);
 }
 
-let Settings_List = {} as { [id: string]: Setting };
+let settings_list = {} as { [id: string]: Setting };
 
-export async function Get_Settings_List(rebuild = false): Promise<{ [id: string]: Setting }> {
-	if (!rebuild && Object.keys(Settings_List).length) {
-		return Settings_List;
+export async function get_settings_list(rebuild = false): Promise<{ [id: string]: Setting }> {
+	if (!rebuild && Object.keys(settings_list).length) {
+		return settings_list;
 	}
 
-	Settings_List = {};
+	settings_list = {};
 
-	for (const Category_OBJ of Get_ALL_StyleShift_Items()) {
-		for (const Setting of Category_OBJ.settings) {
-			if ("id" in Setting && Setting.id != null) {
-				Settings_List[Setting.id] = Setting;
+	for (const category_obj of get_all_styleshift_items()) {
+		for (const setting of category_obj.settings) {
+			if ("id" in setting && setting.id != null) {
+				settings_list[setting.id] = setting;
 			}
 		}
 	}
 
-	return Settings_List;
+	return settings_list;
 }
 
 //--------------------------------------------------
 
-export async function Add_Setting(Category_Settings: Setting[], This_Setting) {
-	let Find_Similar = Find_Exist_Settings(This_Setting);
-	let New_Preset;
-	let Times = 0;
+export async function add_setting(category_settings: Setting[], this_setting) {
+	let find_similar = find_exist_settings(this_setting);
+	let new_preset;
+	let times = 0;
 
-	while (Find_Similar) {
-		Times++;
-		New_Preset = Object.assign({}, This_Setting);
-		New_Preset.id += `_${Times}`;
-		New_Preset.name += `_${Times}`;
-		Find_Similar = Find_Exist_Settings(New_Preset);
-		console.log(Find_Similar, Times, New_Preset);
+	while (find_similar) {
+		times++;
+		new_preset = Object.assign({}, this_setting);
+		new_preset.id += `_${times}`;
+		new_preset.name += `_${times}`;
+		find_similar = find_exist_settings(new_preset);
+		console.log(find_similar, times, new_preset);
 	}
 
-	if (New_Preset) {
-		This_Setting = New_Preset;
+	if (new_preset) {
+		this_setting = new_preset;
 	}
 
-	Category_Settings.push(This_Setting);
-	console.log("Update Category Settings", Category_Settings);
+	category_settings.push(this_setting);
+	console.log("update Category settings", category_settings);
 
-	if (This_Setting.value) {
-		await Save_Any(This_Setting.id, This_Setting.value);
+	if (this_setting.value) {
+		await save_any(this_setting.id, this_setting.value);
 	}
 
-	SetUp_Setting_Function(This_Setting);
+	setup_setting_function(this_setting);
 
-	Save_And_Update_ALL();
+	save_and_update_all();
 }
 
-export async function Remove_Setting(This_Setting) {
-	for (const This_Category of Get_Custom_Items()) {
-		const index = (This_Category.settings || []).findIndex((Check_Setting) => Check_Setting === This_Setting);
+export async function remove_setting(this_setting) {
+	for (const this_category of get_custom_items()) {
+		const index = (this_category.settings || []).findIndex((check_setting) => check_setting === this_setting);
 
 		if (index > -1) {
-			This_Category.settings.splice(index, 1);
+			this_category.settings.splice(index, 1);
 		}
 	}
 
-	Save_And_Update_ALL();
+	save_and_update_all();
 }
 
 //--------------------------------------------------
 
-export async function Add_Category(Category_Name: string) {
-	let This_Category: Category = {
-		category: Category_Name,
+export async function add_category(category_name: string) {
+	let this_category: Category = {
+		category: category_name,
 		settings: [],
 	};
 
-	let Find_Similar = Find_Exist_Category(This_Category);
-	let New_Category: Category;
-	let Times = 0;
+	let find_similar = find_exist_category(this_category);
+	let new_category: Category;
+	let times = 0;
 
-	while (Find_Similar) {
-		Times++;
-		New_Category = Object.assign({}, This_Category);
-		New_Category.category += `_${Times}`;
-		Find_Similar = Find_Exist_Category(New_Category);
-		console.log(Find_Similar, Times, New_Category);
+	while (find_similar) {
+		times++;
+		new_category = Object.assign({}, this_category);
+		new_category.category += `_${times}`;
+		find_similar = find_exist_category(new_category);
+		console.log(find_similar, times, new_category);
 	}
 
-	if (New_Category) {
-		This_Category = New_Category;
+	if (new_category) {
+		this_category = new_category;
 	}
 
-	const Custom_Items = Get_Custom_Items();
-	Custom_Items.push(This_Category);
-	console.log("Added Category", Custom_Items);
+	const custom_items = get_custom_items();
+	custom_items.push(this_category);
+	console.log("Added Category", custom_items);
 
-	Save_Custom_Items_And_Update_All(Custom_Items);
+	save_custom_items_and_update_all(custom_items);
 }
 
-export async function Remove_Category(This_Category) {
-	const Custom_Items = Get_Custom_Items();
+export async function remove_category(this_category) {
+	const custom_items = get_custom_items();
 
-	const index = Custom_Items.findIndex((Check_Category) => Check_Category === This_Category);
+	const index = custom_items.findIndex((check_category) => check_category === this_category);
 
 	if (index > -1) {
-		Custom_Items.splice(index, 1);
+		custom_items.splice(index, 1);
 	}
 
-	Save_Custom_Items_And_Update_All(Custom_Items);
+	save_custom_items_and_update_all(custom_items);
 }
 
 //-------------------------------------------------
 
-export function Get_StyleShift_Data_Type(This_Data) {
-	if (This_Data.Category != null) {
-		return "Category";
+export function get_styleshift_data_type(this_data) {
+	console.log(this_data);
+
+	if (this_data.category != null) {
+		return "category";
 	}
 
-	return "Setting";
+	return "setting";
 }

@@ -2,9 +2,9 @@ const esbuild = require("esbuild");
 const path = require("path");
 const fs = require("fs");
 
-const { File_Content_Replace } = require("azpepoze.node_tools");
+const { file_content_replace } = require("azpepoze.node_tools");
 
-const workerEntryPoints = [
+const worker_entry_points = [
 	"vs/editor/editor.worker.js",
 	"vs/language/css/css.worker.js",
 	"vs/language/typescript/ts.worker.js",
@@ -12,7 +12,7 @@ const workerEntryPoints = [
 
 (async () => {
 	await esbuild.build({
-		entryPoints: workerEntryPoints.map((entry) =>
+		entryPoints: worker_entry_points.map((entry) =>
 			path.join(__dirname, `../node_modules/monaco-editor/esm/${entry}`)
 		),
 		bundle: true,
@@ -43,24 +43,24 @@ const workerEntryPoints = [
 		minify: true,
 	});
 
-	function getLocalThemes() {
-		const themesDir = path.join(__dirname, "../node_modules/monaco-themes/themes");
+	function get_local_themes() {
+		const themes_dir = path.join(__dirname, "../node_modules/monaco-themes/themes");
 		const themes = {};
 
-		fs.readdirSync(themesDir).forEach((file) => {
+		fs.readdirSync(themes_dir).forEach((file) => {
 			if (file.endsWith(".json") && file != "themelist.json") {
-				const themeContent = JSON.parse(fs.readFileSync(path.join(themesDir, file), "utf8"));
-				themes[file.replace(".json", "")] = themeContent;
+				const theme_content = JSON.parse(fs.readFileSync(path.join(themes_dir, file), "utf8"));
+				themes[file.replace(".json", "")] = theme_content;
 			}
 		});
 
 		return themes;
 	}
 
-	File_Content_Replace(
+	file_content_replace(
 		path.join(__dirname, "../out/build/modules/monaco.js"),
 		/"Monaco_All_Themes"/g,
-		JSON.stringify(getLocalThemes())
+		JSON.stringify(get_local_themes())
 	);
 })();
 

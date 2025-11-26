@@ -1,10 +1,10 @@
 import * as StyleShift_Functions from "../build-in-functions/extension";
-import { On_Function_Event } from "../build-in-functions/normal";
+import { on_function_event } from "../build-in-functions/normal";
 
 // function Clear_Bloat(thisSetting: any): any | null {
-// 	const settingType = thisSetting.type;
+// 	const settingtype = thisSetting.type;
 
-// 	const Setting_Properties = StyleShift_Property_List[settingType];
+// 	const Setting_Properties = styleshift_property_list[settingtype];
 
 // 	if (!Setting_Properties) {
 // 		return null;
@@ -20,6 +20,6 @@ import { On_Function_Event } from "../build-in-functions/normal";
 // 	return cleanedSetting;
 // }
 
-for (const This_Function_Name of Object.keys(StyleShift_Functions)) {
-	On_Function_Event("StyleShift", This_Function_Name, StyleShift_Functions[This_Function_Name]);
+for (const this_function_name of Object.keys(StyleShift_Functions)) {
+	on_function_event("StyleShift", this_function_name, StyleShift_Functions[this_function_name]);
 }

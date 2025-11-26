@@ -1,45 +1,45 @@
 const fs = require("fs");
 const path = require("path");
 
-const typeFileName = "StyleShift.d.ts";
+const type_file_name = "StyleShift.d.ts";
 
-const typesDir = path.join(__dirname, "../devs/types");
-const styleshiftTypesDir = path.join(typesDir, "styleshift");
-const buildInFunctionsDir = path.join(styleshiftTypesDir, "build-in-functions");
-const normalFunctionsPath = path.join(buildInFunctionsDir, "normal.d.ts");
-const extensionFunctionsPath = path.join(buildInFunctionsDir, "extension.d.ts");
-const styleShiftPath = path.join(typesDir, typeFileName);
+const types_dir = path.join(__dirname, "../devs/types");
+const styleshift_types_dir = path.join(types_dir, "styleshift");
+const build_in_functions_dir = path.join(styleshift_types_dir, "build-in-functions");
+const normal_functions_path = path.join(build_in_functions_dir, "normal.d.ts");
+const extension_functions_path = path.join(build_in_functions_dir, "extension.d.ts");
+const style_shift_path = path.join(types_dir, type_file_name);
 
-const normalFunctionsContent = fs.readFileSync(normalFunctionsPath, "utf-8");
-const extensionFunctionsContent = fs.readFileSync(extensionFunctionsPath, "utf-8");
+const normal_functions_content = fs.readFileSync(normal_functions_path, "utf-8");
+const extension_functions_content = fs.readFileSync(extension_functions_path, "utf-8");
 
-let typesSubDirContent = "";
-fs.readdirSync(styleshiftTypesDir).forEach((file) => {
-	const filePath = path.join(styleshiftTypesDir, file);
-	if (fs.statSync(filePath).isFile()) {
-		typesSubDirContent += fs.readFileSync(filePath, "utf-8") + "\n";
+let types_sub_dir_content = "";
+fs.readdirSync(styleshift_types_dir).forEach((file) => {
+	const file_path = path.join(styleshift_types_dir, file);
+	if (fs.statSync(file_path).isFile()) {
+		types_sub_dir_content += fs.readFileSync(file_path, "utf-8") + "\n";
 	}
 });
 
-const defaultExport = `
+const default_export = `
 export function Set_Value(id: string, value: any): void;
 export function Get_Value(id: string): any;
 `;
 
-const combinedContent =
-	`${defaultExport}\n${normalFunctionsContent}\n${extensionFunctionsContent}\n${typesSubDirContent}`
+const combined_content =
+	`${default_export}\n${normal_functions_content}\n${extension_functions_content}\n${types_sub_dir_content}`
 		.replaceAll("declare", "")
 		.replaceAll('import { Category } from "../types/store";', "");
 
-fs.writeFileSync(styleShiftPath, `declare global {\n${combinedContent}\n}\nexport {};`, "utf-8");
+fs.writeFileSync(style_shift_path, `declare global {\n${combined_content}\n}\nexport {};`, "utf-8");
 
-fs.readdirSync(typesDir).forEach((file) => {
-	if (file !== typeFileName) {
+fs.readdirSync(types_dir).forEach((file) => {
+	if (file !== type_file_name) {
 		try {
-			fs.unlinkSync(path.join(typesDir, file));
+			fs.unlinkSync(path.join(types_dir, file));
 		} catch (error) {}
 		try {
-			fs.rmSync(path.join(typesDir, file), { recursive: true });
+			fs.rmSync(path.join(types_dir, file), { recursive: true });
 		} catch (error) {}
 	}
 });

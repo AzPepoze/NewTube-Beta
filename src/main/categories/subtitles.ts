@@ -1,10 +1,10 @@
 import { Category } from "../../styleshift/types/store";
 
-export const SubtitlesCategory: Category = {
+export const subtitles_category: Category = {
 	category: "🔤 Subtitles/Captions",
 	settings: [
 		{
-			type: "Checkbox",
+			type: "checkbox",
 			id: "NewSub",
 			name: "Enable Custom Subtitle Styles",
 			description: "Toggles all custom subtitle styles on or off.",
@@ -26,24 +26,24 @@ export const SubtitlesCategory: Category = {
             `,
 		},
 		{
-			type: "Color",
+			type: "color",
 			id: "Subtitle",
-			name: "Subtitle Color",
+			name: "Subtitle color",
 			description: "The main text color of the subtitles.",
 			value: "#ffffffff",
 			var_css: "--sub-color",
 		},
 		{
-			type: "Color",
+			type: "color",
 			id: "CapBG",
-			name: "Subtitle Background Color",
+			name: "Subtitle Background color",
 			description: "The background color of the caption box.",
 			value: "#00000000",
 			var_css: "--sub-bg",
 		},
 		{
-			type: "Number_Slide",
-			id: "subWidth",
+			type: "number_slide",
+			id: "subwidth",
 			name: "Subtitle Weight",
 			description: "Controls the font weight (boldness) of the subtitle text.",
 			value: 700,
@@ -53,8 +53,8 @@ export const SubtitlesCategory: Category = {
 			var_css: "--sub-width",
 		},
 		{
-			type: "Number_Slide",
-			id: "subSpace",
+			type: "number_slide",
+			id: "subspace",
 			name: "Subtitle Letter Spacing",
 			description: "Controls the space between letters.",
 			value: 2,
@@ -64,15 +64,15 @@ export const SubtitlesCategory: Category = {
 			var_css: "--sub-space",
 		},
 		{
-			type: "Color",
-			id: "subShaColor",
-			name: "Subtitle Shadow Color",
+			type: "color",
+			id: "subShacolor",
+			name: "Subtitle Shadow color",
 			description: "The color of the drop shadow behind the text.",
 			value: "#000000ff",
 			var_css: "--sub-sha-color",
 		},
 		{
-			type: "Number_Slide",
+			type: "number_slide",
 			id: "subShaBlur",
 			name: "Subtitle Shadow Blur",
 			description: "The amount of blur for the drop shadow.",
@@ -83,7 +83,7 @@ export const SubtitlesCategory: Category = {
 			var_css: "--sub-sha-blur",
 		},
 		{
-			type: "Checkbox",
+			type: "checkbox",
 			id: "BlurSub",
 			name: "Blur Subtitle Background",
 			description: "Applies a blur effect to the area behind the subtitles.",
@@ -95,7 +95,7 @@ export const SubtitlesCategory: Category = {
             `,
 		},
 		{
-			type: "Number_Slide",
+			type: "number_slide",
 			id: "SubBgBlurAmount",
 			name: "Subtitle Background Blur Amount",
 			description: "Adjusts the blur amount for the subtitle background.",

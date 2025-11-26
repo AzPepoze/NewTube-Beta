@@ -2,14 +2,14 @@ const fs = require("fs");
 const path = require("path");
 const archiver = require("archiver");
 
-function zip(inputDir, output) {
-	const outputStream = fs.createWriteStream(output);
+function zip(input_dir, output) {
+	const output_stream = fs.createWriteStream(output);
 
 	const archive = archiver("zip", {
 		zlib: { level: 9 },
 	});
 
-	outputStream.on("close", function () {
+	output_stream.on("close", function () {
 		console.log(`Created zip file: ${output} (${archive.pointer()} total bytes)`);
 	});
 
@@ -17,8 +17,8 @@ function zip(inputDir, output) {
 		throw err;
 	});
 
-	archive.pipe(outputStream);
-	archive.directory(inputDir, false);
+	archive.pipe(output_stream);
+	archive.directory(input_dir, false);
 	archive.finalize();
 }
 

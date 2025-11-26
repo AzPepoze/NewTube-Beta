@@ -1,16 +1,16 @@
-import { Save_Any } from "../../core/save";
-import { Advance_Setting_UI } from "./components/advance";
-import { Developer_Setting_UI } from "./components/dev";
-import { Main_Setting_UI } from "./components/main";
+import { save_any } from "../../core/save";
+import { advance_setting_ui } from "./components/advance";
+import { developer_setting_ui } from "./components/dev";
+import { main_setting_ui } from "./components/main";
 
-export async function Set_And_Save(This_Setting, value) {
-	// This_Setting.value = value;
-	// await Save_All();
-	await Save_Any(This_Setting.id, value);
+export async function set_and_save(this_setting, value) {
+	// this_setting.value = value;
+	// await save_all();
+	await save_any(this_setting.id, value);
 }
 
-export const Settings_UI = {
-	...Main_Setting_UI,
-	...Advance_Setting_UI,
-	...Developer_Setting_UI,
+export const settings_ui = {
+	...main_setting_ui,
+	...advance_setting_ui,
+	...developer_setting_ui,
 };

@@ -1,13 +1,13 @@
 import * as jszip from "jszip";
 
-// function Run() {
+// function run() {
 // 	if (window["StyleShift"] == null) {
-// 		setTimeout(Run, 0);
+// 		setTimeout(run, 0);
 // 		return;
 // 	}
-// 	window["StyleShift"]["Build-in"]["JSzip"] = jszip;
+// 	window["StyleShift"]["Build-in"]["jszip"] = jszip;
 // }
 
-// Run();
+// run();
 
 export default jszip;

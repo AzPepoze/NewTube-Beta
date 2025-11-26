@@ -1,48 +1,48 @@
-import { Create_StyleShift_Window } from "./extension";
+import { create_styleshift_window } from "./extension";
 
-export let Config_Window: Awaited<ReturnType<typeof Create_StyleShift_Window>>;
-let Scrollable: HTMLElement;
-let Current_Content_Function;
+export let config_window: Awaited<ReturnType<typeof create_styleshift_window>>;
+let scrollable: HTMLElement;
+let current_content_function;
 
-export async function Create_Config_UI(Skip_Animation = false) {
-	Config_Window = await Create_StyleShift_Window({ Skip_Animation });
-	Scrollable = document.createElement("div");
-	Scrollable.className = "STYLESHIFT-Scrollable";
-	Config_Window.Window.append(Scrollable);
-	Config_Window.Close.addEventListener(
+export async function create_config_ui(skip_animation = false) {
+	config_window = await create_styleshift_window({ skip_animation });
+	scrollable = document.createElement("div");
+	scrollable.className = "STYLESHIFT-Scrollable";
+	config_window.window_element.append(scrollable);
+	config_window.close.addEventListener(
 		"click",
 		function () {
-			Remove_Config_UI();
+			remove_config_ui();
 		},
 		{ once: true }
 	);
 
-	return Config_Window;
+	return config_window;
 }
 
-export async function Show_Config_UI(Inner_Content_Function: Function) {
-	if (!Config_Window) {
-		await Create_Config_UI();
+export async function show_config_ui(inner_content_function: Function) {
+	if (!config_window) {
+		await create_config_ui();
 	}
-	Current_Content_Function = Inner_Content_Function;
-	Recreate_Config_UI();
+	current_content_function = inner_content_function;
+	recreate_config_ui();
 }
 
-export async function Recreate_Config_UI() {
-	if (!Config_Window) return;
+export async function recreate_config_ui() {
+	if (!config_window) return;
 
-	Scrollable.innerHTML = "";
-	Current_Content_Function(Scrollable);
+	scrollable.innerHTML = "";
+	current_content_function(scrollable);
 }
 
-export function Remove_Config_UI(Skip_Animation = false) {
-	if (Config_Window) {
-		if (Skip_Animation) {
-			Config_Window.BG_Frame.remove();
+export function remove_config_ui(skip_animation = false) {
+	if (config_window) {
+		if (skip_animation) {
+			config_window.bg_frame.remove();
 		} else {
-			Config_Window.Close.click();
+			config_window.close.click();
 		}
-		Config_Window = null;
-		Current_Content_Function = null;
+		config_window = null;
+		current_content_function = null;
 	}
 }
