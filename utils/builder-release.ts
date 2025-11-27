@@ -2,6 +2,11 @@ const fs = require("fs");
 const path = require("path");
 const archiver = require("archiver");
 
+const release_dir = path.join(__dirname, "../out/release");
+if (!fs.existsSync(release_dir)) {
+    fs.mkdirSync(release_dir, { recursive: true });
+}
+
 function zip(input_dir, output) {
 	const output_stream = fs.createWriteStream(output);
 
