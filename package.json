@@ -6,7 +6,7 @@
 		"dev:css": "sass --watch src/styleshift/styles/setting.scss out/build/style.css --style=compressed --no-source-map",
 		"build_module": "ts-node utils/builder-modules.ts",
 		"build:dev": "sass src/styleshift/styles/setting.scss out/build/style.css --style=compressed --no-source-map && ts-node utils/builder-extension.ts --production --once && npm run build_module",
-		"build:prod": "ts-node utils/build-release.ts",
+		"build:prod": "ts-node utils/builder-release.ts",
 		"build:types": "tsc -p utils/tsconfig-builder-types.json && ts-node utils/builder-types.ts",
 		"build:types_raw": "tsc -p utils/tsconfig-builder-types.json",
 		"build:folder_template": "ts-node utils/builder-template.ts -p utils/tsconfig-builder-types.json"

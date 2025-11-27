@@ -1,4 +1,5 @@
 import { Category } from "../../styleshift/types/store";
+import "../features/top-left-icon"; // Import side-effects
 
 export const top_left_icon_category: Category = {
 	category: "💠 Top-Left icon",
@@ -18,19 +19,17 @@ export const top_left_icon_category: Category = {
                     background-position: var(--top-icon-x, 50%) var(--top-icon-y, 50%) !important;
                     background-size: var(--top-icon-size, 100%) !important;
                     background-repeat: var(--top-icon-repeat, no-repeat) !important;
-                    transform: var(--top-icon-flip, scaleX(1));
+                    transform: var("--top-icon-flip", scaleX(1));
                 }
             `,
 		},
 		{
-			type: "text_input",
+			type: "image_input",
 			id: "ReplaceYTURL",
 			name: "icon image URL",
 			description: "URL for the custom icon image.",
 			value: "https://i.gifer.com/17xo.gif",
-			update_function: function (value) {
-				document.documentElement.style.setProperty("--top-icon-url", `url(${value})`);
-			},
+			max_file_size: 2000000,
 		},
 		{
 			type: "number_slide",

@@ -7,28 +7,20 @@ export const tab_icon_category: Category = {
 	settings: [
 		{
 			type: "checkbox",
-			id: "Customicon",
+			id: "CustomIcon",
 			name: "Enable Custom Tab icon",
 			description: "replaces the YouTube browser tab icon (favicon) with a custom image.",
 			value: true,
 			setup_function: setup_tab_icon_changer,
 			disable_function: disable_tab_icon_changer,
 		},
-		{
-			type: "text_input",
-			id: "iconURL",
-			name: "Tab icon URL",
-			description: "URL for the custom tab icon image.",
-			value: "https://i.ibb.co/tD2VTyg/1705431438657.png",
-			update_function: async function (value) {
-				const use_custom_icon = await load("Customicon");
-				if (use_custom_icon) {
-					const favicon = document.querySelector('link[rel*="icon"]') as HTMLLinkElement;
-					if (favicon) {
-						favicon.href = value;
-					}
-				}
-			},
-		},
-	],
-};
+		        {
+		            type: "image_input",
+		            id: "iconURL",
+		            name: "Tab icon URL",
+		            description: "URL for the custom tab icon image.",
+		            value: "https://i.ibb.co/tD2VTyg/1705431438657.png",
+		            max_file_size: 1000000,
+		        },
+		    ],
+		};

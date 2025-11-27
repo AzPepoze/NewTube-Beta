@@ -2,6 +2,8 @@ const esbuild = require("esbuild");
 const chokidar = require("chokidar");
 const fs = require("fs-extra");
 const path = require("path");
+const dotenv = require("dotenv");
+dotenv.config();
 
 /*
 -------------------------------------------------------
@@ -142,6 +144,9 @@ async function build() {
 			outfile: path.join(build_path, "styleshift.js"),
 			platform: "browser",
 			minify: is_production,
+			define: {
+				imgbb_api_key: JSON.stringify(process.env.IMGBB_API_KEY || ""),
+			},
 			loader: {
 				".ttf": "file",
 			},

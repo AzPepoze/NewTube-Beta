@@ -1,4 +1,5 @@
 import { load } from "../../styleshift/core/save";
+import { on_setting_update } from "../../styleshift/settings/functions";
 
 let original_favicon: string | null = null;
 
@@ -28,7 +29,7 @@ function revert_favicon() {
 }
 
 async function update_icon() {
-	const use_custom_icon = await load("Customicon");
+	const use_custom_icon = await load("CustomIcon");
 	if (!use_custom_icon) {
 		revert_favicon();
 		return;
@@ -47,3 +48,5 @@ export function setup_tab_icon_changer() {
 export function disable_tab_icon_changer() {
 	revert_favicon();
 }
+
+on_setting_update("iconURL", update_icon);

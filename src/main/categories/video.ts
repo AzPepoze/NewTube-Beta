@@ -1,10 +1,8 @@
 import { Category } from "../../styleshift/types/store";
 import { setup_auto_theater, setup_remove_ambient } from "../features/video/general";
 import { setup_auto_pip, setup_auto_exit_pip } from "../features/video/pip";
-import { setup_auto_show_chat_replay } from "../features/video/chat";
 import { setup_update_timestamp } from "../features/video/timestamp";
 import { setup_advanced_controls } from "../features/video/controls";
-import { setup_flyout } from "../features/video/flyout";
 import { setup_video_animations } from "../features/video/animations";
 
 export const video_category: Category = {
@@ -14,7 +12,7 @@ export const video_category: Category = {
 		{
 			type: "number_slide",
 			id: "PlayerEdge",
-			name: "Player Round Edges",
+			name: "Round edges amount",
 			description: "Controls the roundness of the video player's corners.",
 			value: 20,
 			min: 0,
@@ -30,7 +28,7 @@ export const video_category: Category = {
 		{
 			type: "checkbox",
 			id: "VdoAnim",
-			name: "Video Transition",
+			name: "Enable Chaning Video transition",
 			description: "Enable transition animation when the video starts.",
 			value: true,
 			enable_css: `
@@ -44,11 +42,36 @@ export const video_category: Category = {
       }
     `,
 		},
-
+		{
+			type: "color",
+			id: "Time-LineBG",
+			name: "Time-line background color",
+			description: "color of the timeline background.",
+			value: "#ffffff20",
+			var_css: "--timeline-bg-color",
+			constant_css: `
+      .ytp-progress-bar {
+        background-color: var(--timeline-bg-color, #ffffff20) !important;
+      }
+    `,
+		},
+		{
+			type: "color",
+			id: "TimeLoaded",
+			name: "Time-line loaded color",
+			description: "color of the loaded progress on the timeline.",
+			value: "#ffffff50",
+			var_css: "--timeline-load-color",
+			constant_css: `
+      .ytp-load-progress {
+        background: var(--timeline-load-color, #ffffff50) !important;
+      }
+    `,
+		},
 		{
 			type: "color",
 			id: "EndBG",
-			name: "End-of-Video hover color",
+			name: "End of video chanel hover background color",
 			description: "Background color when hovering over suggested videos at the end.",
 			value: "#00000050",
 			var_css: "--end-bg-hover-color",
@@ -61,7 +84,7 @@ export const video_category: Category = {
 		{
 			type: "checkbox",
 			id: "CenterUD",
-			name: "Center title (Under Video)",
+			name: "(Under Video) Move tittle to the center",
 			description: "Moves the video title to the center when in normal view.",
 			value: true,
 			enable_css: `
@@ -83,7 +106,7 @@ export const video_category: Category = {
 		{
 			type: "checkbox",
 			id: "CenterUDF",
-			name: "Center title (Fullscreen)",
+			name: "(Fullscreen) Move tittle to the center",
 			description: "Moves the video title to the center when in fullscreen/theater mode.",
 			value: true,
 			enable_css: `
@@ -95,7 +118,7 @@ export const video_category: Category = {
 		{
 			type: "checkbox",
 			id: "AutoTheater",
-			name: "Auto Theater mode",
+			name: "Auto Enter Theater Mode",
 			description:
 				"Automatically enters theater mode when you open a video. (May require a page reload to take effect)",
 			value: false,
@@ -104,7 +127,7 @@ export const video_category: Category = {
 		{
 			type: "checkbox",
 			id: "FullTheater",
-			name: "Full Bleed Theater mode",
+			name: "Enable Full Theater (In Theater Mode)",
 			description: "Makes the video player take up the full height of the screen in theater mode.",
 			value: false,
 			enable_css: `
@@ -115,9 +138,26 @@ export const video_category: Category = {
     `,
 		},
 		{
+			type: "checkbox",
+			id: "AutoPIP",
+			name: "Auto Pictue In Pictue mode",
+			description:
+				"Automatically enters Picture-in-Picture mode when you switch tabs or minimize the window.",
+			value: true,
+			enable_function: setup_auto_pip,
+		},
+		{
+			type: "checkbox",
+			id: "AutoEXPIP",
+			name: "Auto exit Pictue In Pictue mode",
+			description: "Automatically exits Picture-in-Picture mode when you return to the tab.",
+			value: true,
+			enable_function: setup_auto_exit_pip,
+		},
+		{
 			type: "number_slide",
-			id: "Belowspace",
-			name: "space Below Video",
+			id: "BelowSpace",
+			name: "Space at Under of video",
 			description: "Adds extra space below the video player.",
 			value: 0,
 			min: 0,
@@ -133,37 +173,13 @@ export const video_category: Category = {
 		{
 			type: "checkbox",
 			id: "RemoveAmbient",
-			name: "Remove YouTube's Ambient mode",
+			name: "Auto Remove YouTube's Ambient Mode",
 			description: "Automatically turns off YouTube's built-in ambient mode feature.",
 			value: true,
 			enable_function: setup_remove_ambient,
 		},
-		{
-			type: "checkbox",
-			id: "AutoPIP",
-			name: "Auto Picture In Picture mode",
-			description:
-				"Automatically enters Picture-in-Picture mode when you switch tabs or minimize the window.",
-			value: true,
-			enable_function: setup_auto_pip,
-		},
-		{
-			type: "checkbox",
-			id: "AutoEXPIP",
-			name: "Auto exit Picture In Picture mode",
-			description: "Automatically exits Picture-in-Picture mode when you return to the tab.",
-			value: true,
-			enable_function: setup_auto_exit_pip,
-		},
-		{
-			type: "checkbox",
-			id: "ChatReplay",
-			name: "Auto show chat replay",
-			description: "Automatically expands the chat replay on videos.",
-			value: false,
-			enable_function: setup_auto_show_chat_replay,
-		},
-		{
+        // Kept these as they fit in Video or can be moved to Enhancement if strict strict
+        {
 			type: "checkbox",
 			id: "UpdateTimeStamp",
 			name: "Update URL Timestamp",
@@ -180,59 +196,7 @@ export const video_category: Category = {
 			value: true,
 			enable_function: setup_advanced_controls,
 		},
-		{
-			type: "checkbox",
-			id: "Flyout",
-			name: "Flyout (Sticky Player)",
-			description:
-				"Keeps the video player visible in the corner when scrolling down.",
-			value: false,
-			enable_function: setup_flyout,
-			enable_css: `
-      .newtube-flyout-mode {
-        position: fixed !important;
-        z-index: 2000 !important;
-        bottom: 20px !important;
-        right: 20px !important;
-        width: 400px !important;
-        height: 225px !important; /* 16:9 aspect ratio of 400px */
-        top: unset !important;
-        left: unset !important;
-        border-radius: 12px !important;
-        box-shadow: 0 8px 20px rgba(0,0,0,0.6) !important;
-        overflow: hidden !important;
-        transition: all 0.3s ease !important;
-      }
-      
-      .newtube-flyout-mode .html5-video-container {
-        width: 100% !important;
-        height: 100% !important;
-      }
-      
-      .newtube-flyout-mode video {
-        width: 100% !important;
-        height: 100% !important;
-        object-fit: contain !important;
-      }
-
-      /* Hide some controls in flyout mode to keep it clean */
-      .newtube-flyout-mode .ytp-chrome-bottom {
-        width: 100% !important;
-        left: 0 !important;
-      }
-      
-      .newtube-flyout-mode .ytp-size-button,
-      .newtube-flyout-mode .ytp-fullscreen-button,
-      .newtube-flyout-mode .ytp-settings-button,
-      .newtube-flyout-mode .ytp-subtitles-button,
-      .newtube-flyout-mode .ytp-miniplayer-button,
-      .newtube-flyout-mode .ytp-remote-button,
-      .newtube-flyout-mode .ytp-chapter-container {
-        display: none !important;
-      }
-      `,
-		},
-		{
+        {
 			type: "checkbox",
 			id: "NewVDOanima",
 			name: "New video animation (Volume, Play/Pause)",

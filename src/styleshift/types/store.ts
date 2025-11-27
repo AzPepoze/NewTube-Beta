@@ -161,13 +161,13 @@ export type Setting =
 			editable?: boolean;
 	  }
 	| {
-			type: "image_Input";
+			type: "image_input";
 			id: string;
 			name: string;
 			description?: string;
 
 			value: string;
-			Maxfilesize: number;
+			max_file_size: number;
 
 			//--------------
 			editable?: boolean;
@@ -186,11 +186,8 @@ export type Setting =
 			//--------------
 
 			constant_css?: string;
-
 			setup_function?: string | Function;
-
 			setup_?: string | Function;
-
 			ui_function?: string | Function;
 
 			//--------------

@@ -5,32 +5,6 @@ export const video_control_panel_category: Category = {
 	settings: [
 		{
 			type: "color",
-			id: "Time-LineBG",
-			name: "Timeline Background",
-			description: "color of the timeline background.",
-			value: "#ffffff20",
-			var_css: "--timeline-bg-color",
-			constant_css: `
-      .ytp-progress-bar {
-        background-color: var(--timeline-bg-color, #ffffff20) !important;
-      }
-    `,
-		},
-		{
-			type: "color",
-			id: "Timeloaded",
-			name: "Timeline loaded color",
-			description: "color of the loaded progress on the timeline.",
-			value: "#ffffff50",
-			var_css: "--timeline-load-color",
-			constant_css: `
-      .ytp-load-progress {
-        background: var(--timeline-load-color, #ffffff50) !important;
-      }
-    `,
-		},
-		{
-			type: "color",
 			id: "VDOTEXT",
 			name: "Control Panel text",
 			description: "color of the text on the video control panel (time, etc.).",

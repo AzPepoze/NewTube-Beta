@@ -1,5 +1,6 @@
 import { Category } from "../../styleshift/types/store";
-import { setup_flyout_listener, setup_chat_replay } from "../features/enhancement";
+import { setup_flyout } from "../features/video/flyout";
+import { setup_auto_show_chat_replay } from "../features/video/chat";
 
 export const enhancement_category: Category = {
 	category: "🎇 Enhancement",
@@ -7,16 +8,16 @@ export const enhancement_category: Category = {
 		{
 			type: "number_slide",
 			id: "Edge",
-			name: "Round edges amount (Most ui)",
-			description: "Adjusts the corner roundness for most ui elements like buttons and menus.",
+			name: "Round edges amount (Most UI)",
+			description: "Controls the roundness of various ui elements.",
 			value: 10,
 			min: 0,
-			max: 30,
+			max: 50,
 			step: 1,
-			var_css: "--global-radius",
+			var_css: "--theme-radius-big",
 			constant_css: `
-                .yt-spec-button-shape-next, .ytp-popup, .ytp-settings-menu, ytd-menu-popup-renderer, #chips, ytd-guide-entry-renderer {
-                    border-radius: var(--global-radius, 10px) !important;
+                ytd-thumbnail, ytd-playlist-thumbnail, #player-container, ytd-watch-flexy {
+                    border-radius: var(--theme-radius-big, 10px) !important;
                 }
             `,
 		},
@@ -24,76 +25,109 @@ export const enhancement_category: Category = {
 			type: "checkbox",
 			id: "SwapRow",
 			name: "Swap left-right row (In watching mode)",
-			description: "Swaps the main video column with the secondary recommendations column.",
+			description: "Moves the sidebar (recommendations/chat) to the left side.",
 			value: false,
 			enable_css: `
-                #columns.ytd-watch-flexy {
+                #columns {
+                    display: flex !important;
                     flex-direction: row-reverse !important;
                 }
+                #secondary {
+                    margin-right: 0 !important;
+                    margin-left: 24px !important;
+                }
             `,
 		},
 		{
 			type: "checkbox",
-			id: "ScrollRow",
+			id: "SrollRow",
 			name: "Srollable row",
-			description: "(In normal watching mode only)\nFlyout will not working",
-			value: true,
+			description:
+				"Allows the sidebar and comments to scroll independently from the video player. (Flyout will not working)",
+			value: false,
 			enable_css: `
-                html:has(#player div.html5-video-player:not(.ytp-fullscreen):not(.ytp-embed):not(.ytp-small-mode):not(.unstarted-mode)):has(#engagement-panel-scrim[hidden]) #secondary,
-                html:has(#player div.html5-video-player:not(.ytp-fullscreen):not(.ytp-embed):not(.ytp-small-mode):not(.unstarted-mode)):has(#engagement-panel-scrim[hidden]) #primary {
-                    height: 92vh;
-                    overflow-y: scroll;
-                    overflow-x: visible;
+                html, body {
+                    overflow: hidden !important;
                 }
-                html:has(#player div.html5-video-player:not(.ytp-fullscreen):not(.ytp-embed):not(.ytp-small-mode):not(.unstarted-mode)):has(#engagement-panel-scrim[hidden]) ytd-app,
-                html:has(#player div.html5-video-player:not(.ytp-fullscreen):not(.ytp-embed):not(.ytp-small-mode):not(.unstarted-mode)):has(#engagement-panel-scrim[hidden]) #content.ytd-app {
-                    height: 100vh;
-                    overflow: hidden;
+                ytd-app {
+                    height: 100vh !important;
+                    overflow: hidden !important;
                 }
-            `,
-		},
-		{
-			type: "checkbox",
-			id: "SrollRowFade",
-			name: "Srollable row Top-Bottom Fade",
-			description: "(Medium impact)",
-			value: true,
-			enable_css: `
-                :root {
-                    --scroll-row-mask: linear-gradient(to bottom, transparent, black 20px, black 95%, transparent);
+                #columns {
+                    height: calc(100vh - 56px) !important;
+                    overflow: hidden !important;
                 }
-                html:has(#player div.html5-video-player:not(.ytp-fullscreen):not(.ytp-embed):not(.ytp-small-mode):not(.unstarted-mode)):has(#engagement-panel-scrim[hidden]) #secondary {
-                    -webkit-mask-image: var(--scroll-row-mask);
+                #primary {
+                    height: 100% !important;
+                    overflow-y: auto !important;
+                    padding-right: 10px !important;
+                    scrollbar-width: thin;
+                }
+                #secondary {
+                    height: 100% !important;
+                    overflow-y: auto !important;
+                    scrollbar-width: thin;
                 }
             `,
 		},
 		{
 			type: "checkbox",
 			id: "Flyout",
-			name: "Enable Flyout Video (show video after scroll down)",
-			description: "Makes the video player stick to the corner of the screen when you scroll down.",
-			value: true,
-			enable_function: setup_flyout_listener,
+			name: "Enable Flyout Video (Show video after scroll down)",
+			description: "Keeps the video player visible in the corner when scrolling down.",
+			value: false,
+			enable_function: setup_flyout,
 			enable_css: `
-                #player.flyout-active {
-                    position: fixed !important;
-                    z-index: 1000;
-                    bottom: 20px !important;
-                    right: 20px !important;
-                    width: 400px !important;
-                    height: auto !important;
-                    top: unset !important;
-                    left: unset !important;
-                }
-            `,
+      .newtube-flyout-mode {
+        position: fixed !important;
+        z-index: 2000 !important;
+        bottom: 20px !important;
+        right: 20px !important;
+        width: 400px !important;
+        height: 225px !important; /* 16:9 aspect ratio of 400px */
+        top: unset !important;
+        left: unset !important;
+        border-radius: 12px !important;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.6) !important;
+        overflow: hidden !important;
+        transition: all 0.3s ease !important;
+      }
+      
+      .newtube-flyout-mode .html5-video-container {
+        width: 100% !important;
+        height: 100% !important;
+      }
+      
+      .newtube-flyout-mode video {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: contain !important;
+      }
+
+      /* Hide some controls in flyout mode to keep it clean */
+      .newtube-flyout-mode .ytp-chrome-bottom {
+        width: 100% !important;
+        left: 0 !important;
+      }
+      
+      .newtube-flyout-mode .ytp-size-button,
+      .newtube-flyout-mode .ytp-fullscreen-button,
+      .newtube-flyout-mode .ytp-settings-button,
+      .newtube-flyout-mode .ytp-subtitles-button,
+      .newtube-flyout-mode .ytp-miniplayer-button,
+      .newtube-flyout-mode .ytp-remote-button,
+      .newtube-flyout-mode .ytp-chapter-container {
+        display: none !important;
+      }
+      `,
 		},
 		{
 			type: "checkbox",
 			id: "ChatReplay",
 			name: "Auto show chat replay",
-			description: "Automatically opens the chat replay on videos that have one.",
+			description: "Automatically expands the chat replay on videos.",
 			value: false,
-			enable_function: setup_chat_replay,
+			enable_function: setup_auto_show_chat_replay,
 		},
 	],
 };

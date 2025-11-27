@@ -22,11 +22,12 @@ export const background_category: Category = {
 			var_css: "--page-bg-tint-color",
 		},
 		{
-			type: "text_input",
+			type: "image_input",
 			id: "BGIMG",
 			name: "Background image URL",
 			description: "URL of the image to use as the page background.",
 			value: "https://cdn.wallpapersafari.com/74/55/4dgN3G.jpg",
+			max_file_size: 5000000,
 		},
 		{
 			type: "number_slide",

@@ -19,6 +19,7 @@ import { update_setting_function, remove_on_setting_update, on_setting_update } 
 import { Setting } from "../../../types/store";
 import { settings_ui, set_and_save } from "../setting-components";
 import { create_config_ui_function } from "../settings";
+import { upload_to_imgbb, create_loading_bar } from "../../../../main/features/upload";
 
 export const main_setting_ui = {
 	["text"]: async function (this_setting: Partial<Extract<Setting, { type: "text" }>>) {
@@ -783,16 +784,11 @@ export const main_setting_ui = {
 		return { frame, config_ui_function, update_ui };
 	},
 
-	["image_Input"]: async function (this_setting: Partial<Extract<Setting, { type: "image_Input" }>>) {
+	["image_input"]: async function (this_setting: Partial<Extract<Setting, { type: "image_input" }>>) {
 		const frame = settings_ui["setting_frame"](true, true);
-
-		const text_input = (
-			await settings_ui["text_input"]({
-				type: "text_input",
-				update_function: async function (value) {},
-			})
-		).frame;
-		frame.append(text_input);
+		frame.style.display = "flex";
+		frame.style.flexDirection = "column";
+		frame.style.gap = "8px";
 
 		const file_input = settings_ui["file_input"](async function (file: File) {
 			const notification = await create_notification({
@@ -802,25 +798,43 @@ export const main_setting_ui = {
 				timeout: -1,
 			});
 
-			const image_data = await new Promise((resolve, reject) => {
-				if (!file.type.startsWith("image/")) {
-					notification.set_icon("❌");
-					notification.set_title("StyleShift - Failed to load image!");
-					notification.set_content("(*￣3￣)╭\nPlease select an image file.");
-					setTimeout(() => {
-						notification.close();
-					}, 5000);
-					reject(false);
-					return;
-				}
+			let image_data = null;
 
-				if (
-					this_setting.Maxfilesize &&
-					file.size > this_setting.Maxfilesize &&
-					!confirm(`⚠️NEWTUBE WARNING!⚠️
+			// Try ImgBB Upload
+			try {
+				const loading = create_loading_bar();
+				const url = await upload_to_imgbb(file, (percent) => {
+					loading.update(percent);
+				});
+				loading.remove();
+
+				if (url) {
+					image_data = url;
+				}
+			} catch (e) {
+				console.warn("ImgBB Upload failed, falling back to base64:", e);
+			}
+
+			if (!image_data) {
+				image_data = await new Promise((resolve, reject) => {
+					if (!file.type.startsWith("image/")) {
+						notification.set_icon("❌");
+						notification.set_title("StyleShift - Failed to load image!");
+						notification.set_content("(*￣3￣)╭\nPlease select an image file.");
+						setTimeout(() => {
+							notification.close();
+						}, 5000);
+						reject(false);
+						return;
+					}
+
+					if (
+						this_setting.max_file_size &&
+						file.size > this_setting.max_file_size &&
+						!confirm(`⚠️NEWTUBE WARNING!⚠️
 
 Your file size : ${number_with_commas(file.size)} bytes.
-Recommend file size : lower than ${number_with_commas(this_setting.Maxfilesize)} bytes.
+Recommend file size : lower than ${number_with_commas(this_setting.max_file_size)} bytes.
 
 Your file is quite large. (It may cause lag!)
 
@@ -831,23 +845,25 @@ I recommend do one of these.
 - Use Upload api (Make this is the last choice)
 
 Are you want to continue?`)
-				) {
-					return;
-				}
+					) {
+						resolve(null);
+						return;
+					}
 
-				const reader = new FileReader();
+					const reader = new FileReader();
 
-				reader.onloadend = function (event) {
-					resolve(event.target.result);
-				};
+					reader.onloadend = function (event) {
+						resolve(event.target.result);
+					};
 
-				reader.onerror = function (error) {
-					create_error("Error reading file: " + error);
-					reject(false);
-				};
+					reader.onerror = function (error) {
+						create_error("Error reading file: " + error);
+						reject(false);
+					};
 
-				reader.readAsDataURL(file);
-			});
+					reader.readAsDataURL(file);
+				});
+			}
 
 			if (!image_data) {
 				notification.set_icon("❌");
@@ -869,7 +885,34 @@ Are you want to continue?`)
 				notification.close();
 			}, 5000);
 		}, "image/*");
+
+		// Style the file input wrapper to look like a button if it isn't already
+		file_input.style.width = "100%";
+		// Assuming file_input creates a button-like feel, or we might need to wrap it.
+		// Let's add a label
+		const label = document.createElement("div");
+		label.textContent = "Upload Image / Paste URL:";
+		label.style.marginBottom = "4px";
+		label.style.fontSize = "12px";
+		label.style.opacity = "0.8";
+
+		frame.append(label);
 		frame.append(file_input);
+
+		const text_input = (
+			await settings_ui["text_input"]({
+				...this_setting,
+				type: "text_input",
+				update_function: async function (value) {
+					if (this_setting.id) {
+						await set_and_save(this_setting, value);
+						update_setting_function(this_setting.id);
+					}
+				},
+			})
+		).frame;
+		text_input.querySelector("input").placeholder = "https://example.com/image.png";
+		frame.append(text_input);
 
 		//-----------------------------------------------
 
