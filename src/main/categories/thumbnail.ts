@@ -26,7 +26,7 @@ export const thumbnail_category: Category = {
 		},
 		{
 			type: "dropdown",
-			id: "Thumbhover",
+			id: "ThumbHover",
 			name: "hover Animation Style",
 			description: "The animation effect when hovering over a video thumbnail.",
 			value: "Slide",
@@ -121,6 +121,39 @@ export const thumbnail_category: Category = {
                 #dismissible:has(.yt-core-image--loaded) {
                     transform: translateY(0px) !important;
                     opacity: 1 !important;
+                }
+            `,
+		},
+		{
+			type: "checkbox",
+			id: "CenterTime",
+			name: "Center Time",
+			description: "Moves the time position to the center.",
+			value: true,
+			enable_css: `
+                ytd-thumbnail-overlay-time-status-renderer,
+                ytd-thumbnail-overlay-bottom-panel-renderer {
+                    width: 100% !important;
+                    margin: 0px !important;
+                    padding: 0px !important;
+                    bottom: 0px;
+                    justify-content: center !important;
+                }
+                
+                #time-status #text {
+                    margin-left: auto;
+                    margin-right: auto;
+                }
+            
+                #time-status {
+                    width: 100% !important;
+                    position: absolute !important;
+                }
+            
+                .ytp-ce-video-duration {
+                    width: 97% !important;
+                    margin: -2px !important;
+                    text-align: center !important;
                 }
             `,
 		},

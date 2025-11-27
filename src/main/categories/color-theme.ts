@@ -1,4 +1,5 @@
 import { Category } from "../../styleshift/types/store";
+import { setup_theme_by_video } from "../features/theme";
 
 export const color_theme_category: Category = {
 	category: "🌈 color/Theme",
@@ -96,6 +97,15 @@ export const color_theme_category: Category = {
                     color: var(--channel-name-color) !important;
                 }
             `,
+		},
+		{
+			type: "checkbox",
+			id: "Theme_by_video",
+			name: "Theme colors base on video thumbnail",
+			description:
+				"Automatically extracts colors from the video thumbnail and applies them as the theme.",
+			value: false,
+			enable_function: setup_theme_by_video,
 		},
 	],
 };

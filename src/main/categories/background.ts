@@ -60,24 +60,5 @@ export const background_category: Category = {
 			enable_css: `:root { --page-bg-repeat: repeat; }`,
 			disable_css: `:root { --page-bg-repeat: no-repeat; }`,
 		},
-		{
-			type: "checkbox",
-			id: "EnaVDOBG",
-			name: "Enable Video Background (ui Only)",
-			description: "ui placeholder. replaces the background with a video. (Functionality not implemented)",
-			value: false,
-			constant_css: `
-                body::after {
-                    content: '';
-                    position: fixed;
-                    top: 0; left: 0; right: 0; bottom: 0;
-                    z-index: -3;
-                    background-image: var(--page-bg-image-url);
-                    background-size: var(--page-bg-size, cover);
-                    background-position: center;
-                    background-repeat: var(--page-bg-repeat, no-repeat);
-                    filter: blur(var(--page-bg-blur, 0px));
-                }`,
-		},
 	],
 };

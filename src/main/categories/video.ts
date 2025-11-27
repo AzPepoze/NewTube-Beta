@@ -1,5 +1,11 @@
 import { Category } from "../../styleshift/types/store";
-import { setup_auto_theater, setup_remove_ambient } from "../features/video";
+import { setup_auto_theater, setup_remove_ambient } from "../features/video/general";
+import { setup_auto_pip, setup_auto_exit_pip } from "../features/video/pip";
+import { setup_auto_show_chat_replay } from "../features/video/chat";
+import { setup_update_timestamp } from "../features/video/timestamp";
+import { setup_advanced_controls } from "../features/video/controls";
+import { setup_flyout } from "../features/video/flyout";
+import { setup_video_animations } from "../features/video/animations";
 
 export const video_category: Category = {
 	category: "📺 Video",
@@ -131,6 +137,146 @@ export const video_category: Category = {
 			description: "Automatically turns off YouTube's built-in ambient mode feature.",
 			value: true,
 			enable_function: setup_remove_ambient,
+		},
+		{
+			type: "checkbox",
+			id: "AutoPIP",
+			name: "Auto Picture In Picture mode",
+			description:
+				"Automatically enters Picture-in-Picture mode when you switch tabs or minimize the window.",
+			value: true,
+			enable_function: setup_auto_pip,
+		},
+		{
+			type: "checkbox",
+			id: "AutoEXPIP",
+			name: "Auto exit Picture In Picture mode",
+			description: "Automatically exits Picture-in-Picture mode when you return to the tab.",
+			value: true,
+			enable_function: setup_auto_exit_pip,
+		},
+		{
+			type: "checkbox",
+			id: "ChatReplay",
+			name: "Auto show chat replay",
+			description: "Automatically expands the chat replay on videos.",
+			value: false,
+			enable_function: setup_auto_show_chat_replay,
+		},
+		{
+			type: "checkbox",
+			id: "UpdateTimeStamp",
+			name: "Update URL Timestamp",
+			description:
+				"Updates the URL with the current video timestamp every 10 seconds and on pause.",
+			value: false,
+			enable_function: setup_update_timestamp,
+		},
+		{
+			type: "checkbox",
+			id: "AdvancedControls",
+			name: "Advanced Controls (Loop Button)",
+			description: "Adds a Loop button to the video player controls.",
+			value: true,
+			enable_function: setup_advanced_controls,
+		},
+		{
+			type: "checkbox",
+			id: "Flyout",
+			name: "Flyout (Sticky Player)",
+			description:
+				"Keeps the video player visible in the corner when scrolling down.",
+			value: false,
+			enable_function: setup_flyout,
+			enable_css: `
+      .newtube-flyout-mode {
+        position: fixed !important;
+        z-index: 2000 !important;
+        bottom: 20px !important;
+        right: 20px !important;
+        width: 400px !important;
+        height: 225px !important; /* 16:9 aspect ratio of 400px */
+        top: unset !important;
+        left: unset !important;
+        border-radius: 12px !important;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.6) !important;
+        overflow: hidden !important;
+        transition: all 0.3s ease !important;
+      }
+      
+      .newtube-flyout-mode .html5-video-container {
+        width: 100% !important;
+        height: 100% !important;
+      }
+      
+      .newtube-flyout-mode video {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: contain !important;
+      }
+
+      /* Hide some controls in flyout mode to keep it clean */
+      .newtube-flyout-mode .ytp-chrome-bottom {
+        width: 100% !important;
+        left: 0 !important;
+      }
+      
+      .newtube-flyout-mode .ytp-size-button,
+      .newtube-flyout-mode .ytp-fullscreen-button,
+      .newtube-flyout-mode .ytp-settings-button,
+      .newtube-flyout-mode .ytp-subtitles-button,
+      .newtube-flyout-mode .ytp-miniplayer-button,
+      .newtube-flyout-mode .ytp-remote-button,
+      .newtube-flyout-mode .ytp-chapter-container {
+        display: none !important;
+      }
+      `,
+		},
+		{
+			type: "checkbox",
+			id: "NewVDOanima",
+			name: "New video animation (Volume, Play/Pause)",
+			description: "Custom volume indicator and enhanced play/pause animations.",
+			value: true,
+			enable_function: setup_video_animations,
+			enable_css: `
+      .newtube-vol-indicator {
+        position: absolute;
+        top: 10%;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(0, 0, 0, 0.6);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 20px;
+        font-size: 24px;
+        font-weight: bold;
+        opacity: 0;
+        transition: opacity 0.3s, top 0.3s;
+        pointer-events: none;
+        z-index: 50;
+        backdrop-filter: blur(5px);
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+      }
+      .newtube-vol-indicator.show {
+        opacity: 1;
+        top: 15%;
+      }
+
+      /* Youtube Bezel (Play/Pause/Seek arrows) Customization */
+      .ytp-bezel-text-wrapper {
+        display: none !important;
+      }
+      .ytp-bezel {
+        background: rgba(0, 0, 0, 0.7) !important;
+        border-radius: 50% !important;
+        backdrop-filter: blur(4px);
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+      }
+      .ytp-bezel-icon {
+        fill: white !important;
+      }
+      `,
 		},
 	],
 };

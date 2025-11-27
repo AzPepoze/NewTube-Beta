@@ -141,5 +141,19 @@ export const video_control_panel_category: Category = {
 			step: 1,
 			var_css: "--media-blur-amount",
 		},
+		{
+			type: "checkbox",
+			id: "AutohideBar",
+			name: "Autohide Controls",
+			description: "Automatically hides the control panel when the mouse is inactive.",
+			value: true,
+			disable_css: `
+                div.html5-video-player:not(.ytp-fullscreen):not(.ytp-embed).ytp-autohide .ytp-gradient-bottom,
+                div.html5-video-player:not(.ytp-fullscreen):not(.ytp-embed).ytp-autohide .ytp-chrome-bottom {
+                    opacity: 1 !important;
+                    display: block !important;
+                }
+            `,
+		},
 	],
 };

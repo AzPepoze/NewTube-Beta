@@ -87,8 +87,13 @@ export async function update_bg_img_size() {
 }
 
 bg_image.onload = function () {
+
 	if (bg_image_element) bg_image_element.style.backgroundImage = `url("${bg_image.src}")`;
+
 	update_bg_img_size();
+
 };
+
+
 
 on_setting_update("BGIMG", update_bg_img, true);

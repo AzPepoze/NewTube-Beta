@@ -12,6 +12,7 @@
 		"build:folder_template": "ts-node utils/builder-template.ts -p utils/tsconfig-builder-types.json"
 	},
 	"dependencies": {
+		"colorthief": "^2.6.0",
 		"jszip": "^3.10.1",
 		"monaco-editor": "^0.52.2",
 		"monaco-themes": "^0.4.7"

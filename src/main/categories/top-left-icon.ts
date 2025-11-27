@@ -5,7 +5,7 @@ export const top_left_icon_category: Category = {
 	settings: [
 		{
 			type: "checkbox",
-			id: "replaceYT",
+			id: "ReplaceYT",
 			name: "Enable Custom Top-Left icon",
 			description: "replaces the YouTube logo with a custom image.",
 			value: false,
@@ -24,7 +24,7 @@ export const top_left_icon_category: Category = {
 		},
 		{
 			type: "text_input",
-			id: "replaceYTURL",
+			id: "ReplaceYTURL",
 			name: "icon image URL",
 			description: "URL for the custom icon image.",
 			value: "https://i.gifer.com/17xo.gif",
@@ -85,7 +85,7 @@ export const top_left_icon_category: Category = {
 		},
 		{
 			type: "checkbox",
-			id: "iconFill",
+			id: "IconFill",
 			name: "Sync icon color with Theme",
 			description:
 				"Makes the default YouTube icon color match the main theme color. Does not work if custom icon is enabled.",
