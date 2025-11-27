@@ -25,6 +25,46 @@ export const thumbnail_category: Category = {
 			constant_css: `ytd-thumbnail-overlay-time-status-renderer { background-color: var(--thumb-time-bg, #00000080) !important; }`,
 		},
 		{
+			type: "checkbox",
+			id: "TimeOut",
+			name: "Time Borders/Shadows",
+			description: "Adds borders or shadows to the time indicator on thumbnails.",
+			value: true,
+			enable_css: `
+                ytd-thumbnail-overlay-time-status-renderer {
+                    box-shadow: var(--global-style-shadow) !important;
+                    border: var(--global-style-outline) !important;
+                }
+            `,
+		},
+		{
+			type: "number_slide",
+			id: "HoverBorder",
+			name: "Hover Border Width",
+			description: "Width of the border when hovering over a thumbnail.",
+			value: 1,
+			min: 0,
+			max: 10,
+			step: 1,
+			var_css: "--thumb-hover-border-width",
+		},
+		{
+			type: "color",
+			id: "ThumbHoverColor",
+			name: "Hover Border Color",
+			description: "Color of the border/shadow when hovering.",
+			value: "#659affff",
+			var_css: "--thumb-hover-color",
+		},
+		{
+			type: "color",
+			id: "ThumbClick",
+			name: "Click Border Color",
+			description: "Color of the border/shadow when clicked.",
+			value: "#ffffffff",
+			var_css: "--thumb-click-color",
+		},
+		{
 			type: "dropdown",
 			id: "ThumbHover",
 			name: "hover Animation Style",

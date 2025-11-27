@@ -17,6 +17,7 @@ import { fonts_category } from "./categories/fonts";
 import { background_category } from "./categories/background";
 import { video_background_category } from "./categories/video-background";
 import { remove_black_bars_category } from "./categories/remove-black-bars";
+import { blur_category } from "./categories/blur";
 import { beta_features_category } from "./categories/beta-features";
 import { layout_category } from "./categories/layout";
 
@@ -38,11 +39,11 @@ const default_styleshift_items: Category[] = [
 	other_settings_category,
 	fonts_category,
 	beta_features_category,
-	background_category,
-    video_background_category,
-    layout_category,
-];
-
+		background_category,
+		video_background_category,
+		blur_category,
+		layout_category,
+	];
 export function get_default_items() {
 	return default_styleshift_items;
 }

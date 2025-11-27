@@ -5,7 +5,7 @@ export const other_settings_category: Category = {
 	settings: [
 		{
 			type: "dropdown",
-			id: "ScwidthNew",
+			id: "ScWidthNew",
 			name: "Scrollbar width",
 			description: "Changes the width of the browser scrollbar on YouTube.",
 			value: "thin",
@@ -29,7 +29,7 @@ export const other_settings_category: Category = {
 		},
 		{
 			type: "checkbox",
-			id: "hideYourChannel",
+			id: "HideYourChannel",
 			name: "hide 'Your channel' Link",
 			description: "hides the 'Your channel' link from the left sidebar.",
 			value: false,
@@ -41,7 +41,7 @@ export const other_settings_category: Category = {
 		},
 		{
 			type: "checkbox",
-			id: "hideYourVID",
+			id: "HideYourVID",
 			name: "hide 'Your videos' Link",
 			description: "hides the 'Your videos' link from the left sidebar.",
 			value: false,

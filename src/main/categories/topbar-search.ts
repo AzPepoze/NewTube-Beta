@@ -42,6 +42,19 @@ export const topbar_search_category: Category = {
 			var_css: "--topbar-color",
 		},
 		{
+			type: "checkbox",
+			id: "TopOut",
+			name: "Topbar Borders/Shadows",
+			description: "Adds borders or shadows to the topbar.",
+			value: true,
+			enable_css: `
+                #masthead > #background {
+                    box-shadow: var(--global-style-shadow) !important;
+                    border-bottom: var(--global-style-outline) !important;
+                }
+            `,
+		},
+		{
 			type: "color",
 			id: "ThemeChips",
 			name: "Chips Bar color",
@@ -51,6 +64,19 @@ export const topbar_search_category: Category = {
 			constant_css: `
                 #chips-wrapper.ytd-feed-filter-chip-bar-renderer {
                     background-color: var(--chips-color) !important;
+                }
+            `,
+		},
+		{
+			type: "checkbox",
+			id: "SndOut",
+			name: "Chips Bar Borders/Shadows",
+			description: "Adds borders or shadows to the chips bar.",
+			value: false,
+			enable_css: `
+                #chips-wrapper.ytd-feed-filter-chip-bar-renderer {
+                    box-shadow: var(--global-style-shadow) !important;
+                    border-bottom: var(--global-style-outline) !important;
                 }
             `,
 		},

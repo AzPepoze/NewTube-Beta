@@ -61,5 +61,39 @@ export const fonts_category: Category = {
 				});
 			},
 		},
+		{
+			type: "dropdown",
+			id: "PredefinedFonts",
+			name: "Select Popular Fonts",
+			description: "Quickly apply popular fonts.",
+			value: "Default",
+			options: {
+				Default: { enable_css: "" },
+				"Noto Sans Thai": {
+					enable_css: `
+                        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;700&display=swap');
+                        * { font-family: 'Noto Sans Thai', sans-serif !important; }
+                    `,
+				},
+				"Noto Sans JP": {
+					enable_css: `
+                        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap');
+                        * { font-family: 'Noto Sans JP', sans-serif !important; }
+                    `,
+				},
+				"Noto Sans KR": {
+					enable_css: `
+                        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+                        * { font-family: 'Noto Sans KR', sans-serif !important; }
+                    `,
+				},
+				"Roboto Mono": {
+					enable_css: `
+                        @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&display=swap');
+                        * { font-family: 'Roboto Mono', monospace !important; }
+                    `,
+				},
+			},
+		},
 	],
 };

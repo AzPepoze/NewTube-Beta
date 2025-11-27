@@ -43,7 +43,7 @@ export const subtitles_category: Category = {
 		},
 		{
 			type: "number_slide",
-			id: "subwidth",
+			id: "subWidth",
 			name: "Subtitle Weight",
 			description: "Controls the font weight (boldness) of the subtitle text.",
 			value: 700,
@@ -54,7 +54,7 @@ export const subtitles_category: Category = {
 		},
 		{
 			type: "number_slide",
-			id: "subspace",
+			id: "subSpace",
 			name: "Subtitle Letter Spacing",
 			description: "Controls the space between letters.",
 			value: 2,
@@ -65,7 +65,7 @@ export const subtitles_category: Category = {
 		},
 		{
 			type: "color",
-			id: "subShacolor",
+			id: "subShaColor",
 			name: "Subtitle Shadow color",
 			description: "The color of the drop shadow behind the text.",
 			value: "#000000ff",
@@ -104,6 +104,19 @@ export const subtitles_category: Category = {
 			max: 50,
 			step: 1,
 			var_css: "--sub-bg-blur-amount",
+		},
+		{
+			type: "checkbox",
+			id: "CapOut",
+			name: "Enable Borders/Shadows",
+			description: "Adds borders or shadows to the caption window.",
+			value: false,
+			enable_css: `
+                .caption-window.ytp-caption-window-bottom {
+                    box-shadow: 0 0 var(--border-width, 8px) var(--border-color, #099DFF80) !important;
+                    border: 1px solid var(--border-color, #099DFF80) !important;
+                }
+            `,
 		},
 	],
 };

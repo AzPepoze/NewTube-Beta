@@ -125,10 +125,10 @@ export const video_control_panel_category: Category = {
 			description: "Applies a blur effect to the control panel background.",
 			value: true,
 			enable_css: `
-      .ytp-chrome-bottom {
-        backdrop-filter: blur(var(--media-blur-amount, 10px)) !important;
-      }
-    `,
+                .ytp-chrome-bottom {
+                    backdrop-filter: blur(var(--media-blur-amount, 10px)) !important;
+                }
+            `,
 		},
 		{
 			type: "number_slide",
@@ -140,6 +140,50 @@ export const video_control_panel_category: Category = {
 			max: 50,
 			step: 1,
 			var_css: "--media-blur-amount",
+		},
+		{
+			type: "checkbox",
+			id: "BottomG",
+			name: "Remove Gradient",
+			description: "Removes the default gradient from the video player bottom.",
+			value: false,
+			enable_css: `.ytp-gradient-bottom { background-image: none !important; }`,
+		},
+		{
+			type: "number_slide",
+			id: "MediaH",
+			name: "Background Height",
+			description: "Adjusts the height of the control panel background.",
+			value: 60,
+			min: 30,
+			max: 150,
+			step: 1,
+			var_css: "--media-height",
+			constant_css: `.ytp-chrome-bottom { height: var(--media-height, 60px) !important; }`,
+		},
+		{
+			type: "checkbox",
+			id: "PlayerOut",
+			name: "Enable Borders/Shadows",
+			description: "Adds borders/shadows to the control panel (uses Global Border Settings).",
+			value: false,
+			enable_css: `
+                .ytp-chrome-bottom {
+                    box-shadow: var(--global-style-shadow) !important;
+                    border-top: var(--global-style-outline) !important;
+                }
+            `,
+		},
+		{
+			type: "number_slide",
+			id: "PlayerBorder",
+			name: "Border/Shadow Width",
+			description: "Specific width for the player border/shadow (overrides global if set separately).",
+			value: 1,
+			min: 0,
+			max: 20,
+			step: 1,
+			var_css: "--player-border-width",
 		},
 		{
 			type: "checkbox",
