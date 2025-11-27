@@ -67,7 +67,7 @@ export async function update_styleshift_functions_list() {
 	});
 }
 
-export async function get_global_data(mode: "Build-in" | "Custom", function_name) {
+export async function get_global_data(mode: "Build-in" | "custom", function_name) {
 	if (
 		(window["StyleShift"] && window["StyleShift"][mode] == null) ||
 		window["StyleShift"][mode][function_name] == null

@@ -48,7 +48,7 @@ export const styleshift_property_list: { [key: string]: string[] } = {
 		"editable",
 	],
 	image_Input: ["type", "id", "name", "description", "value", "Maxfilesize", "editable"],
-	Preview_image: ["type", "id", "editable"],
+	preview_image: ["type", "id", "editable"],
 	Custom: ["type", "id", "setup_function", "constant_css", "ui_function"],
 	Combine_settings: ["type", "id", "name", "description", "sync_id", "update_function", "editable"],
 };
@@ -123,11 +123,11 @@ export const ui_preset: Setting[] = [
 		Maxfilesize: 1000000,
 	},
 	{
-		type: "Preview_image",
+		type: "preview_image",
 		id: "",
 	},
 	{
-		type: "Custom",
+		type: "custom",
 		id: "Test_Custom",
 		setup_function: "",
 		constant_css: "",

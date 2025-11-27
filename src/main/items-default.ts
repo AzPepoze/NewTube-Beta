@@ -16,11 +16,11 @@ import { other_settings_category } from "./categories/other-settings";
 import { fonts_category } from "./categories/fonts";
 import { background_category } from "./categories/background";
 import { remove_black_bars_category } from "./categories/remove-black-bars";
-import { move_to_top_category } from "./categories/move-to-top";
 import { beta_features_category } from "./categories/beta-features";
 
 const default_styleshift_items: Category[] = [
 	video_category,
+	remove_black_bars_category,
 	video_control_panel_category,
 	subtitles_category,
 	topbar_search_category,
@@ -37,8 +37,6 @@ const default_styleshift_items: Category[] = [
 	fonts_category,
 	beta_features_category,
 	background_category,
-	remove_black_bars_category,
-	move_to_top_category,
 ];
 
 export function get_default_items() {

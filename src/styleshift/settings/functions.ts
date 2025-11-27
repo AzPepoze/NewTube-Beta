@@ -92,8 +92,8 @@ const settings_function = {
 		return update_function;
 	},
 	["dropdown"]: async function (this_setting: Partial<Extract<Setting, { type: "dropdown" }>>) {
-		        let style_sheet: HTMLElement;
-		        style_sheet = create_stylesheet(this_setting.id);
+		let style_sheet: HTMLElement;
+		style_sheet = create_stylesheet(this_setting.id);
 		if (this_setting.setup_function) {
 			run_text_script_from_setting(this_setting, "setup_function");
 		}
@@ -168,7 +168,7 @@ const settings_function = {
 
 		return update_function;
 	},
-	["Custom"]: async function (this_setting: Partial<Extract<Setting, { type: "Custom" }>>) {
+	["custom"]: async function (this_setting: Partial<Extract<Setting, { type: "custom" }>>) {
 		let style_sheet: HTMLElement;
 		if (this_setting.constant_css) {
 			style_sheet = create_stylesheet(this_setting.id);
@@ -197,7 +197,7 @@ const settings_function = {
 
 		return update_function;
 	},
-	["Combine_settings"]: async function (this_setting: Partial<Extract<Setting, { type: "Combine_settings" }>>) {
+	["combine_settings"]: async function (this_setting: Partial<Extract<Setting, { type: "combine_settings" }>>) {
 		const style_sheet = create_stylesheet(this_setting.id);
 
 		async function update_function() {

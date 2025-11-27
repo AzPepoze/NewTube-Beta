@@ -275,7 +275,7 @@
 
 	/* Checkbox */
 
-	.STYLESHIFT-Setting-Frame[settingtype="Checkbox"] {
+	.STYLESHIFT-Setting-Frame[settingtype="checkbox"] {
 		flex-direction: row;
 		align-items: center;
 		gap: 10px;
@@ -398,7 +398,7 @@
 		gap: 10px;
 	}
 
-	.STYLESHIFT-Setting-Frame[settingtype="Color"] {
+	.STYLESHIFT-Setting-Frame[settingtype="color"] {
 		width: 95%;
 	}
 

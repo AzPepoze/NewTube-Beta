@@ -548,7 +548,7 @@ export function get_current_url_parameters(): { [key: string]: string } {
  * @param {...any[]} args - The function arguments.
  * @returns {Promise<void>}
  * @example
- * await fire_function_event("Custom", "MyFunction", 1, 2, 3);
+ * await fire_function_event("custom", "MyFunction", 1, 2, 3);
  */
 export async function fire_function_event(
 	prefix: string = "Function",
@@ -569,7 +569,7 @@ export async function fire_function_event(
  * @param {...any[]} args - The function arguments.
  * @returns {Promise<any>}
  * @example
- * const result = await fire_function_event_with_return("Custom", "MyFunction", 1, 2, 3);
+ * const result = await fire_function_event_with_return("custom", "MyFunction", 1, 2, 3);
  */
 export async function fire_function_event_with_return(
 	prefix: string = "Function",
@@ -607,7 +607,7 @@ export async function fire_function_event_with_return(
  * @param {Function} callback - The callback function.
  * @returns {Promise<{ Cancel: Function }>}
  * @example
- * const listener = await on_function_event("Custom", "MyFunction", (data) => console.log(data));
+ * const listener = await on_function_event("custom", "MyFunction", (data) => console.log(data));
  * listener.Cancel(); // Cancels the event listener
  */
 export async function on_function_event(

@@ -3,15 +3,15 @@ import { Category } from "../styleshift/types/store";
 
 const default_styleshift_items: Category[] = [
 	{
-		category: "☕ Buy me a coffee!",
+		category: "☕ Buy me a chocolate mlik! (I don't drink a coffee)",
 		rainbow: true,
 		settings: [
 			{
-				click_function: 'window.open("https://ko-fi.com/azpepoze");',
-				color: "#ff040bff",
+				click_function: 'window.open("https://www.paypal.com/paypalme/jakkritportraitist");',
+				color: "#0471ffff",
 				font_size: 15,
-				icon: "https://cdn.prod.website-files.com/5c14e387dab576fe667689cf/670f5a01229bf8a18f97a3c1_favion-p-500.png",
-				name: "Ko-fi",
+				icon: "https://upload.wikimedia.org/wikipedia/commons/b/b7/PayPal_Logo_Icon_2014.svg",
+				name: "Paypal",
 				text_align: "left",
 				type: "button",
 			},
@@ -59,15 +59,9 @@ const default_styleshift_items: Category[] = [
 				value: true,
 				enable_css: `
 			      .STYLESHIFT-Window {
-			        background-color: rgba(30, 30, 30, 0.5) !important;
+			        background-color: rgba(30, 30, 30, 0.95) !important;
 			        backdrop-filter: blur(var(--setting-bg-blur-amount, 10px)) !important;
 			        transition: background-color 0.3s, backdrop-filter 0.3s;
-			      }
-			    `,
-				disable_css: `
-			      .STYLESHIFT-Window {
-			        background-color: rgb(30, 30, 30) !important;
-			        backdrop-filter: none !important;
 			      }
 			    `,
 			},

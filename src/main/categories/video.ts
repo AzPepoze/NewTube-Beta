@@ -3,6 +3,7 @@ import { setup_auto_theater, setup_remove_ambient } from "../features/video";
 
 export const video_category: Category = {
 	category: "📺 Video",
+	selector: "#ytd-player",
 	settings: [
 		{
 			type: "number_slide",

@@ -4,7 +4,7 @@ export const fonts_category: Category = {
 	category: "🔠 Fonts",
 	settings: [
 		{
-			type: "Custom",
+			type: "custom",
 			id: "FontManager",
 			ui_function: async function (frame: HTMLElement) {
 				frame.innerHTML = ""; // Clear previous ui

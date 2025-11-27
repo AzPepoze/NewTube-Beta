@@ -173,14 +173,14 @@ export type Setting =
 			editable?: boolean;
 	  }
 	| {
-			type: "Preview_image";
+			type: "preview_image";
 			id: string;
 
 			//--------------
 			editable?: boolean;
 	  }
 	| {
-			type: "Custom";
+			type: "custom";
 			id: string;
 
 			//--------------
@@ -198,7 +198,7 @@ export type Setting =
 			editable?: boolean;
 	  }
 	| {
-			type: "Combine_settings";
+			type: "combine_settings";
 			id?: string;
 			name?: string;
 			description?: string;

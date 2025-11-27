@@ -882,11 +882,11 @@ Are you want to continue?`)
 		return { frame, config_ui_function };
 	},
 
-	["Preview_image"]: async function (this_setting: Partial<Extract<Setting, { type: "Preview_image" }>>) {
+	["preview_image"]: async function (this_setting: Partial<Extract<Setting, { type: "preview_image" }>>) {
 		const frame = settings_ui["setting_frame"](true, true);
 
 		const image_frame = document.createElement("img");
-		image_frame.className = "STYLESHIFT-Preview_image";
+		image_frame.className = "STYLESHIFT-preview_image";
 		frame.appendChild(image_frame);
 
 		//-----------------------------------------------
@@ -930,7 +930,7 @@ Are you want to continue?`)
 		return { frame, config_ui_function };
 	},
 
-	["Custom"]: async function (this_setting: Partial<Extract<Setting, { type: "Custom" }>>) {
+	["custom"]: async function (this_setting: Partial<Extract<Setting, { type: "custom" }>>) {
 		const frame = settings_ui["setting_frame"](true, true);
 		frame.id = this_setting.id || create_unique_id(10);
 
@@ -961,9 +961,9 @@ Are you want to continue?`)
 		return { frame, config_ui_function };
 	},
 
-	["Combine_settings"]: async function (this_setting: Partial<Extract<Setting, { type: "Combine_settings" }>>) {
+	["combine_settings"]: async function (this_setting: Partial<Extract<Setting, { type: "combine_settings" }>>) {
 		const frame = settings_ui["setting_frame"](true, true);
-		frame.setAttribute("settingtype", "Combine_settings");
+		frame.setAttribute("settingtype", "combine_settings");
 
 		const config_ui_function = await create_config_ui_function(this_setting.editable, async function (parent) {
 			await settings_ui["Config_Main_Section"](
