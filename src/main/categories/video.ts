@@ -2,7 +2,6 @@ import { Category } from "../../styleshift/types/store";
 import { setup_auto_theater, setup_remove_ambient } from "../features/video/general";
 import { setup_auto_pip, setup_auto_exit_pip } from "../features/video/pip";
 import { setup_update_timestamp } from "../features/video/timestamp";
-import { setup_advanced_controls } from "../features/video/controls";
 import { setup_video_animations } from "../features/video/animations";
 
 export const video_category: Category = {
@@ -141,8 +140,7 @@ export const video_category: Category = {
 			type: "checkbox",
 			id: "AutoPIP",
 			name: "Auto Pictue In Pictue mode",
-			description:
-				"Automatically enters Picture-in-Picture mode when you switch tabs or minimize the window.",
+			description: "Automatically enters Picture-in-Picture mode when you switch tabs or minimize the window.",
 			value: true,
 			enable_function: setup_auto_pip,
 		},
@@ -178,25 +176,16 @@ export const video_category: Category = {
 			value: true,
 			enable_function: setup_remove_ambient,
 		},
-        // Kept these as they fit in Video or can be moved to Enhancement if strict strict
-        {
+		// Kept these as they fit in Video or can be moved to Enhancement if strict strict
+		{
 			type: "checkbox",
 			id: "UpdateTimeStamp",
 			name: "Update URL Timestamp",
-			description:
-				"Updates the URL with the current video timestamp every 10 seconds and on pause.",
+			description: "Updates the URL with the current video timestamp every 10 seconds and on pause.",
 			value: false,
 			enable_function: setup_update_timestamp,
 		},
 		{
-			type: "checkbox",
-			id: "AdvancedControls",
-			name: "Advanced Controls (Loop Button)",
-			description: "Adds a Loop button to the video player controls.",
-			value: true,
-			enable_function: setup_advanced_controls,
-		},
-        {
 			type: "checkbox",
 			id: "NewVDOanima",
 			name: "New video animation (Volume, Play/Pause)",
