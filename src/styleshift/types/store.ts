@@ -33,7 +33,7 @@ export type Setting =
 			editable?: boolean;
 	  }
 	| {
-			type: "Setting_Sub_title";
+			type: "sub_text";
 			id?: string;
 
 			text: string;
@@ -70,6 +70,7 @@ export type Setting =
 			constant_css?: string;
 
 			setup_function?: string | Function;
+			update_function?: string | Function;
 
 			enable_css?: string;
 			enable_function?: string | Function;
@@ -89,6 +90,7 @@ export type Setting =
 			max?: number;
 			step?: number;
 			value: number;
+			var_css_unit?: string;
 
 			//--------------
 

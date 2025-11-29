@@ -2,7 +2,7 @@ import { Category, Setting } from "../types/store";
 
 export const styleshift_property_list: { [key: string]: string[] } = {
 	text: ["type", "id", "html", "text_align", "color", "font_size", "editable"],
-	Setting_Sub_title: ["type", "id", "text", "text_align", "color", "font_size", "editable"],
+	sub_text: ["type", "id", "text", "text_align", "color", "font_size", "editable"],
 	button: ["type", "id", "description", "icon", "text_align", "color", "font_size", "click_function", "editable"],
 	checkbox: [
 		"type",
@@ -64,7 +64,7 @@ export const ui_preset: Setting[] = [
 		font_size: 14,
 	},
 	{
-		type: "Setting_Sub_title",
+		type: "sub_text",
 		id: "Test_Sub_title",
 		text: "Test Setting Sub title",
 		text_align: "left",

@@ -7,7 +7,7 @@ const dev_only_items: Category[] = [
 		category: "↕️ Import / Export Theme",
 		settings: [
 			{
-				type: "Setting_Sub_title",
+				type: "sub_text",
 				color: "#1a34ffff",
 				font_size: 15,
 				text_align: "center",

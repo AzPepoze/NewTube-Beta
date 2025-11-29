@@ -1,5 +1,5 @@
 import { Category } from "../../styleshift/types/store";
-import { enable_bg, enable_background_css, update_bg_img } from "../features/background";
+import { enable_bg, enable_background_css, update_bg_img, update_bg_img_position } from "../features/background";
 
 export const background_category: Category = {
 	category: "🎴 Background",
@@ -7,7 +7,8 @@ export const background_category: Category = {
 		{
 			type: "checkbox",
 			id: "bg_enable",
-			name: "Enable Background",
+			name: "Enable background",
+			description: "Toggle background image/tint on or off.",
 			value: true,
 			enable_function: enable_bg,
 			enable_css: enable_background_css,
@@ -15,11 +16,11 @@ export const background_category: Category = {
 		{
 			type: "color",
 			id: "BG",
-			name: "Background / Tint color",
+			name: "Background tint color",
 			description:
 				"Sets the color and opacity of the page background or the tint applied over an image/video.",
-			value: "#f661515e",
-			var_css: "--page-bg-tint-color",
+			value: "#0000005e",
+			var_css: "--newtube-bg-tint-color",
 		},
 		{
 			type: "image_input",
@@ -32,34 +33,55 @@ export const background_category: Category = {
 		{
 			type: "number_slide",
 			id: "BlurBGAM",
-			name: "Background Blur Amount",
+			name: "Background blur",
 			description: "Applies a blur effect to the background image/video.",
 			value: 10,
 			min: 0,
 			max: 50,
 			step: 1,
-			var_css: "--page-bg-blur",
+			var_css: "--newtube-bg-blur",
 		},
 		{
 			type: "number_slide",
 			id: "BackgroundS",
-			name: "Background size",
-			description: "Adjusts the size of the background image.",
+			name: "Background size (%)",
+			description: "Adjusts the scale of the background image (percent).",
 			value: 100,
 			min: 50,
 			max: 300,
 			step: 5,
-			var_css: "--page-bg-size",
 			update_function: update_bg_img,
+		},
+		{
+			type: "number_slide",
+			id: "BackgroundX",
+			name: "Background position X (%)",
+			description: "Horizontal position of the background image (0-100%).",
+			value: 50,
+			min: 0,
+			max: 100,
+			step: 1,
+			update_function: update_bg_img_position,
+		},
+		{
+			type: "number_slide",
+			id: "BackgroundY",
+			name: "Background position Y (%)",
+			description: "Vertical position of the background image (0-100%).",
+			value: 50,
+			min: 0,
+			max: 100,
+			step: 1,
+			update_function: update_bg_img_position,
 		},
 		{
 			type: "checkbox",
 			id: "Repeat",
-			name: "Repeat Background image",
-			description: "Repeats the background image instead of stretching it.",
+			name: "Repeat background image",
+			description: "Repeat the background image instead of stretching it.",
 			value: false,
-			enable_css: `:root { --page-bg-repeat: repeat; }`,
-			disable_css: `:root { --page-bg-repeat: no-repeat; }`,
+			enable_css: `:root { --newtube-bg-repeat: repeat; }`,
+			disable_css: `:root { --newtube-bg-repeat: no-repeat; }`,
 		},
 	],
 };

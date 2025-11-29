@@ -79,7 +79,7 @@ export const main_setting_ui = {
 
 		return { frame, config_ui_function };
 	},
-	["Setting_Sub_title"]: async function (this_setting: Partial<Extract<Setting, { type: "Setting_Sub_title" }>>) {
+	["sub_text"]: async function (this_setting: Partial<Extract<Setting, { type: "sub_text" }>>) {
 		const frame = settings_ui["setting_frame"](true, true);
 		frame.className = "STYLESHIFT-Setting-Sub-Title";
 

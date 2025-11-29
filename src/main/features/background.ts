@@ -18,18 +18,22 @@ ytd-app {
 #${bg_image_id} {
 	width : 100%;
 	height : 100%;
-	
 	position : fixed;
 	left : 0;
 	top : 0;
 	z-index : -1;
+}
 
-	background: var(--page-bg-tint-color);
+#${bg_tint_id}{
+	background: var(--newtube-bg-tint-color);
 }
 
 #${bg_image_id} {
 	z-index: -10000;
-    transition: opacity 1s;
+    background-position-x: var(--newtube-bg-position-x);
+	background-position-y: var(--newtube-bg-position-y);
+	background-repeat: var(--newtube-bg-repeat);
+	filter: blur(var(--newtube-bg-blur));
 }
 `;
 
@@ -53,6 +57,7 @@ export async function enable_bg() {
 
 	(await get_document_body()).appendChild(bg_tint_element);
 	(await get_document_body()).appendChild(bg_image_element);
+	window.addEventListener("resize", update_bg_img_size);
 }
 
 export async function disable_bg() {
@@ -66,6 +71,7 @@ export async function disable_bg() {
 		bg_image_element.remove();
 		bg_image_element = null;
 	}
+	window.removeEventListener("resize", update_bg_img_size);
 }
 
 export async function update_bg_img() {
@@ -86,14 +92,15 @@ export async function update_bg_img_size() {
 	}
 }
 
-bg_image.onload = function () {
+export async function update_bg_img_position() {
+	bg_image_element.style.backgroundPositionX = (await load_setting("BackgroundX")) + "%";
+	bg_image_element.style.backgroundPositionY = (await load_setting("BackgroundY")) + "%";
+}
 
+bg_image.onload = function () {
 	if (bg_image_element) bg_image_element.style.backgroundImage = `url("${bg_image.src}")`;
 
 	update_bg_img_size();
-
 };
-
-
 
 on_setting_update("BGIMG", update_bg_img, true);

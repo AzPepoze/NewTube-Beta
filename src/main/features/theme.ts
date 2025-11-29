@@ -30,7 +30,7 @@ export function setup_theme_by_video() {
 				const [r, g, b] = color;
 				const color_string = `rgba(${r}, ${g}, ${b}, 0.8)`;
 
-				ytd_app.style.setProperty("--page-bg-tint-color", color_string);
+				ytd_app.style.setProperty("--newtube-bg-tint-color", color_string);
 				ytd_app.style.setProperty("--theme-color-r", r.toString());
 				ytd_app.style.setProperty("--theme-color-g", g.toString());
 				ytd_app.style.setProperty("--theme-color-b", b.toString());

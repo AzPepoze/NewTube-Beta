@@ -1,4 +1,4 @@
-import { sleep } from "../build-in-functions/normal";
+import { wait_one_frame } from "../build-in-functions/normal";
 import { run_text_script_from_setting } from "../core/extension";
 import { load_any } from "../core/save";
 import { Setting } from "../types/store";
@@ -41,6 +41,10 @@ const settings_function = {
 			if (settings_current_state[this_setting.id] == value) return;
 			settings_current_state[this_setting.id] = value;
 
+			if (this_setting.update_function) {
+				run_text_script_from_setting(this_setting, "update_function");
+			}
+
 			if (value) {
 				if (this_setting.enable_function) {
 					run_text_script_from_setting(this_setting, "enable_function");
@@ -73,7 +77,7 @@ const settings_function = {
 				style_sheet.textContent = "";
 				style_sheet.textContent += `:root{${
 					this_setting.var_css ? this_setting.var_css : `--${this_setting.id}`
-				}: ${value}px}`;
+				}: ${value}${this_setting.var_css_unit || "px"}`;
 				if (this_setting.constant_css) {
 					style_sheet.textContent += this_setting.constant_css;
 				}
@@ -232,7 +236,7 @@ export async function update_setting_function(id) {
 
 		case "Updating":
 			updating_setting_function[id] = "Waiting";
-			await sleep(100);
+			await wait_one_frame();
 			update_setting_function(id);
 
 		default:
@@ -249,7 +253,7 @@ export async function update_setting_function(id) {
 
 			console.log("updated", id, current_value);
 			//----------------------
-			await sleep(100);
+			await wait_one_frame();
 
 			if (updating_setting_function[id] == "Updating") {
 				delete updating_setting_function[id];
@@ -293,7 +297,7 @@ export async function run_setting_init(id) {
 
 export async function run_all_setting_init() {
 	for (const id in settings_on_init) {
-		console.log("running init", id);
+		// console.log("running init", id);
 		run_setting_init(id);
 	}
 }
