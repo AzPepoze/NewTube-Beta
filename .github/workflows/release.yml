@@ -5,7 +5,7 @@ on:
           branches:
              - main
           paths:
-             - 'package.json' # Run when version changes
+             - 'src/extension/manifest.json'
 
 jobs:
      release:
@@ -25,9 +25,9 @@ jobs:
                with:
                     version: 9
 
-             - name: Read Version from package.json
+             - name: Read Version from manifest.json
                id: get_version
-               run: echo "VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
+               run: echo "VERSION=$(node -p "require('./src/extension/manifest.json').version")" >> $GITHUB_ENV
 
              - name: Create/Update Tag
                uses: rickstaa/action-create-tag@v1
